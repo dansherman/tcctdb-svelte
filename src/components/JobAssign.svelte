@@ -1,18 +1,18 @@
 <script>
-	export let actors = [];
-	export let cast = [];
-	export let roleNum = 0
+	export let people = [];
+	export let crew = [];
+	export let jobNum = 0
 	import Headshot from '$components/Headshot.svelte';
-	// let p = person.person
 	$: displayAssignActorDialog = false;
 	const toggleAssignActor = () => {
 		displayAssignActorDialog = !displayAssignActorDialog;
 	};
-	const assignActor = (actor) => {
-		cast[roleNum].actor = actor
+	const assignJob = (person) => {
+		crew[jobNum].person = person
 		displayAssignActorDialog = false
-		cast = cast
+		crew = crew
 	}
+	console.log({jobNum, person: crew[jobNum]})
 </script>
 
 <div class="flex items-center">
@@ -25,22 +25,22 @@
 	{#if displayAssignActorDialog}
 	<div class="absolute bg-white px-4 py-2 border-2 border-slate-600 rounded-md h-48 lg:h-96">
 		<ul class="max-h-full overflow-y-scroll divide-y divide-slate-200">
-			{#each actors as actor}
-			<li class="text-lg py-2 px-3" on:click={() => {assignActor(actor)}}>
-				<div class="flex item-center"><div class="w-12 h-12"><Headshot person={actor} width=48 height=48 link=0/></div><div class="pl-2">{actor.nameLast}, {actor.nameFirst}</div></div>
+			{#each people as person}
+			<li class="text-lg py-2 px-3" on:click={() => {assignJob(person)}}>
+				<div class="flex item-center"><div class="w-12 h-12"><Headshot person={person} width=48 height=48 link=0/></div><div class="pl-2">{person.nameLast}, {person.nameFirst}</div></div>
 			</li>
 			{/each}
 		</ul>
 	</div>
 {/if}
 	<div class="w-12 h-12">
-		<Headshot person={cast[roleNum].actor} width=36 height=36 link=0/>
+		<Headshot person={crew[jobNum].person} width=36 height=36 link=0/>
 	</div>
 	<div>
 
 		<span class="text-2xl px-3 ">
-			{#if cast[roleNum].actor}
-				{cast[roleNum].actor.nameLast}, {cast[roleNum].actor.nameFirst}
+			{#if crew[jobNum].person}
+				{crew[jobNum].person.nameLast}, {crew[jobNum].person.nameFirst}
 			{:else}
 			--
 			{/if}

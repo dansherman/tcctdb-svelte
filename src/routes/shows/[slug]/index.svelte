@@ -1,7 +1,9 @@
 <script>
   export let results;
   let { actors, show } = results;
+  let people = actors
   import ActorAssign from '$components/ActorAssign.svelte';
+  import JobAssign from '$components/JobAssign.svelte';
   import { dndzone } from 'svelte-dnd-action';
   import { overrideItemIdKeyNameBeforeInitialisingDndZones } from 'svelte-dnd-action';
   overrideItemIdKeyNameBeforeInitialisingDndZones('_id');
@@ -11,9 +13,20 @@
   const handleDndFinalize = (e) => {
     cast = e.detail.items;
   };
-
+  console.log(`Building page for ${show.slug.current}.`)
   /** @type {Array}*/
-  $: cast = show.cast;
+  let cast = show['cast'];
+  $: cast
+  /** @type {Array}*/
+  let crew = show.crew.sort(function(a, b) {
+      var keyA = a.sortOrder,
+      keyB = b.sortOrder;
+        // Compare the 2 dates
+        if (keyA < keyB) return -1;
+        if (keyA > keyB) return 1;
+        return 0;
+    })
+  $: crew 
   $: displayCharacterDialog = false;
   $: displayBulkCharacterDialog = false;
   $: displayDeleteDialog = false;
@@ -29,14 +42,14 @@
   }
   let timer;
   const testCharacter = () => {
-    console.log(`Testing "${newCharacter}"`)  
+    // console.log(`Testing "${newCharacter}"`)  
     clearTimeout(timer);
       timer = setTimeout(() => {
         fetch(`/character/${encodeURIComponent(newCharacter)}`)
         .then((result) => {
           let response = result.json()
           uniqueCharacter = (response['person'] > 0)
-          console.log({uniqueCharacter})
+          // console.log({uniqueCharacter})
         })
       }, 500);
 
@@ -69,16 +82,16 @@
     displayDeleteDialog = true;
     roleToDelete = role;
   };
-  const processDelete = async (role) => {
+  const processDelete = async (role, group) => {
     let result = await fetch('/delete', {
       method: 'POST',
       body: JSON.stringify(role)
     });
     let resultJSON = await result.json();
-    for (var i = 0; i < cast.length; i++) {
-      console.log({role:cast[i]})
-      if (cast[i]._id == role._id) {
-        cast.splice(i, 1);
+    for (var i = 0; i < group.length; i++) {
+      // console.log({role:group[i]})
+      if (group[i]._id == role._id) {
+        group.splice(i, 1);
         break;
       }
       cast = cast
@@ -89,10 +102,9 @@
   const saveCast = async () => {
     let postData = [];
     cast.forEach((role, i) => {
-      console.log(role)
       postData.push({ _id: role._id, field: 'sortOrder', value: i + 1})
       if (role.actor != undefined) {
-        console.log(role.actor)
+        // console.log(role.actor)
         postData.push({ _id: role._id, field: 'actor', value: role.actor._id})
       } //post to /update
     });
@@ -101,7 +113,7 @@
       body: JSON.stringify(postData)
     });
     let rJSON = await result.json();
-    console.log(rJSON)
+    // console.log(rJSON)
   };
 
 </script>
@@ -112,6 +124,7 @@
       <div class="mt-8 flex flex-col">
         <div class="-my-2 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8">
           <div class="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
+            <div class="text-3xl font-bold pb-4">Cast</div>
             <div class="overflow-hidden shadow ring-1 ring-black ring-opacity-5 md:rounded-lg">
               <ul class="border-b-2 border-slate-200">
                 <li>
@@ -507,3 +520,70 @@
     </div>
   </div>
 {/if}
+<div class="mt-8 max-w-2xl mx-auto px-4 sm:px-6 lg:max-w-7xl lg:px-8">
+  <div class="mt-8 flex flex-col">
+    <div class="-my-2 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8">
+      <div class="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
+        <div class="text-3xl font-bold pb-4">Crew</div>
+        <div class="overflow-hidden shadow ring-1 ring-black ring-opacity-5 md:rounded-lg">
+          <ul class="border-b-2 border-slate-200">
+            <li>
+              <div class="flex items-center px-4 py-4 sm:px-6">
+                <div class="min-w-0 flex-1 flex items-center">
+                  <div class="min-w-0 flex-1 px-4 text-3xl font-medium ">Job</div>
+                  <div class="flex-shrink-0 h-12 w-12">&nbsp;</div>
+                  <div class="min-w-0 flex-1 px-4 ">
+                    <div>
+                      <p class="text-3xl font-mediunm truncate">Person</p>
+                    </div>
+                  </div>
+                  <div class="flex justify-end w-11" />
+                </div>
+              </div>
+            </li>
+          </ul>
+          <ul
+            class="divide-y divide-slate-200"
+          >
+            {#each crew as job, jobNum (job._id)}
+              <li>
+                <div class="flex items-center px-4 py-4 sm:px-6">
+                  <div class="min-w-0 flex-1 flex items-center">
+
+                    <div class="min-w-0 flex-1 px-4 text-2xl font-medium ">
+                      {job.jobName}
+                    </div>
+                    <div class="min-w-0 flex-1 px-4 ">
+                      <JobAssign {people} {crew} {jobNum}/>
+                    </div>
+                    
+                  </div>
+                </div>
+              </li>
+            {/each}
+          </ul>
+        </div>
+        <div class="mt-4 flex justify-between">
+          <div class="flex space-x-2">
+            <button
+            class="inline-flex items-center px-4 py-2 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-sky-600 hover:bg-sky-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-sky-500"
+            on:click={addCharacter}><svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+              <path d="M8 9a3 3 0 100-6 3 3 0 000 6zM8 11a6 6 0 016 6H2a6 6 0 016-6zM16 7a1 1 0 10-2 0v1h-1a1 1 0 100 2h1v1a1 1 0 102 0v-1h1a1 1 0 100-2h-1V7z" />
+            </svg></button
+          >
+          <button
+            class="inline-flex items-center px-4 py-2 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-sky-600 hover:bg-sky-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-sky-500"
+            on:click={bulkAdd}><svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+              <path d="M9 6a3 3 0 11-6 0 3 3 0 016 0zM17 6a3 3 0 11-6 0 3 3 0 016 0zM12.93 17c.046-.327.07-.66.07-1a6.97 6.97 0 00-1.5-4.33A5 5 0 0119 16v1h-6.07zM6 11a5 5 0 015 5v1H1v-1a5 5 0 015-5z" />
+            </svg></button
+          >
+        </div>
+          <button
+            class="inline-flex items-center px-4 py-2 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-sky-600 hover:bg-sky-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-sky-500"
+            on:click={saveCast}>Save Cast</button
+          >
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

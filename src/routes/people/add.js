@@ -5,7 +5,7 @@ export async function post({ params, request }) {
   let slug = `${data.nameFirst}-${data.nameLast}`.toLowerCase()
   let slugQuery = `count(*[_type == 'person' && slug.current == '${slug}'])`
   let slugCheck = await updateClient.fetch(slugQuery)
-  console.log({slugQuery, slugCheck})
+  // console.log({slugQuery, slugCheck})
   let response = JSON.stringify({
     slug: {current:'duplicate'},
     nameFirst: data.nameFirst,

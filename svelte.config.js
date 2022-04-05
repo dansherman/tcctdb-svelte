@@ -10,7 +10,7 @@ const config = {
 
 	kit: {
 		prerender: {
-			default: true
+			default: false
 		},
 		adapter: adapter(),
 		vite: {
