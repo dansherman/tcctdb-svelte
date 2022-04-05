@@ -183,7 +183,7 @@
                             />
                           </svg>
                         </div>
-                        <div class="min-w-0 flex-1 px-4 text-2xl font-medium ">
+                        <div class="min-w-0 flex-1 px-4 text-base sm:text-lg md:text-xl lg:text-2xl font-medium ">
                           {role.characterName}
                         </div>
                         <div class="min-w-0 flex-1 px-4 ">
@@ -226,7 +226,7 @@
                 </svg></button
               >
               <button
-                class="inline-flex items-center px-4 py-2 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-sky-600 hover:bg-sky-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-sky-500"
+                class="inline-flex items-center px-4 py-2 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-cyan-600 hover:bg-cyan-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-cyan-500"
                 on:click={bulkAdd}><svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
                   <path d="M9 6a3 3 0 11-6 0 3 3 0 016 0zM17 6a3 3 0 11-6 0 3 3 0 016 0zM12.93 17c.046-.327.07-.66.07-1a6.97 6.97 0 00-1.5-4.33A5 5 0 0119 16v1h-6.07zM6 11a5 5 0 015 5v1H1v-1a5 5 0 015-5z" />
                 </svg></button

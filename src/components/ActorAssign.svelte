@@ -23,7 +23,7 @@
 	</svg></button
 >
 	{#if displayAssignActorDialog}
-	<div class="absolute bg-white px-4 py-2 border-2 border-slate-600 rounded-md h-48 lg:h-96">
+	<div class="absolute bg-white px-4 py-2 border-2 border-slate-600 rounded-md h-48 lg:h-">
 		<ul class="max-h-full overflow-y-scroll divide-y divide-slate-200">
 			{#each actors as actor}
 			<li class="text-lg py-2 px-3" on:click={() => {assignActor(actor)}}>
@@ -36,9 +36,9 @@
 	<div class="w-12 h-12">
 		<Headshot person={cast[roleNum].actor} width=36 height=36 link=0/>
 	</div>
-	<div>
+	<div class="text-base sm:text-lg md:text-xl lg:text-2xl px-3 ">
 
-		<span class="text-2xl px-3 ">
+		<span>
 			{#if cast[roleNum].actor}
 				{cast[roleNum].actor.nameLast}, {cast[roleNum].actor.nameFirst}
 			{:else}
