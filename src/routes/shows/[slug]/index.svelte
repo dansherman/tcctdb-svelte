@@ -13,7 +13,6 @@
   const handleDndFinalize = (e) => {
     cast = e.detail.items;
   };
-  console.log(`Building page for ${show.slug.current}.`)
   /** @type {Array}*/
   let cast = show['cast'];
   $: cast

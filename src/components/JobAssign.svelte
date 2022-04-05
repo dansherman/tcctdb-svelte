@@ -12,7 +12,6 @@
 		displayAssignActorDialog = false
 		crew = crew
 	}
-	console.log({jobNum, person: crew[jobNum]})
 </script>
 
 <div class="flex items-center">
