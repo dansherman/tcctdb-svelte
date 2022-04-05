@@ -60,7 +60,7 @@
       body: JSON.stringify(person)
     });
     for (var i = 0; i < people.length; i++) {
-      console.log({person:people[i]})
+      // console.log({person:people[i]})
       if (people[i]._id == person._id) {
         people.splice(i, 1);
         break;
