@@ -1,4 +1,4 @@
-import adapter from '@sveltejs/adapter-static';
+import adapter from '@sveltejs/adapter-cloudflare';
 import preprocess from 'svelte-preprocess';
 import path from 'path';
 
@@ -10,7 +10,7 @@ const config = {
 
 	kit: {
 		prerender: {
-			default: true
+			default: false
 		},
 		adapter: adapter(),
 		vite: {
