@@ -14,7 +14,7 @@ export async function get({params}) {
       poster,
       performanceDates[]{dateAndTime,venue->{name}},
       'crew': *[ _type == 'job' && references(^._id) && !(_id in path("drafts.**"))]{
-        "jobName":jobRef->jobName,"sortOrder":jobRef->sortOrder, person->{_id,"name":nameFirst + " " + nameLast,nameLast,nameFirst,headshot,slug}},
+        _id,"jobName":jobRef->jobName,"sortOrder":jobRef->sortOrder, person->{_id,"name":nameFirst + " " + nameLast,nameLast,nameFirst,headshot,slug}},
       'cast': *[ _type == 'character' && references(^._id) && !(_id in path("drafts.**"))]|order(sortOrder asc){
         _id,sortOrder,characterName,"actor":actor->{_id,"name":nameFirst + " " + nameLast,nameLast,nameFirst,headshot,slug}},
       auditionInformation,
@@ -22,7 +22,8 @@ export async function get({params}) {
       auditionLink,
       slug
     },
-    'actors':*[_type == 'person']|order(nameLast){_id, nameLast, nameFirst, headshot, slug}
+    'actors':*[_type == 'person']|order(nameLast){_id, nameLast, nameFirst, headshot, slug},
+    'jobs':*[_type == 'jobTypes']|order(sortOrder){_id,jobName}
   }`;
     const results = await updateClient.fetch(query, params=qParams);
     if ( results.show.performanceDates ) {
