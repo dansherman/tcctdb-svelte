@@ -1,9 +1,10 @@
 <script>
   export let results;
-  let { actors, show, jobs } = results;
-  let people = actors;
-  import ActorAssign from "$components/ActorAssign.svelte";
-  import JobAssign from "$components/JobAssign.svelte";
+  let { people, show, jobs } = results;
+  import { Spinner } from '$lib/store.js'
+  import AssignPerson from '$components/AssignPerson.svelte';
+
+
   import { dndzone } from "svelte-dnd-action";
   import { overrideItemIdKeyNameBeforeInitialisingDndZones } from "svelte-dnd-action";
   overrideItemIdKeyNameBeforeInitialisingDndZones("_id");
@@ -27,8 +28,9 @@
   let cast = show["cast"];
   $: cast;
   /** @type {Array}*/
-  $: crew = sortCrew(show.crew)
-  $: newJob = ""
+  $: crew = show['crew'];
+  crew = sortCrew(show.crew)
+  $: newJobs = ""
   $: deleteGroup = ""
   $: displayCharacterDialog = false;
   $: displayBulkCharacterDialog = false;
@@ -135,19 +137,25 @@
     crew = sortCrew(resultJSON.response);
     displayAddJobDialog = false;
   }
-  const saveCast = async () => {
+  const addJobs = async (newJobs) => {
+    $Spinner = true
+    for (const newJob of newJobs) {
+      addJob(newJob);
+    }
+    displayAddJobDialog = false;
+    $Spinner = false
+  };
+  const saveCastOrder = async () => {
     let postData = [];
+    $Spinner = true
     cast.forEach((role, i) => {
       postData.push({ _id: role._id, field: "sortOrder", value: i + 1 });
-      if (role.actor != undefined) {
-        // console.log(role.actor)
-        postData.push({ _id: role._id, field: "actor", value: role.actor._id });
-      } //post to /update
     });
     let result = await fetch("/update", {
       method: "POST",
       body: JSON.stringify(postData),
     });
+    $Spinner = false
     let rJSON = await result.json();
     // console.log(rJSON)
   };
@@ -224,7 +232,7 @@
                             {role.characterName}
                           </div>
                           <div class="min-w-0 flex-1 px-4 ">
-                            <ActorAssign {actors} {cast} {roleNum} />
+                            <AssignPerson {people} group={cast} rowNum={roleNum} taskName={role.characterName}/>
                           </div>
                           <div class="flex justify-end space-x-2">
                             <button
@@ -287,7 +295,7 @@
                 </div>
                 <button
                   class="inline-flex items-center px-4 py-2 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-sky-600 hover:bg-sky-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-sky-500"
-                  on:click={saveCast}>Save Cast</button
+                  on:click={saveCastOrder}>Save Cast Order</button
                 >
               </div>
             {/if}
@@ -307,7 +315,7 @@
                             {job.jobName}
                           </div>
                           <div class="min-w-0 flex-1 px-4 ">
-                            <JobAssign {people} {crew} {jobNum} />
+                            <AssignPerson {people} group={crew} rowNum={jobNum} taskName={job.jobName} />
                           </div>
                           <div class="flex justify-end space-x-2">
                             <button
@@ -729,9 +737,14 @@
                 </div>
                 <div class="mt-4 space-y-4">
                   {#each jobs as job}
-                  <div class="flex items-center">
-                    <input id="{job.jobName}" name="{job.jobName}" type="radio" bind:group={newJob} class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300" value="{job._id}">
-                    <label for="{job.jobName}" class="ml-3 block text-sm font-medium text-gray-700"> {job.jobName} </label>
+                  <div class="relative flex items-start">
+                    <div class="flex items-center h-5">
+                      <input id="{job.jobName}" bind:group={newJobs} value={job._id} aria-describedby="{job.jobName}-description" name="{job.jobName}" type="checkbox" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded">
+                    </div>
+                    <div class="ml-3 text-sm">
+                      <label for="{job.jobName}" class="font-medium text-gray-700">{job.jobName}</label>
+                      <p id="{job.jobName}-description" class="text-gray-500">Foobar</p>
+                    </div>
                   </div>
                   {/each}
                 </div>
@@ -749,7 +762,7 @@
           <button
             class="inline-flex items-center px-4 py-2 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-sky-600 hover:bg-sky-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-sky-500"
             on:click={() => {
-              addJob(newJob);
+              addJobs(newJobs);
             }}>Save</button
           >
         </div>
