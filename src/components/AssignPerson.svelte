@@ -5,22 +5,23 @@
   export let taskName = "Uh Oh."
   import { Spinner } from '$lib/store.js'
 	import Headshot from '$components/Headshot.svelte';
-
+  import { alerts } from '$lib/store.js'
 	$: displayAssignPersonDialog = false;
 	const toggleAssignPerson = () => {
 		displayAssignPersonDialog = !displayAssignPersonDialog;
 	};
-	const assignPerson = (person) => {
+	const assignPerson = async (person) => {
 		group[rowNum].person = person
 		let postData = [{ _id: group[rowNum]._id, field: "person", value: group[rowNum].person._id }]
 		$Spinner = true
-		let result = fetch('/update', {
+		let result = await fetch('/update', {
 			method: "POST",
 			body: JSON.stringify(postData),
 		});
 		$Spinner = false
 		displayAssignPersonDialog = false
 		group = group
+    $alerts = [...$alerts, {title:"Success", subtitle:`Saved ${person.nameFirst} ${person.nameLast} as ${taskName}`}]
 	}
 </script>
 <div class="flex items-center">
@@ -100,9 +101,9 @@
             >
               <div class="flex item-center">
                 <div class="w-12 h-12">
-                  <Headshot {person} width="48" height="48" link="0" />
+                  <Headshot {person} width="48" height="48" link=false />
                 </div>
-                <div class="pl-2 place-self-center">{person.nameLast}, {person.nameFirst}</div>
+                <div class="pl-3 place-self-center">{person.nameLast}, {person.nameFirst}</div>
               </div>
             </li>
           {/each}

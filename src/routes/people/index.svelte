@@ -14,6 +14,8 @@
   import client from "$lib/sanityClient.js";
   import Headshot from "$components/Headshot.svelte";
   import getHash from "$lib/hash";
+  import { Spinner } from '$lib/store.js'
+
   $: displayAddPersonDialog = false;
   $: displayAddPeopleDialog = false;
   $: displayDeleteDialog = false;
@@ -33,7 +35,8 @@
         nameLast: nameLast,
         nameFirst: nameFirst,
       };
-    let result = await fetch(`/people/add`, {
+    $Spinner = true
+      let result = await fetch(`/people/add`, {
       method: 'POST',
       body: JSON.stringify(postData)
     });
@@ -41,6 +44,7 @@
     let newPerson = resultJSON.response
     people = [...people, newPerson];
     displayAddPersonDialog = false;
+    $Spinner = false
   }
   const createPeople = async () => {
     let peopleArray = newPeople.split('\n');

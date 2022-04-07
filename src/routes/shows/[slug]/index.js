@@ -22,7 +22,7 @@ export async function get({params}) {
       auditionLink,
       slug
     },
-    'people':*[_type == 'person']|order(nameLast){_id, nameLast, nameFirst, headshot, slug},
+    'people':*[_type == 'person']|order(nameFirst)|order(nameLast){_id, nameLast, nameFirst, headshot, slug},
     'jobs':*[_type == 'jobTypes']|order(sortOrder){_id,jobName}
   }`;
     const results = await updateClient.fetch(query, params=qParams);
