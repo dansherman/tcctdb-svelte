@@ -1,15 +1,13 @@
 <script>
   export let results;
   import { page } from "$app/stores";
-  let { people, show, jobs } = results;
-  import { Spinner, alerts } from "$lib/store.js";
-
-  import ShowNav from "$components/ShowNav.svelte";
-  import AssignPerson from "$components/AssignPerson.svelte";
+  let { people, show } = results;
   import ModalDialog from "$components/ModalDialog.svelte";
+  import { Spinner, alerts } from "$lib/store.js";
+  import AssignPerson from "$components/AssignPerson.svelte";
+  import ShowNav from "$components/ShowNav.svelte";
   import { dndzone } from "svelte-dnd-action";
   import { overrideItemIdKeyNameBeforeInitialisingDndZones } from "svelte-dnd-action";
-  
   overrideItemIdKeyNameBeforeInitialisingDndZones("_id");
   const handleDndConsider = (e) => {
     cast = e.detail.items;
@@ -20,21 +18,15 @@
   /** @type {Array}*/
   let cast = show["cast"];
   $: cast;
-  /** @type {Array}*/
-  let crew = show["crew"];
-  $: crew;
-  $: newJobs = "";
   $: deleteGroup = [];
   $: deleteThing = {};
   $: deleteGroupName = "";
   $: displayCharacterDialog = false;
   $: displayBulkCharacterDialog = false;
   $: displayDeleteDialog = false;
-  $: displayAddJobDialog = false;
   $: newCharacters = "";
   $: newCharacter = "";
   $: uniqueCharacter = true;
-  $page.url.hash;
 
   const addCharacter = () => {
     displayCharacterDialog = true;
@@ -99,39 +91,9 @@
       { title: "Success", subtitle: `Deleted ${deleteThing["taskName"]}` },
     ];
 
-    switch (deleteGroupName) {
-      case "crew":
-        crew = deleteGroup;
-        break;
+    cast = deleteGroup;
+  };
 
-      case "cast":
-        cast = deleteGroup;
-        break;
-    }
-  };
-  const addJob = async (newJob) => {
-    let postData = {
-      newJob: {
-        _id: newJob,
-      },
-      show: show,
-    };
-    let result = await fetch(`/shows/${show.slug.current}/job/add`, {
-      method: "POST",
-      body: JSON.stringify(postData),
-    });
-    let resultJSON = await result.json();
-    crew = resultJSON.response;
-    displayAddJobDialog = false;
-  };
-  const addJobs = async (newJobs) => {
-    $Spinner = true;
-    for (const newJob of newJobs) {
-      addJob(newJob);
-    }
-    displayAddJobDialog = false;
-    $Spinner = false;
-  };
   const saveCastOrder = async () => {
     let postData = [];
     $Spinner = true;
@@ -164,14 +126,11 @@
       },
     ];
   };
-  const activeTabStyle = "border-sky-500 text-sky-600";
-  const defaultTabStyle =
-    "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300";
 </script>
 
 <div class="bg-white">
   <div class="pb-16 sm:pb-24">
-    <div class="max-w-2xl mx-auto px-4 sm:px-6 lg:max-w-7xl lg:px-8">
+    <div class=" max-w-2xl mx-auto px-4 sm:px-6 lg:max-w-7xl lg:px-8">
       <div class="flex flex-col">
         <div class="-my-2 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8">
           <div
@@ -181,8 +140,125 @@
             <div
               class="overflow-hidden shadow ring-1 ring-black ring-opacity-5 md:rounded-lg"
             >
-              Show description, dates, poster, etc.
+              <ul
+                class="divide-y divide-slate-200"
+                use:dndzone={{ items: cast }}
+                on:consider={handleDndConsider}
+                on:finalize={handleDndFinalize}
+              >
+                {#each cast as role, roleNum (role._id)}
+                  <li>
+                    <div class="flex items-center px-4 py-4 sm:px-6">
+                      <div class="min-w-0 flex-1 flex items-center">
+                        <div class="min-w-0 flex-none">
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            class="h-6 w-6"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                            stroke-width="2"
+                          >
+                            <path
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              d="M8 9l4-4 4 4m0 6l-4 4-4-4"
+                            />
+                          </svg>
+                        </div>
+                        <div
+                          class="min-w-0 flex-1 px-4 text-base sm:text-lg md:text-xl lg:text-2xl font-medium "
+                        >
+                          {role.taskName}
+                        </div>
+                        <div class="min-w-0 flex-1 px-4 ">
+                          <AssignPerson {people} assignment={role} />
+                        </div>
+                        <div class="flex justify-end space-x-2">
+                          <div class="flex justify-end space-x-4">
+                            <button
+                              on:click={() => {
+                                saveRow(role);
+                              }}
+                            >
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                class="h-6 w-6 stroke-sky-500"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                                stroke="currentColor"
+                                stroke-width="2"
+                              >
+                                <path
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4"
+                                />
+                              </svg>
+                            </button><button
+                              on:click={() => {
+                                confirmDelete({ thing: role, group: { cast } });
+                              }}
+                            >
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                class="h-6 w-6 text-red-400"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                                stroke="currentColor"
+                                stroke-width="2"
+                              >
+                                <path
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+                                />
+                              </svg>
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </li>
+                {/each}
+              </ul>
             </div>
+          </div>
+          <div class="mt-4 flex justify-between">
+            <div class="flex space-x-2">
+              <button
+                class="inline-flex items-center px-4 py-2 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-sky-600 hover:bg-sky-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-sky-500"
+                on:click={addCharacter}
+                ><svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="h-5 w-5"
+                  viewBox="0 0 20 20"
+                  fill="currentColor"
+                >
+                  <path
+                    d="M8 9a3 3 0 100-6 3 3 0 000 6zM8 11a6 6 0 016 6H2a6 6 0 016-6zM16 7a1 1 0 10-2 0v1h-1a1 1 0 100 2h1v1a1 1 0 102 0v-1h1a1 1 0 100-2h-1V7z"
+                  />
+                </svg></button
+              >
+              <button
+                class="inline-flex items-center px-4 py-2 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-cyan-600 hover:bg-cyan-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-cyan-500"
+                on:click={bulkAdd}
+                ><svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="h-5 w-5"
+                  viewBox="0 0 20 20"
+                  fill="currentColor"
+                >
+                  <path
+                    d="M9 6a3 3 0 11-6 0 3 3 0 016 0zM17 6a3 3 0 11-6 0 3 3 0 016 0zM12.93 17c.046-.327.07-.66.07-1a6.97 6.97 0 00-1.5-4.33A5 5 0 0119 16v1h-6.07zM6 11a5 5 0 015 5v1H1v-1a5 5 0 015-5z"
+                  />
+                </svg></button
+              >
+            </div>
+            <button
+              class="inline-flex items-center px-4 py-2 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-sky-600 hover:bg-sky-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-sky-500"
+              on:click={saveCastOrder}>Save Cast Order</button
+            >
           </div>
         </div>
       </div>
@@ -191,50 +267,7 @@
 </div>
 
 {#if displayCharacterDialog}
-  <div
-    class="fixed z-10 inset-0 overflow-y-auto"
-    aria-labelledby="modal-title"
-    role="dialog"
-    aria-modal="true"
-  >
-    <div
-      class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0"
-    >
-      <!--
-      Background overlay, show/hide based on modal state.
-
-      Entering: "ease-out duration-300"
-        From: "opacity-0"
-        To: "opacity-100"
-      Leaving: "ease-in duration-200"
-        From: "opacity-100"
-        To: "opacity-0"
-    -->
-      <div
-        class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"
-        aria-hidden="true"
-      />
-
-      <!-- This element is to trick the browser into centering the modal contents. -->
-      <span
-        class="hidden sm:inline-block sm:align-middle sm:h-screen"
-        aria-hidden="true">&#8203;</span
-      >
-
-      <!--
-      Modal panel, show/hide based on modal state.
-
-      Entering: "ease-out duration-300"
-        From: "opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
-        To: "opacity-100 translate-y-0 sm:scale-100"
-      Leaving: "ease-in duration-200"
-        From: "opacity-100 translate-y-0 sm:scale-100"
-        To: "opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
-    -->
-      <div
-        class="relative inline-block align-bottom bg-white rounded-lg px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-sm sm:w-full sm:p-6"
-      >
-        <div>
+<ModalDialog>
           {#if uniqueCharacter}
             <div
               class="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-sky-100 text-sky-500"
@@ -298,7 +331,6 @@
               </div>
             </form>
           </div>
-        </div>
         <div class="mt-4 flex justify-between">
           <button
             class="inline-flex items-center px-4 py-2 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-sky-600 hover:bg-sky-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-sky-500"
@@ -314,51 +346,10 @@
             }}>Save</button
           >
         </div>
-      </div>
-    </div>
-  </div>
+      </ModalDialog>
 {/if}
 {#if displayBulkCharacterDialog}
-  <div
-    class="fixed z-10 inset-0 overflow-y-auto"
-    aria-labelledby="modal-title"
-    role="dialog"
-    aria-modal="true"
-  >
-    <div
-      class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0"
-    >
-      <!--
-      Background overlay, show/hide based on modal state.
-
-      Entering: "ease-out duration-300"
-        From: "opacity-0"
-        To: "opacity-100"
-      Leaving: "ease-in duration-200"
-        From: "opacity-100"
-        To: "opacity-0"
-    -->
-      <div
-        class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"
-        aria-hidden="true"
-      />
-
-      <!-- This element is to trick the browser into centering the modal contents. -->
-      <span
-        class="hidden sm:inline-block sm:align-middle sm:h-screen"
-        aria-hidden="true">&#8203;</span
-      >
-
-      <!--
-      Modal panel, show/hide based on modal state.
-
-      Entering: "ease-out duration-300"
-        From: "opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
-        To: "opacity-100 translate-y-0 sm:scale-100"
-      Leaving: "ease-in duration-200"
-        From: "opacity-100 translate-y-0 sm:scale-100"
-        To: "opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
-    -->
+  <ModalDialog>
       <div
         class="relative inline-block align-bottom bg-white rounded-lg px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-sm sm:w-full sm:p-6"
       >
@@ -409,54 +400,10 @@
             on:click={saveCharacters}>Save</button
           >
         </div>
-      </div>
-    </div>
-  </div>
+      </ModalDialog>
 {/if}
 {#if displayDeleteDialog}
-  <div
-    class="fixed z-10 inset-0 overflow-y-auto"
-    aria-labelledby="modal-title"
-    role="dialog"
-    aria-modal="true"
-  >
-    <div
-      class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0"
-    >
-      <!--
-      Background overlay, show/hide based on modal state.
-
-      Entering: "ease-out duration-300"
-        From: "opacity-0"
-        To: "opacity-100"
-      Leaving: "ease-in duration-200"
-        From: "opacity-100"
-        To: "opacity-0"
-    -->
-      <div
-        class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"
-        aria-hidden="true"
-      />
-
-      <!-- This element is to trick the browser into centering the modal contents. -->
-      <span
-        class="hidden sm:inline-block sm:align-middle sm:h-screen"
-        aria-hidden="true">&#8203;</span
-      >
-
-      <!--
-      Modal panel, show/hide based on modal state.
-
-      Entering: "ease-out duration-300"
-        From: "opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
-        To: "opacity-100 translate-y-0 sm:scale-100"
-      Leaving: "ease-in duration-200"
-        From: "opacity-100 translate-y-0 sm:scale-100"
-        To: "opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
-    -->
-      <div
-        class="relative inline-block align-bottom bg-white rounded-lg px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-sm sm:w-full sm:p-6"
-      >
+ <ModalDialog>
         <div>
           <div
             class="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-red-100"
@@ -497,108 +444,6 @@
             on:click={processDelete}>Delete</button
           >
         </div>
-      </div>
-    </div>
-  </div>
-{/if}
-{#if displayAddJobDialog}
-  <div
-    class="fixed z-10 inset-0 overflow-y-auto"
-    aria-labelledby="modal-title"
-    role="dialog"
-    aria-modal="true"
-  >
-    <div
-      class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0"
-    >
-      <!--
-      Background overlay, show/hide based on modal state.
+        </ModalDialog>
 
-      Entering: "ease-out duration-300"
-        From: "opacity-0"
-        To: "opacity-100"
-      Leaving: "ease-in duration-200"
-        From: "opacity-100"
-        To: "opacity-0"
-    -->
-      <div
-        class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"
-        aria-hidden="true"
-      />
-
-      <!-- This element is to trick the browser into centering the modal contents. -->
-      <span
-        class="hidden sm:inline-block sm:align-middle sm:h-screen"
-        aria-hidden="true">&#8203;</span
-      >
-
-      <!--
-      Modal panel, show/hide based on modal state.
-
-      Entering: "ease-out duration-300"
-        From: "opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
-        To: "opacity-100 translate-y-0 sm:scale-100"
-      Leaving: "ease-in duration-200"
-        From: "opacity-100 translate-y-0 sm:scale-100"
-        To: "opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
-    -->
-      <div
-        class="relative inline-block align-bottom bg-white rounded-lg px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-sm sm:w-full sm:p-6"
-      >
-        <div>
-          <div>
-            <form class="space-y-8 divide-y divide-gray-200">
-              <fieldset class="mt-6">
-                <div>
-                  <legend class="text-base font-medium text-gray-900"
-                    >Choose the job to add:</legend
-                  >
-                </div>
-                <div class="mt-4 space-y-4">
-                  {#each jobs as job}
-                    <div class="relative flex items-start">
-                      <div class="flex items-center h-5">
-                        <input
-                          id={job.jobName}
-                          bind:group={newJobs}
-                          value={job._id}
-                          aria-describedby="{job.jobName}-description"
-                          name={job.jobName}
-                          type="checkbox"
-                          class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded"
-                        />
-                      </div>
-                      <div class="ml-3 text-sm">
-                        <label
-                          for={job.jobName}
-                          class="font-medium text-gray-700">{job.jobName}</label
-                        >
-                        <p id="{job.jobName}-description" class="text-gray-500">
-                          Foobar
-                        </p>
-                      </div>
-                    </div>
-                  {/each}
-                </div>
-              </fieldset>
-            </form>
-          </div>
-        </div>
-        <div class="mt-4 flex justify-between">
-          <button
-            class="inline-flex items-center px-4 py-2 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-sky-600 hover:bg-sky-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-sky-500"
-            on:click={() => {
-              displayAddJobDialog = false;
-            }}>Cancel</button
-          >
-          <button
-            class="inline-flex items-center px-4 py-2 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-sky-600 hover:bg-sky-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-sky-500"
-            on:click={() => {
-              addJobs(newJobs);
-            }}>Save</button
-          >
-        </div>
-      </div>
-    </div>
-  </div>
 {/if}

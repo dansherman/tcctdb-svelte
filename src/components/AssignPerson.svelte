@@ -1,27 +1,14 @@
 <script>
-	export let people = [];
-	export let group = [];
-	export let rowNum = 0
-  export let taskName = "Uh Oh."
-  import { Spinner } from '$lib/store.js'
+  export let people = []
+	export let assignment = {}
 	import Headshot from '$components/Headshot.svelte';
-  import { alerts } from '$lib/store.js'
 	$: displayAssignPersonDialog = false;
 	const toggleAssignPerson = () => {
 		displayAssignPersonDialog = !displayAssignPersonDialog;
 	};
 	const assignPerson = async (person) => {
-		group[rowNum].person = person
-		let postData = [{ _id: group[rowNum]._id, field: "person", value: group[rowNum].person._id }]
-		$Spinner = true
-		let result = await fetch('/update', {
-			method: "POST",
-			body: JSON.stringify(postData),
-		});
-		$Spinner = false
-		displayAssignPersonDialog = false
-		group = group
-    $alerts = [...$alerts, {title:"Success", subtitle:`Saved ${person.nameFirst} ${person.nameLast} as ${taskName}`}]
+		assignment.person = person
+    displayAssignPersonDialog = false
 	}
 </script>
 <div class="flex items-center">
@@ -41,16 +28,7 @@
   <div
     class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0"
   >
-    <!--
-    Background overlay, show/hide based on modal state.
 
-    Entering: "ease-out duration-300"
-      From: "opacity-0"
-      To: "opacity-100"
-    Leaving: "ease-in duration-200"
-      From: "opacity-100"
-      To: "opacity-0"
-  -->
     <div
       class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"
       aria-hidden="true"
@@ -62,22 +40,13 @@
       aria-hidden="true">&#8203;</span
     >
 
-    <!--
-    Modal panel, show/hide based on modal state.
-
-    Entering: "ease-out duration-300"
-      From: "opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
-      To: "opacity-100 translate-y-0 sm:scale-100"
-    Leaving: "ease-in duration-200"
-      From: "opacity-100 translate-y-0 sm:scale-100"
-      To: "opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
-  -->
+    
     <div
       class="relative h-[768px] inline-block align-bottom bg-white rounded-lg px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-sm sm:w-full sm:p-6"
     >
       <div class="h-full">
         <div class="flex flex-none flex-nowrap justify-between mb-3 font-medium text-xl">
-          <div>Assignment: {taskName}</div>
+          <div>Assignment: {assignment.taskName}</div>
           <div class="cursor-pointer"
           on:click={() => {
             displayAssignPersonDialog = false;
@@ -117,13 +86,13 @@
 
 {/if}
 	<div class="w-12 h-12">
-		<Headshot person={group[rowNum].person} width=36 height=36 link=0/>
+		<Headshot person={assignment.person} width=36 height=36 link=0/>
 	</div>
 	<div class="text-base sm:text-lg md:text-xl lg:text-2xl px-3 ">
 
 		<span>
-			{#if group[rowNum].person}
-				{group[rowNum].person.nameLast}, {group[rowNum].person.nameFirst}
+			{#if assignment.person}
+				{assignment.person.nameLast}, {assignment.person.nameFirst}
 			{:else}
 			--
 			{/if}

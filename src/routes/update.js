@@ -2,25 +2,16 @@ import updateClient from '$lib/sanityUpdateClient.js';
 
 export async function post({ params, request }) {
 	const data = await request.json();
-  // data = [{_id, field, value}]
   data.forEach(async (item) => {
-    switch (item.field) {
-      case 'sortOrder':
-        await updateClient
+    let updateParams = {}
+    if (item.ref) {
+      updateParams[item.field] = {_ref:item.value}
+    } else {
+      updateParams[item.field] = item.value
+    }
+    await updateClient
         .patch(item._id)
-        .set({ sortOrder: item.value })
-        .commit()
-        .then((res) => {
-          return JSON.stringify(res);
-        })
-        .catch((err) => {
-          return err.message;
-        });
-        break
-      case 'person':
-        await updateClient
-        .patch(item._id)
-        .set({ person: {_ref:item.value }})
+        .set(updateParams)
         .commit()
         .then((res) => {
           return JSON.stringify(res);
@@ -29,7 +20,7 @@ export async function post({ params, request }) {
           return err.message;
         });
       }
-  })
+  )
   return {
     status: 200,
     body: {message:"OK"}

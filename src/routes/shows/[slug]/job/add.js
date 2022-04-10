@@ -29,8 +29,8 @@ export async function post({ params, request }) {
       return err.message;
     });
   let qParams = {show_id: data.show._id}
-  response = await updateClient.fetch(`*[ _type == 'job' && references($show_id) && !(_id in path("drafts.**"))]{
-    "jobName":jobRef->jobName,"sortOrder":jobRef->sortOrder, person->{_id,"name":nameFirst + " " + nameLast,nameLast,nameFirst,headshot,slug}}`, qParams)
+  response = await updateClient.fetch(`*[ _type == 'job' && references($show_id) && !(_id in path("drafts.**"))]|order(jobRef->sortOrder asc){
+    "taskName":jobRef->jobName, person->{_id,"name":nameFirst + " " + nameLast,nameLast,nameFirst,headshot,slug}}`, qParams)
 
   return {
     status: 200,
