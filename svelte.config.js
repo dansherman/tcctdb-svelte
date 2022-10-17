@@ -13,13 +13,7 @@ const config = {
 			default: false
 		},
 		adapter: adapter(),
-		vite: {
-			resolve: {
-				alias: {
-					$components: path.resolve('./src/components')
-				}
-			}
-		},
+		
 		// hydrate the <div id="svelte"> element in src/app.html
 		// target: '#svelte',
 		// serviceWorker: {

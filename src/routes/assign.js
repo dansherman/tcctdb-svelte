@@ -1,6 +1,6 @@
 import updateClient from '$lib/sanityUpdateClient.js';
 
-export async function post({ params, request }) {
+export async function POST({ params, request }) {
 	const data = await request.json();
   let postData = [{ _id: data._id, field: "crew", value: data.person._id }]
 	let result = await fetch('/update', {

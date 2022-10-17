@@ -1,6 +1,6 @@
 import updateClient from '$lib/sanityUpdateClient.js';
 
-export async function get({params}) {
+export async function GET({params}) {
 	const {slug, charNameEnc} = params
 	let charName = decodeURIComponent(charNameEnc)
 	const query = `count(*[_type == 'character' && show->slug.current == '${slug}' && characterName == '${charName}'])`;

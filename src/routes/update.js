@@ -1,7 +1,8 @@
 import updateClient from '$lib/sanityUpdateClient.js';
 
-export async function post({ params, request }) {
+export async function POST({ params, request }) {
 	const data = await request.json();
+  console.log(data)
   data.forEach(async (item) => {
     let updateParams = {}
     if (item.ref) {

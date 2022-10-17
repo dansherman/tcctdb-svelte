@@ -1,8 +1,8 @@
 import updateClient from '$lib/sanityUpdateClient.js';
-
-export async function post({ params, request }) {
+import slugify from '$lib/slugify';
+export async function POST({ params, request }) {
 	const data = await request.json();
-  let slug = `${data.nameFirst}-${data.nameLast}`.toLowerCase()
+  let slug = slugify(`${data.nameFirst} ${data.nameLast}`)
   let slugQuery = `count(*[_type == 'person' && slug.current == '${slug}'])`
   let slugCheck = await updateClient.fetch(slugQuery)
   // console.log({slugQuery, slugCheck})

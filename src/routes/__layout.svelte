@@ -5,8 +5,8 @@
 
   import "../app.css";
   
-  const activeLink = "border-sky-500 text-gray-900 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium mx-1"
-  const inactiveLink = "border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium mx-1"
+  const activeLink = "border-indigo-500 text-gray-900 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium"
+  const inactiveLink = "border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium"
   const activeMobileLink = "bg-sky-50 border-sky-500 text-sky-700 block pl-3 pr-4 py-2 border-l-4 text-base font-medium"
   const inactiveMobileLink = "border-transparent text-gray-600 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-800 block pl-3 pr-4 py-2 border-l-4 text-base font-medium"
   const links = [
@@ -17,45 +17,46 @@
   ]
 </script>
 <div class="min-h-full">
-  <nav class="bg-blue-100 border-b border-gray-200">
+  <nav class="bg-white border-b border-gray-200">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="flex justify-between h-16">
         <div class="flex">
-          <div class="hidden sm:-my-px sm:ml-6 sm:flex sm:space-x-8">
-            <div class="flex justify-start lg:w-0 lg:flex-1">
-
-              {#each links as link}
-              <a href={link.href} class={$page.url.pathname === link.href ? activeLink : inactiveLink}> {link.title} </a>
-              {/each}
-            </div>
+          <div class="flex-shrink-0 flex items-center">
+            <img class="h-8 w-auto sm:h-16" src="/logo-black.svg" alt="4ct logo">
           </div>
+          <div class="hidden sm:-my-px sm:ml-6 sm:flex sm:space-x-8">
+            {#each links as link}
+            <a href={link.href} class={$page.url.pathname === link.href ? activeLink : inactiveLink}> {link.title} </a>
+            {/each}
+                      </div>
         </div>
         <div class="hidden sm:ml-6 sm:flex sm:items-center">
-          <span class="text-gray-500">4CT Admin Page</span>
+          <button type="button" class="bg-white p-1 rounded-full text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+            <span class="sr-only">View notifications</span>
+            <!-- Heroicon name: outline/bell -->
+            <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
+            </svg>
+          </button>
 
+          <!-- Profile dropdown -->
+          
         </div>
-
+        
       </div>
-    </div>
-
-    <!-- Mobile menu, show/hide based on menu state. -->
-    <div class="sm:hidden" id="mobile-menu">
-      <div class="pt-2 pb-3 space-y-1"><a href="/" class="{inactiveMobileLink} pr-2">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 -scale-x-100" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
-          </svg>
-        </a>
-        {#each links as link}
-        <a href={link.href} class={$page.url.pathname === link.href ? activeMobileLink : inactiveMobileLink}> {link.title} </a>
-        {/each}
-      </div>
-      
     </div>
   </nav>
 
+  
+</div>
+
+
+<div class="min-h-full">
+ 
+
   <div class="">
     <main>
-      <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+      <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 py-4">
         <!-- Replace with your content -->
           <slot></slot>
         <!-- /End replace -->

@@ -1,8 +1,29 @@
 <script context="module">
   export const prerender = false;
   export async function load({ params }) {
-    const query = `*[_type=='person']| order(nameFirst asc)|order(nameLast asc){headshot, nameFirst, nameLast, slug}`;
-    const people = await client.fetch(query);
+    const query = `*[_type=='person']| order(nameFirst asc)|order(nameLast asc)
+{
+  headshot, 
+  nameFirst, 
+  nameLast, 
+  slug,
+  'mostRecent': *[(_type == 'job' || _type == 'character') && references(^._id)]|order(production.performanceDates[0].dateAndTime asc)[0]{
+                production->{
+          'show':show->title,
+          'company':company->name,
+          poster,
+          'slug':slug.current}
+        }
+}`;
+    let people = await client.fetch(query);
+    people = people.map((person) => {
+      if (person.lastShow == undefined)
+      {
+        person.lastShow = {role:"",show:{title:"", role:""}}
+      }
+      return person
+    })
+      
     return {
       props: { people },
     };
@@ -19,10 +40,12 @@
   $: displayAddPersonDialog = false;
   $: displayAddPeopleDialog = false;
   $: displayDeleteDialog = false;
+  $: displayEmailDialog = false;
   $: newPeople = ""
   $: newPerson = ""
   $: uniquePerson = true;
   $: personToDelete = {}
+  $: personToEmail = {}
   const displayAddPerson = () => {
     displayAddPersonDialog = true;
   };
@@ -58,6 +81,16 @@
     displayDeleteDialog = true;
     personToDelete = person;
   };
+  const emailLoginLink = (person) => {
+    displayEmailDialog = true;
+    personToEmail = person;
+  }
+  const sendEmail = async (person) => {
+    let result = await fetch(`/people/${person.slug.current}/loginLink`)
+    displayEmailDialog = false;
+    console.log("SMTP RESULT:")
+    console.log(result)
+  }
   const processDelete = async (person) => {
     let result = await fetch('/delete', {
       method: 'POST',
@@ -86,17 +119,12 @@
       <th
         scope="col"
         class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
-        >Producer</th
+        >Most Recent Show</th
       >
       <th
         scope="col"
         class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
-        >Director</th
-      >
-      <th
-        scope="col"
-        class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
-        >Season</th
+        >Most Recent Role</th
       >
       <th scope="col" class="relative py-3.5 pl-3 pr-4 sm:pr-6">
         <span class="sr-only">Edit</span>
@@ -109,7 +137,7 @@
         <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm sm:pl-6">
           <div class="flex items-center">
             <div class="h-10 w-10 flex-shrink-0">
-              <Headshot {person} width="48" height="48" />
+              <Headshot {person} width=48 height=48 />
             </div>
             <div class="ml-4">
               <div class="font-base text-xl text-gray-900">
@@ -119,16 +147,9 @@
           </div>
         </td>
         <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-          <div class="text-gray-900">...</div>
-          <div class="text-gray-500">Optimization</div>
+          {person.lastShow.show.title}
         </td>
-        <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-          <span
-            class="inline-flex rounded-full bg-green-100 px-2 text-xs font-semibold leading-5 text-green-800"
-            >Active</span
-          >
-        </td>
-        <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">Member</td
+        <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{person.lastShow.role}</td
         >
         <td
           class="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6"
@@ -141,6 +162,22 @@
           </div>
           {/if}
           <div class="flex justify-end space-x-2">
+            <button
+            on:click={() => {
+              emailLoginLink(person);
+            }}
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-6 w-6 text-cyan-400"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+            </svg>
+          </button>
             <button
               on:click={() => {
                 confirmDelete(person);
@@ -452,6 +489,88 @@
             on:click={() => {
               processDelete(personToDelete);
             }}>Delete</button
+          >
+        </div>
+      </div>
+    </div>
+  </div>
+{/if}
+{#if displayEmailDialog}
+  <div
+    class="fixed z-10 inset-0 overflow-y-auto"
+    aria-labelledby="modal-title"
+    role="dialog"
+    aria-modal="true"
+  >
+    <div
+      class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0"
+    >
+      <!--
+      Background overlay, show/hide based on modal state.
+
+      Entering: "ease-out duration-300"
+        From: "opacity-0"
+        To: "opacity-100"
+      Leaving: "ease-in duration-200"
+        From: "opacity-100"
+        To: "opacity-0"
+    -->
+      <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" aria-hidden="true" />
+
+      <!-- This element is to trick the browser into centering the modal contents. -->
+      <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true"
+        >&#8203;</span
+      >
+
+      <!--
+      Modal panel, show/hide based on modal state.
+
+      Entering: "ease-out duration-300"
+        From: "opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+        To: "opacity-100 translate-y-0 sm:scale-100"
+      Leaving: "ease-in duration-200"
+        From: "opacity-100 translate-y-0 sm:scale-100"
+        To: "opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+    -->
+      <div
+        class="relative inline-block align-bottom bg-white rounded-lg px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-sm sm:w-full sm:p-6"
+      >
+        <div>
+          <div class="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-red-100">
+            <!-- Heroicon name: outline/check -->
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-6 w-6 text-red-500"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+              />
+            </svg>
+          </div>
+          <div>
+            <label for="comment" class="block text-sm font-medium text-gray-700"
+              >Email login link to <span class="bg-lime-400">{personToEmail['nameFirst']} {personToEmail['nameLast']}</span> at {personToEmail['emailAddress']}?</label
+            >
+          </div>
+        </div>
+        <div class="mt-4 flex justify-between">
+          <button
+            class="inline-flex items-center px-4 py-2 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-sky-600 hover:bg-sky-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-sky-500"
+            on:click={() => {
+              displayEmailDialog = false;
+            }}>Cancel</button
+          >
+          <button
+            class="inline-flex items-center px-4 py-2 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-lime-400 hover:bg-lime-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-lime-500"
+            on:click={() => {
+              sendEmail(personToEmail);
+            }}>Send Email</button
           >
         </div>
       </div>

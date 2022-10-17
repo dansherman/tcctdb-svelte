@@ -3,7 +3,7 @@ import updateClient from '$lib/sanityUpdateClient.js';
 import dayjs from 'dayjs';
 
 /** @type {import('@sveltejs/kit').RequestHandler} */
-export async function get({params}) {
+export async function GET({params}) {
 	const {slug} = params
   const qParams = {slug:slug}
 	const query = `{

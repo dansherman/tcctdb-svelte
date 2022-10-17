@@ -1,6 +1,6 @@
 import updateClient from '$lib/sanityUpdateClient.js';
 
-export async function post({ params, request }) {
+export async function POST({ params, request }) {
 	const data = await request.json();
   // jobRef:{} 2 items
   // _ref:54de9441-d794-47ca-9a28-3c0e90ecece6
