@@ -1,7 +1,7 @@
-<script>
-  export let person = {};
-  export let width = 800;
-  export let height = 800;
+<script lang="ts">
+  export let person;
+  export let width:number = 800;
+  export let height:number = 800;
   export let link = true;
   import { urlFor } from "$lib/img-url.js";
   let href = "";
