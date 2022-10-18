@@ -11,8 +11,5 @@ export async function POST({ params, request }) {
   let response = await updateClient.fetch(`*[ _type == 'job' && references($show_id) && !(_id in path("drafts.**"))]{
     _id, "jobName":jobRef->jobName,"sortOrder":jobRef->sortOrder, person->{_id,"name":nameFirst + " " + nameLast,nameLast,nameFirst,headshot,slug}}`, qParams)
 
-  return {
-    status: 200,
-    body: {response: response}
-  }
+  return {status:200}
 }

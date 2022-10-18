@@ -1,27 +1,26 @@
 <script>
 
 	export let data;
-  let { shows } = data;
+  let { companies } = data;
 	import client from '$lib/sanityClient.js';
 	import ShowCard from '$components/ShowCard.svelte';
 import { urlFor } from '$lib/img-url';
+import H2 from '$components/H2.svelte'
 </script>
 
 <!-- <div class="text-black">{% include "header.njk" %}</div> -->
 
               <table class="min-w-full divide-y divide-gray-300">
                 <thead class="bg-gray-50">
-                  <tr>
-                    <th scope="col" class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6">Show</th>
-                  </tr>
+                  <H2>Theater Companies</H2>
                 </thead>
                 <tbody class="divide-y divide-gray-200 bg-white">
-                  {#each shows as show}
+                  {#each companies as company}
                   <tr>
                     <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm sm:pl-6">
                       <div class="flex items-center">
                         <div class="ml-4">
-                          <div class="font-medium text-gray-900">{show.title}</div>
+                          <div class="font-medium text-gray-900">{company.name}</div>
                         </div>
                       </div>
                     </td>

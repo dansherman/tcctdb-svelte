@@ -1,8 +1,8 @@
 export const prerender = false;
-import updateClient from '$lib/sanityUpdateClient.js';
+import client from '$lib/sanityClient.js';
 import getHash from '$lib/hash.js'
 
-export async function GET({ params }) {
+export async function load({ params }) {
 	const { slug } = params;
 	const query = `
 	*[_type == 'person' && slug.current == $slug]{
@@ -37,52 +37,12 @@ export async function GET({ params }) {
 			}
 	}
 `;
-	const people = await updateClient.fetch(query, params={'slug':slug});
+	const people = await client.fetch(query, params={'slug':slug});
 	const person = people[0];
 	if (person) {
-    return {
-			body: { person }
-		};
+    return { person };
 	}
 
 }
 
-export async function POST({ params, request }) {
-	const { slug, key } = params;
 
-	const data = await request.json();
-  if (getHash(slug) === key) {
-		let newDoc = {
-			_type: "person",
-			...data
-		}
-		newDoc['_id'] = `${data._id}`
-		delete newDoc.key
-		delete newDoc.name
-		if (data.avatarData) {
-
-			let avatarBuffer = await Buffer.from(data.avatarData, 'base64');
-			let ext = data.avatarType.split('/')[1]
-			let avatarDoc = await updateClient.assets.upload(
-				'image', 
-				avatarBuffer,  
-				{
-					contentType: data.avatarType, 
-					filename: `${slug}.${ext}`
-				})
-
-			newDoc.headshot = {
-				asset:
-					{_ref: avatarDoc._id}
-			}
-		}
-		delete newDoc.avatarData
-		delete newDoc.avatarType
-		updateClient.createOrReplace(newDoc)
-		return {body: {message:"OK"},status:200}
-	} else {
-		return {
-			status: 403
-		};
-	}
-}

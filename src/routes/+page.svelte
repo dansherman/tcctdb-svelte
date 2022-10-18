@@ -1,7 +1,4 @@
 
-<script context="module">
-
-</script>
 <script> 
 
   
@@ -10,6 +7,6 @@
 
 
   <main>
-    Admin page
+    Twin Cities Community Theater Database
     </main>
     </div>

@@ -1,7 +1,7 @@
 <script>
-  export let results;
+  export let data;
   import { page } from "$app/stores";
-  let { people, show, jobs } = results;
+  let { people, show, jobs } = data;
   import { Spinner, alerts } from "$lib/store.js";
 
   import ShowNav from "$components/ShowNav.svelte";

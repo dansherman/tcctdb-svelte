@@ -1,3 +1,4 @@
+import { json } from '@sveltejs/kit';
 export const prerender = false;
 import updateClient from '$lib/sanityUpdateClient.js';
 import getHash from '$lib/hash.js'
@@ -10,8 +11,6 @@ export async function GET({ params }) {
 	if (person) {
     let key = getHash(person.slug.current)
 			let smtpResponse = email(person.emailAddress, "Login link for 4CT", `Here is your login link for 4CT: https://fourct.com/edit/${person.slug.current}/${key}/profile`)
-    return {
-			body: { smtpResponse }
-		};
+    return json({ smtpResponse });
 	}
 }

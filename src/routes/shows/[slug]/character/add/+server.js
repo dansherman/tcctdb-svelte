@@ -1,3 +1,4 @@
+import { json as json$1 } from '@sveltejs/kit';
 import updateClient from '$lib/sanityUpdateClient.js';
 
 export async function POST({ params, request }) {
@@ -22,8 +23,5 @@ export async function POST({ params, request }) {
     .catch((err) => {
       return err.message;
     });
-  return {
-    status: 200,
-    body: {response: JSON.parse(response)}
-  }
+  return json$1({response: JSON.parse(response)})
 }
