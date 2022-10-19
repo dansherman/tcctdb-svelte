@@ -10,17 +10,17 @@ import H2 from '$components/H2.svelte'
 
 <!-- <div class="text-black">{% include "header.njk" %}</div> -->
 
-              <table class="min-w-full divide-y divide-gray-300">
-                <thead class="bg-gray-50">
+              <table class="min-w-full divide-y divide-slate-300">
+                <thead class="bg-slate-50">
                   <H2>Theater Companies</H2>
                 </thead>
-                <tbody class="divide-y divide-gray-200 bg-white">
+                <tbody class="divide-y divide-slate-200 bg-white">
                   {#each companies as company}
                   <tr>
                     <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm sm:pl-6">
                       <div class="flex items-center">
                         <div class="ml-4">
-                          <div class="font-medium text-gray-900">{company.name}</div>
+                          <div class="font-medium text-slate-900">{company.name}</div>
                         </div>
                       </div>
                     </td>

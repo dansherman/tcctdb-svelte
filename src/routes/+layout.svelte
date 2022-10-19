@@ -12,7 +12,7 @@
     {href:'/productions', title:'Productions'},
     {href:'/people', title:'People'},
     {href:'/shows', title:'Shows'},
-    {href:'/companies', title:'Companies'},
+    // {href:'/companies', title:'Companies'},
   ]
 </script>
 
@@ -38,14 +38,14 @@
           <div class="flex flex-1 justify-center px-2 lg:ml-6 lg:justify-end">
             <div class="w-full max-w-lg lg:max-w-xs">
               <label for="search" class="sr-only">Search</label>
-              <div class="relative text-gray-400 focus-within:text-gray-600">
+              <div class="relative text-slate-400 focus-within:text-slate-600">
                 <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
                   <!-- Heroicon name: mini/magnifying-glass -->
                   <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
                     <path fill-rule="evenodd" d="M9 3.5a5.5 5.5 0 100 11 5.5 5.5 0 000-11zM2 9a7 7 0 1112.452 4.391l3.328 3.329a.75.75 0 11-1.06 1.06l-3.329-3.328A7 7 0 012 9z" clip-rule="evenodd" />
                   </svg>
                 </div>
-                <input id="search" class="block w-full rounded-md border border-transparent bg-white py-2 pl-10 pr-3 leading-5 text-gray-900 placeholder-gray-500 focus:border-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-sky-600 sm:text-sm" placeholder="Search" type="search" name="search">
+                <input id="search" class="block w-full rounded-md border border-transparent bg-white py-2 pl-10 pr-3 leading-5 text-slate-900 placeholder-slate-500 focus:border-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-sky-600 sm:text-sm" placeholder="Search" type="search" name="search">
               </div>
             </div>
           </div>
@@ -96,11 +96,11 @@
     </div>
   </main>
 
-  <footer class="bg-white">
-  <div class="mx-auto max-w-7xl py-12 px-4 sm:px-6 md:flex md:items-center md:justify-between lg:px-8">
+  <footer class="bg-slate-500">
+  <div class="mx-auto max-w-7xl py-8 px-4 sm:px-6 md:flex md:items-center md:justify-between lg:px-8">
     
     <div class="mt-8 md:order-1 md:mt-0">
-      <p class="text-center text-base text-gray-400">Provided by 4 Community Theatre with content hosting by Sanity.io</p>
+      <p class="text-center text-base text-slate-300">Provided by <a href="https://4communitytheatre.org">4 Community Theatre</a> with content hosting by <a href="https://sanity.io">Sanity.io</a>.</p>
     </div>
   </div>
 </footer>

@@ -166,7 +166,7 @@
   };
   const activeTabStyle = "border-sky-500 text-sky-600";
   const defaultTabStyle =
-    "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300";
+    "border-transparent text-slate-500 hover:text-slate-700 hover:border-slate-300";
 </script>
 
 <div class="bg-white">
@@ -211,7 +211,7 @@
         To: "opacity-0"
     -->
       <div
-        class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"
+        class="fixed inset-0 bg-slate-500 bg-opacity-75 transition-opacity"
         aria-hidden="true"
       />
 
@@ -277,10 +277,10 @@
             </div>
           {/if}
           <div>
-            <form class="space-y-8 divide-y divide-gray-200">
+            <form class="space-y-8 divide-y divide-slate-200">
               <label
                 for="comment"
-                class="block text-sm font-medium text-gray-700"
+                class="block text-sm font-medium text-slate-700"
                 >Add the character.</label
               >
               <div class="mt-1">
@@ -293,7 +293,7 @@
                   rows="4"
                   name="comment"
                   id="comment"
-                  class="shadow-sm focus:ring-sky-500 focus:border-sky-500 block w-full sm:text-sm border-gray-300 rounded-md"
+                  class="shadow-sm focus:ring-sky-500 focus:border-sky-500 block w-full sm:text-sm border-slate-300 rounded-md"
                 />
               </div>
             </form>
@@ -339,7 +339,7 @@
         To: "opacity-0"
     -->
       <div
-        class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"
+        class="fixed inset-0 bg-slate-500 bg-opacity-75 transition-opacity"
         aria-hidden="true"
       />
 
@@ -383,7 +383,7 @@
             </svg>
           </div>
           <div>
-            <label for="comment" class="block text-sm font-medium text-gray-700"
+            <label for="comment" class="block text-sm font-medium text-slate-700"
               >Add the characters, one character per line.</label
             >
             <div class="mt-1">
@@ -392,7 +392,7 @@
                 rows="4"
                 name="comment"
                 id="comment"
-                class="shadow-sm focus:ring-sky-500 focus:border-sky-500 block w-full sm:text-sm border-gray-300 rounded-md"
+                class="shadow-sm focus:ring-sky-500 focus:border-sky-500 block w-full sm:text-sm border-slate-300 rounded-md"
               />
             </div>
           </div>
@@ -434,7 +434,7 @@
         To: "opacity-0"
     -->
       <div
-        class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"
+        class="fixed inset-0 bg-slate-500 bg-opacity-75 transition-opacity"
         aria-hidden="true"
       />
 
@@ -478,7 +478,7 @@
             </svg>
           </div>
           <div>
-            <label for="comment" class="block text-sm font-medium text-gray-700"
+            <label for="comment" class="block text-sm font-medium text-slate-700"
               >Really delete <span class="bg-yellow-200"
                 >{deleteThing["taskName"]}</span
               >?</label
@@ -522,7 +522,7 @@
         To: "opacity-0"
     -->
       <div
-        class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"
+        class="fixed inset-0 bg-slate-500 bg-opacity-75 transition-opacity"
         aria-hidden="true"
       />
 
@@ -547,10 +547,10 @@
       >
         <div>
           <div>
-            <form class="space-y-8 divide-y divide-gray-200">
+            <form class="space-y-8 divide-y divide-slate-200">
               <fieldset class="mt-6">
                 <div>
-                  <legend class="text-base font-medium text-gray-900"
+                  <legend class="text-base font-medium text-slate-900"
                     >Choose the job to add:</legend
                   >
                 </div>
@@ -565,15 +565,15 @@
                           aria-describedby="{job.jobName}-description"
                           name={job.jobName}
                           type="checkbox"
-                          class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded"
+                          class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-slate-300 rounded"
                         />
                       </div>
                       <div class="ml-3 text-sm">
                         <label
                           for={job.jobName}
-                          class="font-medium text-gray-700">{job.jobName}</label
+                          class="font-medium text-slate-700">{job.jobName}</label
                         >
-                        <p id="{job.jobName}-description" class="text-gray-500">
+                        <p id="{job.jobName}-description" class="text-slate-500">
                           Foobar
                         </p>
                       </div>
