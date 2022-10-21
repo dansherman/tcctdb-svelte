@@ -1,10 +1,8 @@
 <script> 
   export let data;
   let {person} = data;
-  import client from '$lib/sanityClient.js'
   import Headshot from '$components/Headshot.svelte';
-  import { urlFor } from '$lib/img-url';
-  import ShowCard from '$components/ShowCard.svelte';
+  import ProductionMiniCard from '$components/ProductionMiniCard.svelte'
 </script>
 <svelte:head>
   <title>{person.name}</title>
@@ -43,15 +41,7 @@
               <ul>
                 <ul	class="space-y-12 sm:grid sm:grid-cols-2 sm:gap-x-6 sm:gap-y-12 sm:space-y-0 lg:grid-cols-3 lg:gap-x-8 place-items-center">
                 {#each person.cast as role}
-                    <li>
-                      <div class="border-2 border-slate-100 bg-slate-50 overflow-hidden object-center rounded-xl ">
-                        <div class="w-24 h-24 object-center mx-auto">
-                          <a href="/productions/{role.production.slug}">
-                            <img src={urlFor(role.production.poster).height(144).auto('format').url()} alt={role.production.title} class="mx-auto max-w-24 max-h-full object-center"/>
-                          </a>
-                        </div>
-                        <span class="text-lg">{role.characterName}</span>
-                    </li>
+                <ProductionMiniCard production name={role.characterName}/>
                   {/each}
                 </ul>
               </ul>
@@ -62,15 +52,7 @@
               <h3 class="text-lg font-medium text-slate-600">Crew</h3>
               <ul class="space-y-12 sm:grid sm:grid-cols-2 sm:gap-x-6 sm:gap-y-12 sm:space-y-0 lg:grid-cols-3 lg:gap-x-8 place-items-center">
                 {#each person.crew as job}
-                <li>
-                  <div class="border-2 border-slate-100 bg-slate-50 overflow-hidden object-center rounded-xl ">
-                    <div class="w-24 h-24 object-center mx-auto">
-                      <a href="/shows/{job.production.slug.current}">
-                        <img src={urlFor(job.production.poster).height(144).auto('format').url()} alt={job.production.title} class="mx-auto max-w-24 max-h-full object-center"/>
-                      </a>
-                    </div>
-                    <span class="text-lg">{job.jobName}</span>
-                </li>
+                <ProductionMiniCard production name={job.jobName}/>
                 {/each}
               </ul>
             </div>

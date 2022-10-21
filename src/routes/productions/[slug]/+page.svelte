@@ -10,7 +10,9 @@
   let production = data.production;
   let show = production.show;
 </script>
-
+<svelte:head>
+  <title>{show.title}</title>
+</svelte:head>
 <Title>{show.title}</Title>
 <SubTitle>{production.company.name}</SubTitle>
 <H2>Cast</H2>
