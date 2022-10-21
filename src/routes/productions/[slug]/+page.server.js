@@ -14,10 +14,10 @@ export async function load({params}) {
     slug
   }`;
 
-  const castQuery = `*[ _type == 'role' && references($id) && !(_id in path("drafts.**"))]|order(sortOrder asc){
+  const castQuery = `*[ _type == 'role' && references($id) && !(_id in path("drafts.**"))]|order(character->sortOrder asc){
     _id,
     sortOrder,
-    character->{characterName,characterPhoto},
+    character->{sortOrder, characterName,characterPhoto},
     person->{
       _id,
       "name":nameFirst + " " + nameLast,
