@@ -1,6 +1,5 @@
 export const prerender = false;
 import client from '$lib/sanityClient.js';
-import getHash from '$lib/hash.js'
 
 export async function load({ params }) {
 	const { slug } = params;
@@ -12,9 +11,9 @@ export async function load({ params }) {
 		headshot,
 		biography,
 		'slug':slug.current,
-		'crew': *[ _type == 'job' && references(^._id)]|order(production.performanceDates[0].dateAndTime asc){
-			'jobName':jobName->jobName,
-				production->{
+		'crew': *[ _type == 'assignment' && references(^._id)]|order(production.performanceDates[0].dateAndTime asc){
+			'jobName':job->jobName,
+			production->{
 				'show':show->title,
 				'company':company->name,
 				poster,

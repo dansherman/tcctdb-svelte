@@ -4,6 +4,9 @@
   import Headshot from "$components/Headshot.svelte";
   import Title from "$components/Title.svelte"
 </script>
+<svelte:head>
+  <title>People</title>
+</svelte:head>
 <Title>People</Title>
 <table class="min-w-full divide-y divide-slate-300">
   <thead class="bg-slate-50">

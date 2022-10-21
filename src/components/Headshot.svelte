@@ -2,6 +2,7 @@
   export let person;
   export let width:number = 800;
   export let height:number = 800;
+  export let photo = person.headshot;
   export let link = true;
   import { urlFor } from "$lib/img-url.js";
   let href = "";
@@ -16,9 +17,9 @@
 
 {#if href != "" && person}
   <a class="font-semibold text-black" {href}>
-    {#if person.headshot}
+    {#if photo}
       <img
-        src={urlFor(person.headshot).width(width).height(height).url()}
+        src={urlFor(photo).width(width).height(height).url()}
         alt={person.name}
         class="object-contain rounded-full w-full h-full object-top"
       />
@@ -36,9 +37,9 @@
       </span>
     {/if}
   </a>
-{:else if person && person.headshot}
+{:else if person && photo}
   <img
-    src={urlFor(person.headshot).width(width).height(height).url()}
+    src={urlFor(photo).width(width).height(height).url()}
     alt={person.name}
     class="object-contain rounded-full w-full h-full object-top"
   />

@@ -11,7 +11,7 @@
   const links = [
     {href:'/productions', title:'Productions'},
     {href:'/people', title:'People'},
-    {href:'/shows', title:'Shows'},
+    //{href:'/shows', title:'Shows'},
     // {href:'/companies', title:'Companies'},
   ]
 </script>

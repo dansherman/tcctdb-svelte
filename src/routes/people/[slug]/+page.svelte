@@ -22,15 +22,10 @@
             </h1>
             <p class="text-xl font-medium text-slate-900"></p>
           </div>
-          <!-- Reviews -->
-
         </div>
-
-        <!-- Image gallery -->
         <div class="mt-8 lg:mt-0 lg:col-start-1 lg:col-span-7 lg:row-start-1 lg:row-span-3 mx-8 md:mx-12 lg:mx-16">
             <Headshot person={ person } width=800 height=800/>
         </div>
-
         <div class="mt-8 lg:col-span-5">
           <div class="mt-10">
             {#if person.biography}
@@ -40,7 +35,6 @@
             </div>
             {/if}
           </div>
-
           <div class="mt-8 border-t border-slate-200 pt-8">
             <h2 class="text-xl font-medium text-slate-800">Show History</h2>
             {#if person.cast.length > 0}
@@ -52,7 +46,7 @@
                     <li>
                       <div class="border-2 border-slate-100 bg-slate-50 overflow-hidden object-center rounded-xl ">
                         <div class="w-24 h-24 object-center mx-auto">
-                          <a href="/shows/{role.production.slug.current}">
+                          <a href="/productions/{role.production.slug}">
                             <img src={urlFor(role.production.poster).height(144).auto('format').url()} alt={role.production.title} class="mx-auto max-w-24 max-h-full object-center"/>
                           </a>
                         </div>
@@ -82,9 +76,6 @@
             </div>
             {/if}
           </div>
-
-          <!-- Policies -->
-
         </div>
       </div>
     </div>

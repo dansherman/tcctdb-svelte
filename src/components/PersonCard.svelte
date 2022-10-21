@@ -1,6 +1,7 @@
 <script>
   export let person;
   export let title;
+  export let photo;
   import Headshot from "$components/Headshot.svelte";
 </script>
 
@@ -13,7 +14,7 @@
     <div
       class="bg-rose-100 border-slate-400 border-2 h-24 w-24 md:h-40 md:w-40 lg:h-48 lg:w-48 rounded-full"
     >
-      <Headshot {person} />
+      <Headshot {person} {photo}/>
     </div>
     <div class="basis-1/2">
       <div
