@@ -1,4 +1,8 @@
-# create-svelte
+## TCCTDB.org
+
+Twin Cities Community Theater Database
+
+This is the frontend for the site.
 
 ## Developing
 
