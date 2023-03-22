@@ -14,7 +14,6 @@
 	}
   const subpage = $page.url.pathname.replace(/\/$/, '').split('/')[-1]
 
-  console.log(subpage)
   const activeTabStyle = "border-sky-500 text-sky-600";
   const defaultTabStyle =
     "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300";
