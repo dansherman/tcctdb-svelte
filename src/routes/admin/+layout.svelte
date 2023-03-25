@@ -2,7 +2,8 @@
 	import { page } from '$app/stores';
   import MobileMenu from '$components/shell/MobileMenu.svelte';
   import SidebarLeft from '$components/shell/SidebarLeft.svelte';
-	import { icons } from '$lib/icons'
+  import CommandPalette from 'svelte-command-palette'
+  import { paletteActions } from "$lib/paletteActions"
 	$: path = $page.url.pathname
 	export let data
 	$: rightOpen = false
@@ -28,6 +29,7 @@
 
     <!-- Main content -->
     <div class="flex flex-1 items-stretch overflow-hidden">
+
       <main class="flex-1 overflow-y-auto">
         <!-- Primary column -->
 <slot />
@@ -37,3 +39,4 @@
     </div>
   </div>
 </div>
+<CommandPalette commands={paletteActions}/>

@@ -1,8 +1,8 @@
 <script> 
   export let data;
   let {person} = data;
-  import Headshot from '$components/Headshot.svelte';
-  import ProductionMiniCard from '$components/ProductionMiniCard.svelte'
+  // import Headshot from '$components/Headshot.svelte';
+  // import ProductionMiniCard from '$components/ProductionMiniCard.svelte'
 </script>
 <svelte:head>
   <title>{person.name}</title>
@@ -22,7 +22,7 @@
           </div>
         </div>
         <div class="mt-8 lg:mt-0 lg:col-start-1 lg:col-span-7 lg:row-start-1 lg:row-span-3 mx-8 md:mx-12 lg:mx-16">
-            <Headshot person={ person } width=512 height=512/>
+            <!-- <Headshot person={ person } width=512 height=512/> -->
         </div>
         <div class="mt-8 lg:col-span-5">
           <div class="mt-10">
@@ -39,9 +39,10 @@
             <div class="mt-4 text-lg text-slate-500">
               <h3 class="text-lg font-medium text-slate-600">Roles</h3>
               <ul>
-                <ul	class="space-y-12 sm:grid sm:grid-cols-2 sm:gap-x-6 sm:gap-y-12 sm:space-y-0 lg:grid-cols-3 lg:gap-x-8 place-items-center">
+                <ul	class="space-y-12">
                 {#each person.cast as role}
-                <ProductionMiniCard production={role.production} name={role.characterName}/>
+                <a class="font-semibold`" href="/productions/{role.production.slug}">{role.production.title}</a> - {role.characterName}
+                <!-- <ProductionMiniCard production={role.production} name={role.characterName}/> -->
                   {/each}
                 </ul>
               </ul>
@@ -50,9 +51,11 @@
             {#if person.crew.length > 0}
             <div class="mt-4 text-lg text-slate-500">
               <h3 class="text-lg font-medium text-slate-600">Crew</h3>
-              <ul class="space-y-12 sm:grid sm:grid-cols-2 sm:gap-x-6 sm:gap-y-12 sm:space-y-0 lg:grid-cols-3 lg:gap-x-8 place-items-center">
+              <ul class="space-y-12">
                 {#each person.crew as job}
-                <ProductionMiniCard production={job.production} name={job.jobName}/>
+                <div>
+                  <a class="font-semibold`" href="/productions/{job.production.slug}">{job.production.title}</a> - {job.jobName}</div>
+                <!-- <ProductionMiniCard production={job.production} name={job.jobName}/> -->
                 {/each}
               </ul>
             </div>

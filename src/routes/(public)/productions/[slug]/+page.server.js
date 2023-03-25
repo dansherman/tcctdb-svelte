@@ -16,9 +16,9 @@ export async function load({params}) {
 
   const castQuery = `*[ _type == 'role' && references($id) && !(_id in path("drafts.**"))]|order(character->sortOrder asc){
     _id,
-    character->{sortOrder, characterName},
+    character->{sortOrder, characterName, allowMultiple},
     characterPhoto,
-    person->{
+    people[]->{
       _id,
       "name":nameFirst + " " + nameLast,
       nameLast,
@@ -43,7 +43,6 @@ export async function load({params}) {
     let crew = await client.fetch(crewQuery, {id:production._id})
     for (let row of cast) {
       row.characterName = row.character.characterName
-      row.personName = row.person.name
     }
     if ( production.performanceDates ) {
       production.parsedPerformanceDates = production.performanceDates.map((pd) => {

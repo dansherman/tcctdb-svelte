@@ -1,7 +1,7 @@
 <script> 
   export let data;
   let {person} = data;
-  import Headshot from '$cmp/Headshot.svelte';
+  import Headshot from '$components/Headshot.svelte';
 </script>
 <svelte:head>
   <title>{person.name}</title>

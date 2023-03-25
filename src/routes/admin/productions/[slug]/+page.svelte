@@ -1,12 +1,12 @@
 <script lang="ts">
   import type { PageData } from "./$types";
   import type { Person, Role } from "$lib/types";
-  import { enhance } from "$app/forms";
   import ActorChip from "$components/ActorChip.svelte";
-  import CastPicker from "$components/CastPicker.svelte";
 
   import { vocalTxtColors } from "$lib/vocalRanges";
-  
+  import { createStoreMethods, paletteStore } from 'svelte-command-palette'
+
+  const paletteMethods = createStoreMethods();
   export let data: PageData;
   $: cast = data.cast;
   $: crew = data.crew;
@@ -15,13 +15,18 @@
   let production = data.production;
 
   let chosenRole:Role
-  let pickerOpen = false;
   // onMount(async () => {
   //   await refreshCastCrew()
   // });
   const showAssignPerson = (role) => {
-    pickerOpen = true
-    chosenRole = role
+    paletteStore.update((storeValue) => {
+    return {
+        ...storeValue,
+        chosenRole: role
+      }
+    })
+    $paletteStore.selectedCommandId = 'assignPersonToRole'
+    paletteMethods.openPalette()
   }
 </script>
 
@@ -74,9 +79,7 @@
       {/each}
     </tbody>
   </table>
-  {#if pickerOpen}
-  <CastPicker {people} bind:pickerOpen bind:chosenRole/>
-  {/if}
+
 </div>
 <!-- <form method="POST" action="?/addMissingCharacters"><button type="submit">Add Missing Characters</button><input hidden name="showRef" value="{production.show._id}"/><input hidden name="productionRef" value="{production._id}"/></form>
 <form method="POST" action="?/deleteDocs"><button type="submit">deleteDocs</button></form> -->
