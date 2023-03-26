@@ -81,5 +81,5 @@
   </table>
 
 </div>
-<!-- <form method="POST" action="?/addMissingCharacters"><button type="submit">Add Missing Characters</button><input hidden name="showRef" value="{production.show._id}"/><input hidden name="productionRef" value="{production._id}"/></form>
-<form method="POST" action="?/deleteDocs"><button type="submit">deleteDocs</button></form> -->
+<form method="POST" action="?/addMissingCharacters"><button type="submit">Add Missing Characters</button><input hidden name="showRef" value="{production.show._id}"/><input hidden name="productionRef" value="{production._id}"/></form>
+<!-- <form method="POST" action="?/deleteDocs"><button type="submit">deleteDocs</button></form> -->

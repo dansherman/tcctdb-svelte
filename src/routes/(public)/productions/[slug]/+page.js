@@ -27,10 +27,10 @@ export async function load({params}) {
       slug
     }
   }`
-  const crewQuery = `*[ _type == 'assignment' && references($id) && !(_id in path("drafts.**"))]|order(job->sortOrder){
+  const crewQuery = `*[ _type == 'assignment' && references($id) && !(_id in path("drafts.**"))]|order(job->sortOrder asc){
     _id,
-    "jobName":job->jobName,
-    person->{
+    job->{sortOrder, jobName, allowMultiple},
+    people[]->{
       _id,
       "name":nameFirst + " " + nameLast,
       nameLast,
@@ -43,6 +43,9 @@ export async function load({params}) {
     let crew = await client.fetch(crewQuery, {id:production._id})
     for (let row of cast) {
       row.characterName = row.character.characterName
+    }
+    for (let row of crew) {
+      row.jobName = row.job.jobName
     }
     if ( production.performanceDates ) {
       production.parsedPerformanceDates = production.performanceDates.map((pd) => {

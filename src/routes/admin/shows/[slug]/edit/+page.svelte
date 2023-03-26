@@ -1,7 +1,6 @@
 <script lang="ts">
   export let data;
   import { enhance, type SubmitFunction } from "$app/forms";
-  import { clickOutside } from "$lib/clickOutside";
   import { vocalRanges } from "$lib/vocalRanges.js";
   import SubTitle from "$components/Subtitle.svelte";
   import Title from "$components/Title.svelte";
@@ -65,7 +64,7 @@
     {#each characterList as character, sortOrder (character._id)}
     <li class="" on:focus={()=>character.editing = true}  >
       {#if character.editing}
-      <form action="?/saveCharacter" method="POST" use:enhance={saveCharacter} use:clickOutside on:click_outside={()=>{character.editing = false}} >
+      <form action="?/saveCharacter" method="POST" use:enhance={saveCharacter}  >
           <div class="sm:py-4 sm:grid sm:grid-cols-4 sm:items-start sm:gap-4 border-t border-gray-200">
           <input bind:value={character._id} name='_id' hidden/>
             <div class="flex justify-start font-medium text-gray-900 py-2">  
