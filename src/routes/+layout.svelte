@@ -11,7 +11,7 @@
 </div>
 <footer class="fixed bottom-0 bg-indigo-700 w-full text-white">
   <div class="py-1 md:py-3 text-center text-sm sm:text-md">
-    Provided by <a href="https://4communitytheatre.org">4 Community Theatre</a> with content hosting by <a href="https://sanity.io">Sanity.io</a>.
+    Provided by <a class="font-bold" href="https://4communitytheatre.org">4 Community Theatre</a> with content hosting by <a class="font-bold" href="https://sanity.io">Sanity.io</a>.
   </div>
 </footer>
 

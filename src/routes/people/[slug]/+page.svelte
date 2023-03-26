@@ -1,7 +1,7 @@
 <script> 
   export let data;
   let {person} = data;
-  // import Headshot from '$components/Headshot.svelte';
+  import Headshot from '$components/Headshot.svelte';
   // import ProductionMiniCard from '$components/ProductionMiniCard.svelte'
 </script>
 <svelte:head>
@@ -21,14 +21,14 @@
             <p class="text-xl font-medium text-slate-900"></p>
           </div>
         </div>
-        <div class="mt-8 lg:mt-0 lg:col-start-1 lg:col-span-7 lg:row-start-1 lg:row-span-3 mx-8 md:mx-12 lg:mx-16">
-            <!-- <Headshot person={ person } width=512 height=512/> -->
+        <div class="mt-8 lg:mt-0 lg:col-start-1 lg:col-span-5 lg:row-start-1 lg:row-span-3 mx-8 md:mx-12 lg:mx-16">
+            <Headshot person={ person } width=512 height=512/>
         </div>
-        <div class="mt-8 lg:col-span-5">
+        <div class="mt-8 lg:col-span-7">
           <div class="mt-10">
             {#if person.biography}
             <h2 class="text-xl font-medium text-slate-800">Biography</h2>
-            <div class="mt-4 text-lg text-slate-500">
+            <div class="mt-4 text-lg text-slate-800">
               {person.biography}
             </div>
             {/if}
@@ -36,12 +36,12 @@
           <div class="mt-8 border-t border-slate-200 pt-8">
             <h2 class="text-xl font-medium text-slate-800">Show History</h2>
             {#if person.cast.length > 0}
-            <div class="mt-4 text-lg text-slate-500">
-              <h3 class="text-lg font-medium text-slate-600">Roles</h3>
+            <div class="mt-4 text-lg text-slate-800">
+              <h3 class="text-lg font-medium text-slate-800">Roles</h3>
               <ul>
                 <ul	class="space-y-12">
                 {#each person.cast as role}
-                <a class="font-semibold`" href="/productions/{role.production.slug}">{role.production.title}</a> - {role.characterName}
+                <a class="px-1 text-lg font-medium border-b-sky-500 border rounded-sm hover:bg-sky-200 hover:shadow-md" href="/productions/{role.production.slug}">{role.production.title}</a> - {role.characterName}
                 <!-- <ProductionMiniCard production={role.production} name={role.characterName}/> -->
                   {/each}
                 </ul>
@@ -49,12 +49,12 @@
             </div>
             {/if}
             {#if person.crew.length > 0}
-            <div class="mt-4 text-lg text-slate-500">
-              <h3 class="text-lg font-medium text-slate-600">Crew</h3>
+            <div class="mt-4 text-lg text-slate-800">
+              <h3 class="text-lg font-medium text-slate-800">Crew</h3>
               <ul class="space-y-12">
                 {#each person.crew as job}
                 <div>
-                  <a class="font-semibold`" href="/productions/{job.production.slug}">{job.production.title}</a> - {job.jobName}</div>
+                  <a class="px-1 text-lg font-medium border-b-sky-500 border rounded-sm hover:bg-sky-200 hover:shadow-md" href="/productions/{job.production.slug}">{job.production.title}</a> - {job.jobName}</div>
                 <!-- <ProductionMiniCard production={job.production} name={job.jobName}/> -->
                 {/each}
               </ul>

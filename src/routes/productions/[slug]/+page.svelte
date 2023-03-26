@@ -13,10 +13,10 @@
 <h3 class="font-bold text-4xl py-4">Cast</h3>
 <ul class="list">
 {#each cast as role}
-<li>
-  <span class="font-bold">{role.characterName}</span>
+<li class="mb-1">
+  <span class="text-lg">{role.characterName}</span>
   {#each role.people as person}
-    <span class="pr-2">
+    <span class="px-1 text-lg font-medium border-b-sky-500 border rounded-sm hover:bg-sky-200 hover:shadow-md">
       <a href="/people/{person.slug.current}">{person.name}</a>
     </span>
   {/each}
@@ -27,10 +27,10 @@
 <h3 class="font-bold text-4xl py-4">Crew</h3>
 <ul class="list">
 {#each crew as job}
-<li>
-  <span class="font-bold">{job.jobName}</span>
+<li class="mb-1">
+  <span class="text-lg">{job.jobName}</span>
   {#each job.people as person}
-    <span class="pr-2">
+    <span class="px-1 text-lg font-medium border-b-sky-500 border rounded-sm hover:bg-sky-200 hover:shadow-md">
       <a href="/people/{person.slug.current}">{person.name}</a>
     </span>
   {/each}

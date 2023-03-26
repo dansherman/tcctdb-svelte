@@ -2,8 +2,6 @@
 	import { page } from '$app/stores';
   import MobileMenu from '$components/shell/MobileMenu.svelte';
   import SidebarLeft from '$components/shell/SidebarLeft.svelte';
-  import CommandPalette from 'svelte-command-palette'
-  import { paletteActions } from "$lib/paletteActions"
 	$: path = $page.url.pathname
 	export let data
 	$: rightOpen = false
@@ -39,4 +37,3 @@
     </div>
   </div>
 </div>
-<CommandPalette commands={paletteActions}/>
