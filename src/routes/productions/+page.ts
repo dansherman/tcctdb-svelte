@@ -5,7 +5,7 @@ export async function load() {
     slug,
     show->{title},
     poster,
-    company->{name},
+    company->{name, slug},
     'year':performanceDates[0].dateAndTime,
   }`;
   let productions = await client.fetch(query);

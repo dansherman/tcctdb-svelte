@@ -10,7 +10,7 @@ export async function load({params}) {
     poster,
     performanceDates[]{dateAndTime,venue->{name}},
     show->,
-    company->{name,logo},
+    company->{name,logo, slug},
     slug
   }`;
 
