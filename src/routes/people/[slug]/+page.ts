@@ -11,29 +11,29 @@ export async function load({ params }) {
 		nameLast,
 		headshot,
 		biography,
-		'slug':slug.current,
-		'crew': *[ _type == 'assignment' && references(^._id)]|order(production.performanceDates[0].dateAndTime asc){
+		slug,
+		'assignments': *[ _type == 'assignment' && references(^._id)]|order(production.performanceDates[0].dateAndTime asc){
 			'jobName':job->jobName,
 			production->{
 				'title':show->title,
 				'company':company->name,
 				poster,
-				'slug':slug.current}
+				slug}
 			},
-		'cast': *[ _type == 'role' && references(^._id)]|order(production.performanceDates[0].dateAndTime asc){
+		'roles': *[ _type == 'role' && references(^._id)]|order(production.performanceDates[0].dateAndTime asc){
 			'characterName':character->characterName,
 			production->{
 				'title':show->title,
 				'company':company->name,
 				poster,
-				'slug':slug.current}
+				slug}
 			},
-		'mostRecent': *[(_type == 'job' || _type == 'character') && references(^._id)]|order(production.performanceDates[0].dateAndTime asc)[0]{
+		'mostRecent': *[(_type == 'assignment' || _type == 'role') && references(^._id)]|order(production.performanceDates[0].dateAndTime asc)[0]{
 							production->{
 				'title':show->title,
 				'company':company->name,
 				poster,
-				'slug':slug.current}
+				slug}
 			}
 	}
 `;

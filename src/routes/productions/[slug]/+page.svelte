@@ -3,7 +3,6 @@
 	export let data;
 	let { crew, cast, production } = data;
 	let show = production.show;
-  console.log(crew)
 </script>
 
 <svelte:head>
