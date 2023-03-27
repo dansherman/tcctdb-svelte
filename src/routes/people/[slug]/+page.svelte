@@ -1,7 +1,6 @@
 <script>
   export let data;
   let { person } = data;
-  import Headshot from "$components/Headshot.svelte";
   import ProductionChip from "$components/ProductionChip.svelte";
   // import ProductionMiniCard from '$components/ProductionMiniCard.svelte'
 </script>
@@ -11,8 +10,6 @@
 </svelte:head>
 
 <h1 class="font-bold text-6xl py-4">{person.name}</h1>
-
-<Headshot {person} width="512" height="512" />
 
 {#if person.biography}
   <h3 class="font-bold text-4xl py-4">Biography</h3>
