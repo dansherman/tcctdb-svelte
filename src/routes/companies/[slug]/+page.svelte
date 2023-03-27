@@ -11,6 +11,6 @@
 <h1 class="font-bold text-6xl py-4">{ company.name }</h1>
 <ul class="list">
   {#each productions as production}
-    <ProductionChip {production} />
+    <li><ProductionChip {production} /></li>
     {/each}
 </ul>

@@ -1,6 +1,6 @@
 {
   "name": "tcctdb.com",
-  "version": "0.0.1",
+  "version": "0.1",
   "scripts": {
     "dev": "vite dev --port 3001 --host 0.0.0.0",
     "build": "vite build",

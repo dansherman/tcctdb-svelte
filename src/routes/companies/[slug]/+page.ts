@@ -9,7 +9,7 @@ export async function load({ params }) {
 		...}
 `;
 	const productionQuery = `*[_type == 'production' && company->slug.current == $slug]{
-  
+		'title':show->title,
 		poster, show->{title}, slug}`
 	const companies = await client.fetch(query, params={'slug':slug});
 	const productions = await client.fetch(productionQuery, params={'slug':slug});
