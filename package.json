@@ -36,11 +36,12 @@
   },
   "type": "module",
   "dependencies": {
+
+    "@sveltejs/adapter-cloudflare": "^2.2.0",
     "@popperjs/core": "^2.11.5",
     "@rgossiaux/svelte-headlessui": "^1.0.0-beta.6",
     "@sanity/client": "^2.23.2",
     "@sanity/image-url": "^1.0.1",
-    "@sveltejs/adapter-cloudflare": "^2.0.1",
     "@tailwindcss/forms": "^0.5.3",
     "blakejs": "^1.1.1",
     "dayjs": "^1.10.7",

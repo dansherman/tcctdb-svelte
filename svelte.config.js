@@ -10,10 +10,12 @@ const config = {
   preprocess: preprocess({postcss:true}),
 
   kit: {
-    adapter: adapter(),
-    csrf: {
-      checkOrigin: false,
-    },
+    adapter: adapter({
+      routes: {
+        include: ['/*'],
+        exclude: ['<all>']
+      }
+    }),
   },
 };
 

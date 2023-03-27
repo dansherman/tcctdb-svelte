@@ -1,6 +1,4 @@
-import updateClient from '$lib/sanityUpdateClient.js';
-
-import dayjs from 'dayjs';
+import client from '$lib/sanityClient.js';
 
 export async function load({params}) {
 	const {slug} = params
@@ -9,7 +7,7 @@ export async function load({params}) {
       ...,
       'characters': *[_type == 'character' && references(^._id)]{...}
   }`;
-    const results = await updateClient.fetch(query, params=qParams);
+    const results = await client.fetch(query, params=qParams);
     return  results;
 }
 

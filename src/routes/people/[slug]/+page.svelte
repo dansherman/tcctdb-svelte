@@ -2,6 +2,7 @@
   export let data;
   let {person} = data;
   import Headshot from '$components/Headshot.svelte';
+  import ProductionChip from '$components/ProductionChip.svelte';
   // import ProductionMiniCard from '$components/ProductionMiniCard.svelte'
 </script>
 <svelte:head>
@@ -37,25 +38,20 @@
             <h2 class="text-xl font-medium text-slate-800">Show History</h2>
             {#if person.cast.length > 0}
             <div class="mt-4 text-lg text-slate-800">
-              <h3 class="text-lg font-medium text-slate-800">Roles</h3>
-              <ul>
-                <ul	class="space-y-12">
-                {#each person.cast as role}
-                <a class="px-1 text-lg font-medium border-b-sky-500 border rounded-sm hover:bg-sky-200 hover:shadow-md" href="/productions/{role.production.slug}">{role.production.title}</a> - {role.characterName}
-                <!-- <ProductionMiniCard production={role.production} name={role.characterName}/> -->
+              <h3 class="text-2xl font-medium text-slate-800 pb-2">Roles</h3>
+                <ul	class="space-y-2">
+                  {#each person.cast as role}
+                    <li><ProductionChip production={role.production}/> - {role.characterName}</li>
                   {/each}
                 </ul>
-              </ul>
             </div>
             {/if}
             {#if person.crew.length > 0}
             <div class="mt-4 text-lg text-slate-800">
-              <h3 class="text-lg font-medium text-slate-800">Crew</h3>
-              <ul class="space-y-12">
+              <h3 class="text-2xl font-medium text-slate-800 pb-2">Crew</h3>
+              <ul class="space-y-2">
                 {#each person.crew as job}
-                <div>
-                  <a class="px-1 text-lg font-medium border-b-sky-500 border rounded-sm hover:bg-sky-200 hover:shadow-md" href="/productions/{job.production.slug}">{job.production.title}</a> - {job.jobName}</div>
-                <!-- <ProductionMiniCard production={job.production} name={job.jobName}/> -->
+                  <li><ProductionChip production={job.production}/> - {job.jobName}</li>
                 {/each}
               </ul>
             </div>

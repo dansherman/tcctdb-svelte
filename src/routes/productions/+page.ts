@@ -1,13 +1,13 @@
 import client from "$lib/sanityClient";
 export const prerender = false;
 export async function load() {
-  const query = `*[_type=='production']{
-		'company':company->name,
-		'show':show->title,
-		'year':performanceDates[0].dateAndTime,
-		poster,
-		slug
-	}`;
+  const query = `*[_type == 'production']{
+    slug,
+    show->{title},
+    poster,
+    company->{name},
+    'year':performanceDates[0].dateAndTime,
+  }`;
   let productions = await client.fetch(query);
   productions = productions.map((p) => {
     if (p.year != null) {
