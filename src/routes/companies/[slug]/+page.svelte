@@ -1,5 +1,7 @@
 <script>
   import ProductionChip from "$components/ProductionChip.svelte";
+  import Title from "$components/Title.svelte";
+  import SubTitle from "$components/SubTitle.svelte";
   export let data;
   let {company, productions} = data;
   console.log(productions)
@@ -8,7 +10,7 @@
   <title>{company.name}</title>
 </svelte:head>
 
-<h1 class="font-bold text-6xl py-4">{ company.name }</h1>
+<Title>{ company.name }</Title>
 <ul class="list">
   {#each productions as production}
     <li><ProductionChip {production} /></li>

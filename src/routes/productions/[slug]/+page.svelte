@@ -1,5 +1,8 @@
 <script lang="ts">
   import PersonChip from "$components/PersonChip.svelte";
+  import Title from "$components/Title.svelte";
+  import SubTitle from "$components/SubTitle.svelte";
+  import Section from "$components/Section.svelte";
   export let data;
   let { crew, cast, production } = data;
   let show = production.show;
@@ -8,13 +11,13 @@
 <svelte:head>
   <title>{show.title}</title>
 </svelte:head>
-<h1 class="font-bold text-6xl py-4">{show.title}</h1>
-<h2 class="font-bold text-5xl py-4">
+<Title>{show.title}</Title>
+<SubTitle>
   <a href="/companies/{production.company.slug.current}"
     >{production.company.name}</a
   >
-</h2>
-<h3 class="font-bold text-4xl py-4">Cast</h3>
+</SubTitle>
+<Section>Cast</Section>
 <ul class="list">
   {#each cast as role}
     <li class="mb-1">
@@ -26,7 +29,7 @@
   {/each}
 </ul>
 
-<h3 class="font-bold text-4xl py-4">Crew</h3>
+<Section>Crew</Section>
 <ul class="list">
   {#each crew as job}
     <li class="mb-1">

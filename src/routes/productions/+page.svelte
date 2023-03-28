@@ -1,12 +1,13 @@
 <script lang="ts">
 	export let data;
 	let {productions} = data
+  import Title from '$components/Title.svelte';
 </script>
 
 <svelte:head>
 	<title>Productions</title>
 </svelte:head>
-<h1 class="font-bold text-4xl py-4">Productions</h1>
+<Title>Productions</Title>
 <div class="sm:flex flex-wrap justify-between pt-6">
   {#each productions as production}
   <a href="/productions/{production.slug.current}">  

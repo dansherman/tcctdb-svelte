@@ -1,10 +1,12 @@
 <script>
+  import Title from '$components/Title.svelte';
   export let data;
   let { shows } = data;
 </script>
 <svelte:head>
   <title>Shows</title>
 </svelte:head>
+<Title>Shows</Title>
 <table class="min-w-full divide-y divide-slate-300">
   <thead class="bg-slate-50">
     <tr>

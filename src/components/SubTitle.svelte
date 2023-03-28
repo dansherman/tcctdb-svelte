@@ -1,1 +1,1 @@
-<p class="text-lg font-medium text-slate-500"><slot/></p>
+<h2 class="font-extralight text-3xl py-2"><slot/></h2>
