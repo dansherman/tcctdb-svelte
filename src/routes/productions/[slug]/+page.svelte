@@ -21,10 +21,12 @@
 <ul class="list">
   {#each cast as role}
     <li class="mb-1">
-      <span class="text-lg">{role.characterName}</span>
+      <div class="flex flex-wrap pt-2">
+        <div class="basis-full md:basis-1/3"><span class="text-lg font-semibold tracking-wide">{role.characterName}</span></div>
       {#each role.people as person}
-        <PersonChip {person} />
+        <div><PersonChip {person} /></div>
       {/each}
+      </div>
     </li>
   {/each}
 </ul>
@@ -33,10 +35,12 @@
 <ul class="list">
   {#each crew as job}
     <li class="mb-1">
-      <span class="text-lg">{job.jobName}</span>
+      <div class="flex flex-wrap pt-2">
+      <div class="basis-full md:basis-1/3"><span class="text-lg font-semibold tracking-wide">{job.jobName}</span></div>
       {#each job.people as person}
-        <PersonChip {person} />
+        <div><PersonChip {person} /></div>
       {/each}
+      </div>
     </li>
   {/each}
 </ul>

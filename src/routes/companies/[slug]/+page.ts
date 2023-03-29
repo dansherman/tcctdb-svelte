@@ -9,11 +9,23 @@ export async function load({ params }) {
 		...}
 `;
 	const productionQuery = `*[_type == 'production' && company->slug.current == $slug]{
-		'title':show->title,
-		poster, show->{title}, slug}`
+    slug,
+    show->{title},
+    poster,
+    company->{name},
+    'year':performanceDates[0].dateAndTime,
+  }`
 	const companies = await client.fetch(query, params={'slug':slug});
-	const productions = await client.fetch(productionQuery, params={'slug':slug});
+	let productions = await client.fetch(productionQuery, params={'slug':slug});
 	const company = companies[0];
+	productions = productions.map((p) => {
+    if (p.year != null) {
+      p.year = p.year.slice(0, 4);
+    } else {
+      p.year = "—";
+    }
+    return p;
+  });
 	if (company) {
     return { company, productions };
 	}

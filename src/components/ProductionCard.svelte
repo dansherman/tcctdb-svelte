@@ -2,27 +2,23 @@
   export let production
   import { urlFor } from "$lib/img-url";
 </script>
-<style>
-  svg {height:288}
-  h4 {font-size: 16pt; text-align: center;}
-  img {margin: 0 auto; max-width: 288;}
-  p {text-align: center;}
-  </style>
-  <article>
-      <a href="/productions/{production.slug.current}">
-    {#if production.poster}
-        <img src={urlFor(production.poster).height(288).auto('format').url()} alt="poster for {production.show}"/>
-    {:else}
-        <svg
-          fill="currentColor"
-          viewBox="0 0 24 24"
-        >
-          <path fill-rule="evenodd" d="M1.5 6a2.25 2.25 0 012.25-2.25h16.5A2.25 2.25 0 0122.5 6v12a2.25 2.25 0 01-2.25 2.25H3.75A2.25 2.25 0 011.5 18V6zM3 16.06V18c0 .414.336.75.75.75h16.5A.75.75 0 0021 18v-1.94l-2.69-2.689a1.5 1.5 0 00-2.12 0l-.88.879.97.97a.75.75 0 11-1.06 1.06l-5.16-5.159a1.5 1.5 0 00-2.12 0L3 16.061zm10.125-7.81a1.125 1.125 0 112.25 0 1.125 1.125 0 01-2.25 0z" clip-rule="evenodd" />
-        </svg>
-    {/if}
-
-    <h4 class="">{production.show}</h4>
-    <p>{production.company}</p>
-      <p>{production.year}</p>
-    </a>
-  </article>
+{#if production.poster}
+<a href="/productions/{production.slug.current}">  
+  <img class="object-scale-down border-indigo-500 bg-indigo-500 border-2 inset-2 shadow-md h-72 rounded-md mb-3.5" src={urlFor(production.poster).height(288).auto("format").url()} alt="poster for {production.show.title} by {production.company.name}"/>
+    
+</a>
+{:else}
+<a href="/productions/{production.slug.current}">  
+  <div class="mx-auto border-indigo-500 bg-indigo-200 rounded-md border-2 inset-2 h-72 w-48 mb-3.5 flex flex-col justify-between shadow-md">
+    <div class="mx-auto text-center px-4 pt-2">
+      <p class="text-lg font-extralight">{production.company.name}</p>
+    </div>
+    <div class="mx-auto text-center px-4">
+      <p class="text-xl font-semibold tracking-wide">{production.show.title}</p>
+    </div>
+    <div class="">
+      <p class="text-lg text-center">{production.year}</p>
+    </div>
+  </div>
+</a>
+{/if}

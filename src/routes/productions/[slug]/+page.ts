@@ -43,9 +43,11 @@ export async function load({params}) {
     let crew = await client.fetch(crewQuery, {id:production._id})
     for (let row of cast) {
       row.characterName = row.character.characterName
+      if (!row.people) {row.people = []}
     }
     for (let row of crew) {
       row.jobName = row.job.jobName
+      if (!row.people) {row.people = []}
     }
     if ( production.performanceDates ) {
       production.parsedPerformanceDates = production.performanceDates.map((pd) => {
