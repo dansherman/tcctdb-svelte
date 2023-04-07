@@ -12,7 +12,7 @@
 <h3 class="text-4xl font-medium pb-1">Database</h3>
 <p>A somewhat complete list of people involved in community theater in the metro area.</p>
 
-<div class="sm:flex flex-wrap justify-between pt-6">
+<div class="flex flex-wrap justify-between pt-6">
   {#each productions as production}
     <ProductionCard {production} />
   {/each}

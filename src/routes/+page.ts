@@ -1,7 +1,7 @@
 
 import client from "$lib/sanityClient";
 export async function load() {
-  const query = `*[_type == 'production']{
+  const query = `*[_type == 'production']|order(performanceDates[0].dateAndTime desc){
     slug,
     show->{title},
     poster,
