@@ -18,6 +18,7 @@ let {cast, crew, production} = data
     </li>
   {/each}
 </ul>
+...
 
 <Section>Production Team</Section>
 <ul class="list">
@@ -32,3 +33,4 @@ let {cast, crew, production} = data
     </li>
   {/each}
 </ul>
+...
