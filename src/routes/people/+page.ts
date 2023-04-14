@@ -5,6 +5,7 @@ export async function load({ params }) {
     slug,
     nameLast,
     nameFirst,
+    headshot,
     "roleCount": count(*[_type == 'role' && references(^._id)]),
     "jobCount": count(*[_type == 'assignment' && references(^._id)])
   }`;

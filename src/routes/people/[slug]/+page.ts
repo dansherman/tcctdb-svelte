@@ -11,6 +11,7 @@ export async function load({ params }) {
 		nameLast,
 		headshot,
 		biography,
+		"resumeUrl":resume.asset->url,
 		slug,
 		'assignments': *[ _type == 'assignment' && references(^._id)]|order(production.performanceDates[0].dateAndTime asc){
 			'jobName':job->jobName,

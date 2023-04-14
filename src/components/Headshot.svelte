@@ -24,9 +24,9 @@
         class="object-contain rounded-full w-full object-top"
       />
     {:else}
-      <span class="inline-block rounded-full overflow-hidden bg-emerald-100">
+      <span class="inline-block rounded-full overflow-hidden bg-amber-100">
         <svg
-          class="h-full w-full text-emerald-300"
+          class="h-full w-full text-amber-300"
           fill="currentColor"
           viewBox="0 0 24 24"
         >

@@ -10,15 +10,17 @@ export const load = (async ({ params }) => {
     description,
     poster,
     performanceDates[]{dateAndTime,venue->{name}},
+    productionPhotos,
     show->,
     company->{name,logo, slug},
-    slug
+    slug,
+    'year':performanceDates[0].dateAndTime,
   }`;
 
   const castQuery = `*[ _type == 'role' && references($id) && !(_id in path("drafts.**"))]|order(character->sortOrder asc){
     _id,
-    character->{sortOrder, characterName, allowMultiple},
-    characterPhoto,
+    character->{sortOrder, characterName, allowMultiple, roleSize},
+    characterPhotos,
     people[]->{
       _id,
       "name":nameFirst + " " + nameLast,
