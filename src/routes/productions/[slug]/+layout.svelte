@@ -11,7 +11,7 @@
     {url:production.slug.current,name:'Summary'},
     {url:`${production.slug.current}/cast`,name:'Cast'},
     {url:`${production.slug.current}/productionTeam`,name:'Production Team'},
-    {url:`${production.slug.current}/details`,name:'Details'},
+    {url:`${production.slug.current}/photos`,name:'Photos'},
   ]
   let activePage = "border-indigo-500 text-indigo-600"
   let defaultPage = "border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700"
