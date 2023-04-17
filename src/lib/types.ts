@@ -34,5 +34,12 @@ export interface Photo {
 	_id:string,
   id:number,
 	caption:string,
-	photo:{}
+	photo:{},
+  metadata:{
+    dimensions:{
+      height:number
+      width:number
+      aspectRatio:number
+    }
+  }
 }

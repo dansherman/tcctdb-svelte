@@ -10,7 +10,7 @@ export const load = (async ({ params }) => {
     description,
     poster,
     performanceDates[]{dateAndTime,venue->{name}},
-    productionPhotos[]{_id,caption,photo},
+    productionPhotos[]{_id,caption,photo,'metadata':photo.asset->metadata},
     show->,
     company->{name,logo, slug},
     slug,

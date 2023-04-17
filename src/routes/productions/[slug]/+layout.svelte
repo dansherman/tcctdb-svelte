@@ -1,15 +1,21 @@
 <script lang="ts">
   import Title from "$components/Title.svelte";
   import SubTitle from "$components/SubTitle.svelte";
-
+  import { SyncLoader } from 'svelte-loading-spinners';
   import { scale, fade, fly } from 'svelte/transition';
-import { urlFor } from "$lib/img-url.js";
+  import { urlFor } from "$lib/img-url.js";
   export let data;
   import { page } from "$app/stores";
   import {modalOpen, selectedImage} from "$lib/stores"
   let production = data.production
   let show = production.show;
-  
+  function preload(src:string) {
+  return new Promise(function(resolve) {
+    let img = new Image()
+    img.onload = resolve
+    img.src = src
+  })
+}
   $: path = $page.url.pathname;
   let pages = [
     {url:production.slug.current,name:'Summary'},
@@ -21,8 +27,21 @@ import { urlFor } from "$lib/img-url.js";
   let defaultPage = "border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700"
   let h:number
 let w:number
-$:height = Math.round(h*0.9)
-$:width = w
+let width:number
+let height:number
+$:src = (()=>{
+  let photoUrl = ""
+  if (true) {
+    height = Math.round(h*0.9)
+    width = $selectedImage.metadata.dimensions.aspectRatio * height
+    photoUrl = urlFor($selectedImage.photo)?.height(height).url() || ""
+  } else {
+    width = Math.round(w*0.9)
+    height = $selectedImage.metadata.dimensions.aspectRatio / width
+    photoUrl = urlFor($selectedImage.photo)?.width(width).url() || ""
+  }
+  return photoUrl
+})()
 </script>
 
 <svelte:head>
@@ -70,14 +89,23 @@ $:width = w
             </svg>
           </button>
         </div>
-        <div>
+        <div class="">
           {#if $selectedImage.photo}
-          <img height={height} src="{urlFor($selectedImage.photo)?.height(height).url()}" alt="{$selectedImage.caption}" />
+            {#await preload(src)}
+          <div class="w-96 h-96">
+            <div class="w-48 mx-auto">
+            <SyncLoader size="60" color="#FFFFFF" unit="px" duration="1s"/>
+            </div>
+          </div>
+          {:then _}
+          <img class="w-full object-contain min-h-0" height={height} width={width} src="{src}" alt="{$selectedImage.caption}" />
+{:catch error}
+	<p>An error occurred!</p>
+{/await}
           {:else}
           <div>No photo selected?</div>
           {/if}
         </div>
-
       </div>
     </div>
   </div>

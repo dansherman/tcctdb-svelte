@@ -2,7 +2,6 @@
   import { goto } from '$app/navigation';
   import type { Photo } from "$lib/types";
   import { urlFor } from "$lib/img-url.js";
-  import Masonry from "svelte-bricks";
   import { selectedImage, modalOpen } from "$lib/stores";
   export let data;
   let { production } = data;
@@ -15,9 +14,6 @@
     item.id = i;
     i++;
   }
-  let minColWidth = 192;
-  let maxColWidth = 256;
-  let gap = 4;
   $selectedImage = items[0];
   let h: number;
   let w: number;
