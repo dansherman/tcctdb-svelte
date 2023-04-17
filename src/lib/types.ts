@@ -29,3 +29,10 @@ export interface Character {
 export interface Production {
   _id: string
 }
+
+export interface Photo {
+	_id:string,
+  id:number,
+	caption:string,
+	photo:{}
+}
