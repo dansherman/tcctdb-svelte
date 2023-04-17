@@ -22,7 +22,6 @@
   let h: number;
   let w: number;
   const handlePhotoClick = (item) => {
-    console.log(item)
     $selectedImage = item;
     //if mobile then download/open otherwise modal
     if (w > 450) {
