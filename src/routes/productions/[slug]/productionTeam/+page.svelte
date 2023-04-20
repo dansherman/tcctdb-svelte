@@ -5,7 +5,6 @@ import PersonChip from "$components/PersonChip.svelte";
 import CrewPhoto from "$components/CrewPhoto.svelte";
 export let data
 let {cast, crew, production} = data
-console.log("Production Team")
   </script>
 
 
@@ -18,10 +17,10 @@ console.log("Production Team")
         <div class="col-span-3 md:col-span-4 flex flex-wrap justify-start gap-3">
           {#each assignment.crewMembers as crewMember}
         <div class="mx-auto md:mx-0 w-1/2 md:w-1/4 grid grid-cols-1 item">
-          <div class="w-24 h-full mx-auto">
+          <div class="w-48 m:w-60 h-full mx-auto">
             <CrewPhoto {crewMember} {assignment}/>
         </div>
-        <div class="text-center"><PersonChip person={crewMember.person} /></div>
+        <div class="w-48 m:w-60 text-center"><PersonChip person={crewMember.person} /></div>
         </div>
       {/each}
         </div>

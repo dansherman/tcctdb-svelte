@@ -14,7 +14,9 @@
     item.id = i;
     i++;
   }
+  if (items.length > 0) {
   $selectedImage = items[0];
+  }
   let h: number;
   let w: number;
   const handlePhotoClick = (item) => {

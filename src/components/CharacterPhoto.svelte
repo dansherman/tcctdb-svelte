@@ -7,7 +7,7 @@
 
 {#if castMember.characterPhotos}
   <img
-    src={urlFor(castMember.characterPhotos[0].photo).size(size, size).url()}
+    src={urlFor(castMember.characterPhotos[0].photo)?.size(size, size).url()}
     alt="{castMember.person.name} as {role.characterName}"
     class="object-cover rounded-xl w-full h-full object-top"
   />
