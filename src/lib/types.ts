@@ -13,9 +13,14 @@ export interface Slug {
 
 export interface Role {
   _id: string,
-  people: Array<Person>
+  castMembers: [
+    {person:Person,
+    characterPhotos:Array<Photo>,
+  name:string}
+  ]
   production: Production
   character: Character
+  characterName: string
 }
 
 export interface Character {
@@ -34,12 +39,21 @@ export interface Photo {
 	_id:string,
   id:number,
 	caption:string,
-	photo:{},
+  attribution:string,
+	photo:{
+		crop:{
+			bottom:number,
+			top:number,
+			right:number,
+			left:number
+		}
+	},
   metadata:{
     dimensions:{
       height:number
       width:number
       aspectRatio:number
     }
-  }
+  },
+  roles:Array<Role>
 }

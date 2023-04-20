@@ -1,24 +1,22 @@
 <script lang="ts">
-  export let role
-  export let i:number
-  // export let width:string = "128";
-  // export let height:string = "128";
+  export let castMember;
+  export let role;
+  export let size: number = 256;
   import { urlFor } from "$lib/img-url.js";
-
 </script>
 
-{#if role.characterPhotos}
+{#if castMember.characterPhotos}
   <img
-    src={urlFor(role.characterPhotos.slice(i)[0]).url()}
-    alt="{role.people[i].name} as {role.characterName}"
+    src={urlFor(castMember.characterPhotos[0].photo).size(size, size).url()}
+    alt="{castMember.person.name} as {role.characterName}"
     class="object-cover rounded-xl w-full h-full object-top"
   />
-{:else if role.people[i].headshot}
-<img
-src={urlFor(role.people[i].headshot).url()}
-alt="{role.people[i].name} as {role.characterName}"
-class="object-cover rounded-xl w-full h-full object-top"
-/>
+{:else if castMember.person.headshot}
+  <img
+    src={urlFor(castMember.person.headshot).size(size, size).url()}
+    alt="{castMember.person.name} as {role.characterName}"
+    class="object-cover rounded-xl w-full h-full object-top"
+  />
 {:else}
   <span class="inline-block rounded-xl overflow-hidden bg-sky-100">
     <svg

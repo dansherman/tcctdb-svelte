@@ -11,6 +11,8 @@
 <Title>{company.name}</Title>
 <ul class="list">
   {#each productions as production}
-    <li><ProductionCard {production} /></li>
+    <li class="mx-auto max-w-xs">
+      <ProductionCard {production} />
+    </li>
     {/each}
 </ul>

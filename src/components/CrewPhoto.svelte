@@ -1,22 +1,21 @@
 <script lang="ts">
-  export let job
-  export let i:number
-  // export let width:string = "128";
-  // export let height:string = "128";
+  export let crewMember
+  export let assignment
+  export let size = 94
   import { urlFor } from "$lib/img-url.js";
 
 </script>
 
-{#if job.assignmentPhotos}
+{#if crewMember.assignmentPhotos}
   <img
-    src={urlFor(job.assignmentPhotos[i]).url()}
-    alt="{job.people[i].name} as {job.jobName}"
+    src={urlFor(crewMember.assignmentPhotos[0]).size(size, size).url()}
+    alt="{crewMember.person.name} as {assignment.jobName}"
     class="object-cover rounded-xl w-full h-full object-top"
   />
-{:else if job.people[i].headshot}
+{:else if crewMember.person.headshot}
 <img
-src={urlFor(job.people[i].headshot).url()}
-alt="{job.people[i].name} as {job.jobName}"
+src={urlFor(crewMember.person.headshot).size(size, size).url()}
+alt="{crewMember.person.name} as {assignment.jobName}"
 class="object-cover rounded-xl w-full h-full object-top"
 />
 {:else}

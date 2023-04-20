@@ -10,44 +10,47 @@ export const load = (async ({ params }) => {
     description,
     poster,
     performanceDates[]{dateAndTime,venue->{name}},
-    productionPhotos[]{_id,caption,photo,'metadata':photo.asset->metadata},
+    productionPhotos[]{_id,caption,photo,'metadata':photo.asset->metadata,"attribution":attribution->name,roles[]->{"characterName":character->characterName, castMembers[]{"name":person->nameFirst + " " + person->nameLast}}},
     show->,
     company->{name,logo, slug},
     slug,
     'year':performanceDates[0].dateAndTime,
   }`;
 
-  const castQuery = `*[ _type == 'role' && references($id) && !(_id in path("drafts.**"))]|order(character->sortOrder asc){
+  const castQuery = `*[ _type == 'role' && references($id) && !(_id in path("drafts.**"))]|order(character->orderRank asc){
     _id,
-    character->{sortOrder, characterName, allowMultiple, roleSize},
-    characterPhotos,
-    people[]->{
-      _id,
-      "name":nameFirst + " " + nameLast,
-      nameLast,
+    character->{characterName, allowMultiple, roleSize},
+    "castMembers":castMembers[]{person->{
+      nameLast, 
       nameFirst,
+      _id,                       
+      "name":nameFirst + " " + nameLast,
       headshot,
       slug
-    }
-  }`;
+      }, 
+      characterPhotos}
+}`;
   const crewQuery = `*[ _type == 'assignment' && references($id) && !(_id in path("drafts.**"))]|order(job->sortOrder asc){
     _id,
     job->{sortOrder, jobName, allowMultiple},
-    people[]->{
-      _id,
-      "name":nameFirst + " " + nameLast,
-      nameLast,
+    "crewMembers":crewMembers[]{person->{
+      nameLast, 
       nameFirst,
+      _id,                       
+      "name":nameFirst + " " + nameLast,
       headshot,
-      slug}
+      slug
+      }, 
+      characterPhotos}
     }`;
   let production = await client.fetch(productionQuery, { slug: slug });
   let cast = await client.fetch(castQuery, { id: production._id });
   let crew = await client.fetch(crewQuery, { id: production._id });
-  for (let row of cast) {
-    row.characterName = row.character.characterName;
-    if (!row.people) {
-      row.people = [];
+
+  for (let role of cast) {
+    role.characterName = role.character.characterName;
+    if (!role.castMembers) {
+      role.castMembers = [];
     }
   }
   for (let row of crew) {
