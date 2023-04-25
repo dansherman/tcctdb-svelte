@@ -8,6 +8,7 @@
   let featuredCast = cast.filter((x) => {
     return x.character.roleSize == "lead";
   });
+  console.log({featuredCast})
 </script>
 
 <div class="my-4 max-w-xs md:max-w-full mx-auto">
@@ -49,9 +50,11 @@
             >{role.characterName}</span
           >
         </div>
-        {#each role.castMembers as castMember}
-          <div><PersonChip person={castMember.person} /></div>
-        {/each}
+        {#if role.castMembers}
+          {#each role.castMembers as castMember}
+            <div><PersonChip person={castMember.person} /></div>
+          {/each}
+        {/if}
       </div>
     </li>
   {/each}

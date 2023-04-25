@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { goto } from '$app/navigation';
+  import { goto } from "$app/navigation";
   import type { Photo } from "$lib/types";
   import { urlFor } from "$lib/img-url.js";
   import { selectedImage, modalOpen } from "$lib/stores";
@@ -15,7 +15,7 @@
     i++;
   }
   if (items.length > 0) {
-  $selectedImage = items[0];
+    $selectedImage = items[0];
   }
   let h: number;
   let w: number;
@@ -25,7 +25,7 @@
     if (w > 450) {
       $modalOpen = true;
     } else {
-      goto(urlFor(item.photo).url())
+      goto(urlFor(item.photo).url());
     }
   };
 </script>
