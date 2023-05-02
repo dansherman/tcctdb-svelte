@@ -5,7 +5,6 @@
   import Title from "$components/Title.svelte";
   import Section from "$components/Section.svelte";
   import Headshot from "$components/Headshot.svelte";
-  console.log(person.resumeUrl)
 </script>
 
 <svelte:head>
@@ -31,28 +30,36 @@
 </a>
 </div>
 {/if}
-{#if person.roles?.length > 0}
-  <div class="mt-4 text-lg text-slate-800">
-    <Section>Cast</Section>
-    <ul class="list">
-      {#each person.roles as role}
-        <li class="mb-1">
-          <ProductionChip production={role.production} />
-          <span class="text-lg ml-2">{role.characterName}</span>
-        </li>
-      {/each}
+{#if Object.keys(person.castProductions).length > 0}
+<div class="mt-4 text-lg text-slate-800">
+  <Section>Cast</Section>
+<ul>
+  {#each Object.values(person.castProductions) as production}
+  <li class="mt-4"><ProductionChip production={production.production} />
+    <ul>
+  {#each production.roles as role}
+    <li class="font-normal">{role.characterName}</li>
+  {/each}
     </ul>
-  </div>
+  </li>
+
+  {/each}
+</ul>
+</div>
 {/if}
-{#if person.assignments?.length > 0}
+{#if Object.keys(person.crewProductions).length > 0}
   <div class="mt-4 text-lg text-slate-800">
     <Section>Crew</Section>
-    <ul class="list">
-      {#each person.assignments as job}
-        <li class="mb-1">
-          <ProductionChip production={job.production} />
-          <span class="text-lg ml-2">{job.jobName}</span>
-        </li>
+    <ul>
+      {#each Object.values(person.crewProductions) as production}
+      <li class="mt-4"><ProductionChip production={production.production} />
+        <ul>
+      {#each production.assignments as assignment}
+        <li class="font-normal">{assignment.jobName}</li>
+      {/each}
+        </ul>
+      </li>
+    
       {/each}
     </ul>
   </div>

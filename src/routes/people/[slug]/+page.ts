@@ -1,10 +1,9 @@
-
 export const prerender = false;
-import client from '$lib/sanityClient.js';
-
+import client from "$lib/sanityClient.js";
+import type { Role, Person } from "$lib/types.js";
 export async function load({ params }) {
-	const { slug } = params;
-	const query = `
+  const { slug } = params;
+  const query = `
 	*[_type == 'person' && slug.current == $slug]{
 		nameFirst,
 		"name": nameFirst + " " + nameLast,
@@ -38,12 +37,32 @@ export async function load({ params }) {
 			}
 	}
 `;
-	const people = await client.fetch(query, params={'slug':slug});
-	const person = people[0];
-	if (person) {
+  const people = await client.fetch(query, (params = { slug: slug }));
+  const person: Person = people[0];
+
+  if (person) {
+    let productions = {};
+    for (let role of person.roles) {
+      if (!Object.keys(productions).includes(role.production.slug.current)) {
+        productions[role.production.slug.current] = {
+          production: role.production,
+          roles: [],
+        };
+      }
+			productions[role.production.slug.current].roles.push(role);
+    }
+		person.castProductions = productions;
+		productions = {}
+		for (let assignment of person.assignments) {
+      if (!Object.keys(productions).includes(assignment.production.slug.current)) {
+        productions[assignment.production.slug.current] = {
+          production: assignment.production,
+          assignments: [],
+        };
+      }
+			productions[assignment.production.slug.current].assignments.push(assignment);
+    }
+		person.crewProductions = productions
     return { person };
-	}
-
+  }
 }
-
-

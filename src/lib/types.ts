@@ -5,6 +5,12 @@ export interface Person {
   nameLast: string,
   slug: Slug
   vocalRange?: string
+  roles?: [Role]
+  assignments?: []
+  castProductions?: {}
+  crewProductions?: {}
+  biography?: string,
+  resumeUrl?: string
 }
 
 export interface Slug {
@@ -33,6 +39,7 @@ export interface Character {
 
 export interface Production {
   _id: string
+  slug: Slug
 }
 
 export interface Photo {
