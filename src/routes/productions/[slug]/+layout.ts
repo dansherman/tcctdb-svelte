@@ -30,7 +30,7 @@ export const load = (async ({ params }) => {
       }, 
       characterPhotos}
 }`;
-  const crewQuery = `*[ _type == 'assignment' && references($id) && !(_id in path("drafts.**"))]|order(job->sortOrder asc){
+  const crewQuery = `*[ _type == 'assignment' && references($id) && !(_id in path("drafts.**"))]|order(job->orderRank asc){
     _id,
     job->{sortOrder, jobName, allowMultiple},
     "crewMembers":crewMembers[]{person->{

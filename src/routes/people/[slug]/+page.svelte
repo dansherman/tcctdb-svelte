@@ -49,7 +49,7 @@
 {/if}
 {#if Object.keys(person.crewProductions).length > 0}
   <div class="mt-4 text-lg text-slate-800">
-    <Section>Crew</Section>
+    <Section>Production Team</Section>
     <ul>
       {#each Object.values(person.crewProductions) as production}
       <li class="mt-4"><ProductionChip production={production.production} />

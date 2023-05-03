@@ -1,9 +1,8 @@
 <script lang="ts">
   export let crewMember
   export let assignment
-  export let size = 94
+  export let size = 256
   import { urlFor } from "$lib/img-url.js";
-
 </script>
 
 {#if crewMember.assignmentPhotos}
