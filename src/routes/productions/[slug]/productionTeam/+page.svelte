@@ -2,8 +2,10 @@
   import Section from "$components/Section.svelte";
   import PersonChip from "$components/PersonChip.svelte";
   import CrewPhoto from "$components/CrewPhoto.svelte";
+  import PictureZoom from "$components/PictureZoom.svelte";
   export let data;
   let { cast, crew, production } = data;
+  console.log(crew)
 </script>
 
 <ul class="list divide-y">
@@ -22,7 +24,7 @@
         {#each assignment.crewMembers as crewMember}
           <div class="mx-auto md:mx-0 w-full md:w-1/3 grid grid-cols-1 item">
             <div class="w-48 m:w-60 h-full mx-auto">
-              <CrewPhoto {crewMember} {assignment} />
+                <CrewPhoto {crewMember} {assignment} />
             </div>
             <div class="w-48 m:w-60 text-center">
               <PersonChip person={crewMember.person} />

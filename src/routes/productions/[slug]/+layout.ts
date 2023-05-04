@@ -26,6 +26,10 @@ export const load = (async ({ params }) => {
       _id,                       
       "name":nameFirst + " " + nameLast,
       headshot,
+
+      "photo":{
+        _id,caption,"photo":headshot,'metadata':headshot.asset->metadata,"attribution":attribution->name
+      },
       slug
       }, 
       characterPhotos}
@@ -39,6 +43,9 @@ export const load = (async ({ params }) => {
       _id,                       
       "name":nameFirst + " " + nameLast,
       headshot,
+      "photo":{
+        _id,caption,"photo":headshot,'metadata':headshot.asset->metadata,"attribution":attribution->name
+      },
       slug
       }, 
       characterPhotos}
