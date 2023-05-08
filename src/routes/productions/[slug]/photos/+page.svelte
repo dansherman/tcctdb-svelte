@@ -3,9 +3,11 @@
   import type { Photo } from "$lib/types";
   import { urlFor } from "$lib/img-url.js";
   import { selectedImage, modalOpen } from "$lib/stores";
+  import PictureBox from "$components/PictureBox.svelte";
   export let data;
-  let { production } = data;
-  let items: Array<Photo> = production.productionPhotos;
+  let production = data.production;
+  console.log({production})
+  $:items = production.productionPhotos;
   if (items == null) {
     items = [];
   }
@@ -47,3 +49,4 @@
     <div class="">No photos found... ☹️</div>
   {/each}
 </div>
+<PictureBox {h}/>

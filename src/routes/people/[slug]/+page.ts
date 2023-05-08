@@ -34,7 +34,12 @@ export async function load({ params }) {
 				'company':company->name,
 				poster,
 				slug}
-			}
+			},
+			'productionPhotos':*[_type == 'production' && references(*[_type=="role" && references(^.^._id)]._id)]
+			{
+				slug,
+	'photos':productionPhotos[references(*[_type=="role" && references(^.^.^._id)]._id)]{_id,caption,photo,'metadata':photo.asset->metadata,"attribution":attribution->name,roles[]->{"characterName":character->characterName, castMembers[]{"name":person->nameFirst + " " + person->nameLast, "slug":person->slug}}}
+}
 	}
 `;
   const people = await client.fetch(query, (params = { slug: slug }));

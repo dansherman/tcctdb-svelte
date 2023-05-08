@@ -1,11 +1,13 @@
 <script lang='ts'>
 	import "../app.css"
-  import { fade } from "svelte/transition"
   import { navigationIsDelayed } from "$lib/stores.js";
   import { SpinLine } from "svelte-loading-spinners"
+
+  import { fade} from "svelte/transition";
+
+
+
 </script>
-
-
 
 <div class="text-xl font-light tracking-wider mx-auto max-w-md sm:max-w-4xl px-4 sm:px-6 lg:px-8 py-4">
   <a href="/">TCCTDB</a>
@@ -22,6 +24,8 @@
   
   <slot/>
 </div>
+
+
 <footer class="sm:fixed sm:bottom-0 bg-indigo-700 w-full text-white">
   <div class="py-1 mx-auto w-52 sm:w-full text-center text-xs font-light sm:text-md">
     Provided by <a class="font-medium" href="https://4communitytheatre.org">4 Community Theatre</a> with content hosting by <a class="font-medium" href="https://sanity.io">Sanity.io</a>.

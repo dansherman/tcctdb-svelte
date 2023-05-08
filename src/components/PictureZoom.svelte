@@ -1,9 +1,9 @@
 <script lang="ts">
   import { goto } from "$app/navigation";
-  import type { Photo } from "$lib/types";
   export let item
   import { urlFor } from "$lib/img-url.js";
   import { selectedImage, modalOpen } from "$lib/stores";
+
   let h: number;
   let w: number;
   const handlePhotoClick = (item) => {
@@ -16,6 +16,7 @@
     }
   };
 </script>
+<svelte:window bind:innerHeight={h} bind:innerWidth={w} />
 <button
       on:click={() => {
         handlePhotoClick(item);
