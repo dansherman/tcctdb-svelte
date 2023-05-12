@@ -1,7 +1,7 @@
 <script lang="ts">
   export let person;
-  export let width:string = "800";
-  export let height:string = "800";
+  export let width:number = 800;
+  export let height:number = 800;
   export let photo = person.headshot;
   export let link = true;
   import { urlFor } from "$lib/img-url.js";
@@ -19,7 +19,7 @@
   <a class="font-semibold text-black" {href}>
     {#if photo}
       <img
-        src={urlFor(photo).width(parseInt(width)).height(parseInt(height)).url()}
+        src={urlFor(photo).width(width).height(height).url()}
         alt={person.name}
         class="object-contain rounded-full w-full object-top"
       />
@@ -39,7 +39,7 @@
   </a>
 {:else if person && photo}
   <img
-    src={urlFor(photo).width(parseInt(width)).height(parseInt(height)).url()}
+    src={urlFor(photo).width(width).height(height).url()}
     alt={person.name}
     class="object-contain rounded-full w-full h-full object-top"
   />
