@@ -50,7 +50,7 @@
           >
         </div>
         {#if role.castMembers}
-          {#each role.castMembers as castMember}
+        {#each role.castMembers as castMember}
             <div><PersonChip person={castMember.person} /></div>
           {/each}
         {/if}
@@ -65,15 +65,19 @@
 </div>
 <Section>Production Team</Section>
 <ul class="list">
+
   {#each crew.slice(0, 5) as assignment}
     <li class="mb-1">
       <div class="flex flex-wrap pt-2">
         <div class="basis-full md:basis-1/3">
           <span class="text-lg font-semibold tracking-wide">{assignment.job.jobName}</span>
         </div>
+        {@debug assignment}
+        {#if assignment.crewMembers}
         {#each assignment.crewMembers as crewMember}
           <div><PersonChip person={crewMember.person}/></div>
         {/each}
+        {/if}
       </div>
     </li>
   {/each}

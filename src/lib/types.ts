@@ -6,11 +6,18 @@ export interface Person {
   slug: Slug
   vocalRange?: string
   roles?: [Role]
-  assignments?: []
-  castProductions?: {}
-  crewProductions?: {}
+  assignments?: [Assignment]
+  castProductions?: {[slug: string]:{
+    production:Production,
+    roles:[Role]}
+  }
+  crewProductions?: {[slug: string]:{
+    production:Production,
+    assignments:[Assignment]}
+  }
   biography?: string,
-  resumeUrl?: string
+  resumeUrl?: string,
+  productionPhotos?: [Production]
 }
 
 export interface Slug {
@@ -28,7 +35,22 @@ export interface Role {
   character: Character
   characterName: string
 }
-
+export interface Assignment {
+  _id: string,
+  crewMembers: [
+    {
+      person:Person,
+      assignmentPhotos:Array<Photo>,
+    name:string}
+  ]
+  production: Production
+  job: Job
+  jobName: string
+}
+export interface Job {
+  _id: string,
+  jobName: string
+}
 export interface Character {
   _id: string
   allowMultiple: boolean
@@ -40,6 +62,7 @@ export interface Character {
 export interface Production {
   _id: string
   slug: Slug
+  photos: [Photo]
 }
 
 export interface Photo {
