@@ -2,7 +2,9 @@
   import PersonChip from "$components/PersonChip.svelte";
   import CharacterPhoto from "$components/CharacterPhoto.svelte";
   export let data;
-  let { cast } = data;
+
+  let { production } = data;
+  let { cast } = production
 </script>
 
 <ul class="list divide-y">
@@ -14,20 +16,20 @@
         class=" pb-2 md:ml-0 col-span-3 md:col-span-2 text-center md:text-left"
       >
         <span class="text-lg font-semibold tracking-wide"
-          >{role.characterName}</span
+          >{role.character.character_name}</span
         >
       </div>
       <div
         class="md:ml-0 col-span-3 md:col-span-4 flex flex-wrap justify-between gap-3"
       >
-        {#each role.castMembers as castMember}
+      {#each role.people as person}
           <div class="mx-auto md:mx-0 w-full md:w-1/3 grid grid-cols-1 item">
             <div class="w-48 m:w-60 h-full mx-auto">
-              <CharacterPhoto {castMember} {role} size={256} />
+              <CharacterPhoto {role} {person} size={256} />
             </div>
-            <div class="w-48 m:w-60 text-center mx-auto">
-              <PersonChip person={castMember.person} />
-            </div>
+            {#if person}<div class="w-48 m:w-60 text-center mx-auto">
+              <PersonChip {person} />
+            </div>{/if}
           </div>
         {/each}
       </div>

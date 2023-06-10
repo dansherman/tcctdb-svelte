@@ -18,7 +18,7 @@
   <title>{person.name}</title>
 </svelte:head>
 
-<Title>{person.name}</Title>
+<Title>{person.name_first} {person.name_last}</Title>
 <div class="w-96 mt-6">
 <Headshot {person}/>
 </div>
@@ -28,7 +28,7 @@
     {person.biography}
   </div>
 {/if}
-{#if person.resumeUrl}
+{#if person.resume_url}
 <div class="text-lg text-blue-800">
 <a href="{person.resumeUrl}?dl=">Download Resume <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5 inline">
   <path d="M10.75 2.75a.75.75 0 00-1.5 0v8.614L6.295 8.235a.75.75 0 10-1.09 1.03l4.25 4.5a.75.75 0 001.09 0l4.25-4.5a.75.75 0 00-1.09-1.03l-2.955 3.129V2.75z" />
@@ -37,16 +37,17 @@
 </a>
 </div>
 {/if}
-{#if Object.keys(person.castProductions).length > 0}
+{#if person.cast.length > 0}
 <div class="mt-4 text-lg text-slate-800">
   <Section>Cast</Section>
 <ul>
-  {#each Object.values(person.castProductions) as production}
+  {#each person.cast as production}
+  {@debug production}
   <li class="mt-4"><ProductionChip production={production.production} />
     <ul>
-  {#each production.roles as role}
-    <li class="font-normal">{role.characterName}</li>
-  {/each}
+ 
+    <li class="font-normal">{production.character.character_name}</li>
+
     </ul>
   </li>
 
@@ -54,16 +55,14 @@
 </ul>
 </div>
 {/if}
-{#if Object.keys(person.crewProductions).length > 0}
+{#if person.crew.length > 0}
   <div class="mt-4 text-lg text-slate-800">
     <Section>Production Team</Section>
     <ul>
-      {#each Object.values(person.crewProductions) as production}
+      {#each person.crew as production}
       <li class="mt-4"><ProductionChip production={production.production} />
         <ul>
-      {#each production.assignments as assignment}
-        <li class="font-normal">{assignment.jobName}</li>
-      {/each}
+        <li class="font-normal">{production.job.job_name}</li>
         </ul>
       </li>
     
@@ -71,19 +70,5 @@
     </ul>
   </div>
 {/if}
-{#if Object.keys(person.productionPhotos).length > 0}
-<Section>Production Photos</Section>
-<div class="grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-3 gap-1">
-  {#each Object.values(person.productionPhotos) as production}
-      {#each production.photos as photo}
-    
-      <PictureZoom item={photo}><img
-        class="mx-auto w-96"
-        src={urlFor(photo.photo)?.width(384).url()}
-        alt={photo.caption}
-      /></PictureZoom>
-    {/each}
-    {/each}
-</div>
-{/if}
+
 <PictureBox {h}/>

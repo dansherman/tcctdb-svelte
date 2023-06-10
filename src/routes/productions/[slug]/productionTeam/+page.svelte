@@ -4,8 +4,9 @@
   import CrewPhoto from "$components/CrewPhoto.svelte";
   import PictureZoom from "$components/PictureZoom.svelte";
   export let data;
-  let { cast, crew, production } = data;
-  console.log(crew)
+  let { production } = data;
+  let crew = production.crew
+
 </script>
 
 <ul class="list divide-y">
@@ -15,22 +16,22 @@
     >
       <div class=" pb-2 col-span-3 md:col-span-2 text-center md:text-left">
         <span class="text-lg font-semibold tracking-wide"
-          >{assignment.jobName}</span
+          >{assignment.job.job_name}</span
         >
       </div>
       <div
         class="col-span-3 md:col-span-4 flex flex-wrap justify-between gap-3"
       >
-        {#each assignment.crewMembers as crewMember}
+      {#each assignment.people as person}
           <div class="mx-auto md:mx-0 w-full md:w-1/3 grid grid-cols-1 item">
             <div class="w-48 m:w-60 h-full mx-auto">
-                <CrewPhoto {crewMember} {assignment} />
+                <CrewPhoto {person} {assignment}/>
             </div>
             <div class="w-48 m:w-60 text-center">
-              <PersonChip person={crewMember.person} />
+              <PersonChip {person} />
             </div>
           </div>
-        {/each}
+          {/each}
       </div>
     </li>
   {/each}

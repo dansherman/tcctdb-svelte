@@ -4,11 +4,11 @@
   export let height:number = 800;
   export let photo = person.headshot;
   export let link = true;
-  import { urlFor } from "$lib/img-url.js";
+  import { getImageUrl } from "$lib/getImageUrl";
   let href = "";
   try {
     if (link == true) {
-      href = `/people/${person.slug.current}`;
+      href = `/people/${person.slug}`;
     }
   } catch {
     href = "";
@@ -18,11 +18,14 @@
 {#if href != "" && person}
   <a class="font-semibold text-black" {href}>
     {#if photo}
-      <img
-        src={urlFor(photo).width(width).height(height).url()}
-        alt={person.name}
-        class="object-contain rounded-full w-full object-top"
-      />
+    {#await getImageUrl(photo) then url}
+          <img
+            src={url}
+            class="w-48 h-48"
+            alt="{person.name_first} {person.name_last}"
+          />
+        {/await}  
+
     {:else}
       <span class="inline-block rounded-full overflow-hidden bg-amber-100">
         <svg
@@ -39,7 +42,7 @@
   </a>
 {:else if person && photo}
   <img
-    src={urlFor(photo).width(width).height(height).url()}
+    src={getImageUrl(person.headshot)}
     alt={person.name}
     class="object-contain rounded-full w-full h-full object-top"
   />

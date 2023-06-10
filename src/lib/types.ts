@@ -18,6 +18,7 @@ export interface Person {
   biography?: string,
   resumeUrl?: string,
   productionPhotos?: [Production]
+  character_photo?: string,
 }
 
 export interface Slug {
@@ -34,6 +35,7 @@ export interface Role {
   production: Production
   character: Character
   characterName: string
+  character_photo:string
 }
 export interface Assignment {
   _id: string,

@@ -8,26 +8,25 @@
 
   $: path = $page.url.pathname;
   let pages = [
-    { url: production.slug.current, name: "Summary" },
-    { url: `${production.slug.current}/cast`, name: "Cast" },
+    { url: production.slug, name: "Summary" },
+    { url: `${production.slug}/cast`, name: "Cast" },
     {
-      url: `${production.slug.current}/productionTeam`,
+      url: `${production.slug}/productionTeam`,
       name: "Production Team",
     },
-    { url: `${production.slug.current}/photos`, name: "Photos" },
+    { url: `${production.slug}/photos`, name: "Photos" },
   ];
   let activePage = "border-indigo-500 text-indigo-600";
   let defaultPage =
     "border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700";
-  
 </script>
 
 <svelte:head>
-  <title>{show.title}</title>
+  <title>{production.show.title}</title>
 </svelte:head>
-<Title>{show.title}</Title>
+<Title>{production.show.title}</Title>
 <SubTitle>
-  <a href="/companies/{production.company.slug.current}"
+  <a href="/companies/{production.company.slug}"
     >{production.company.name}</a
   >
 </SubTitle>
