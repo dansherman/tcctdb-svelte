@@ -1,15 +1,7 @@
-export const prerender = false;
-import client from "$lib/sanityClient";
-export async function load({ params }) {
-  const query = `*[_type == 'person' && isLocal]|order(nameFirst asc)|order(nameLast asc){
-    slug,
-    nameLast,
-    nameFirst,
-    headshot,
-    "roleCount": count(*[_type == 'role' && references(^._id)]),
-    "jobCount": count(*[_type == 'assignment' && references(^._id)])
-  }`;
-  let people = await client.fetch(query);
-
-  return { people };
+import { supabase } from "$lib/supabase";
+export const load = async () => {
+  const { data: people } = await supabase
+    .from('people')
+    .select(`*,role_count:cast(count),job_count:crew(count)`)
+  return { people }
 }

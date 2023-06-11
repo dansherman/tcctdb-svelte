@@ -28,7 +28,7 @@
 
 <footer class="sm:fixed sm:bottom-0 bg-indigo-700 w-full text-white">
   <div class="py-1 mx-auto w-52 sm:w-full text-center text-xs font-light sm:text-md">
-    Provided by <a class="font-medium" href="https://4communitytheatre.org">4 Community Theatre</a> with content hosting by <a class="font-medium" href="https://sanity.io">Sanity.io</a>.
+    A project of <a class="font-medium" href="https://4communitytheatre.org">4 Community Theatre</a>
   </div>
 </footer>
 

@@ -1,81 +1,39 @@
-import client from "$lib/sanityClient.js";
-
 import dayjs from "dayjs";
-import type { LayoutLoad } from "./$types";
 
-export const load = (async ({ params }) => {
+import { supabase } from "$lib/supabase";
+export const load = async ({ params }) => {
   const { slug } = params;
-  const productionQuery = `*[_type == 'production' && slug.current == $slug][0]{ 
-    _id,
-    description,
-    poster,
-    performanceDates[]{dateAndTime,venue->{name}},
-    productionPhotos[]{_id,caption,photo,'metadata':photo.asset->metadata,"attribution":attribution->name,roles[]->{"characterName":character->characterName, castMembers[]{"name":person->nameFirst + " " + person->nameLast, "slug":person->slug}}},
-    show->,
-    company->{name,logo, slug},
-    slug,
-    'year':performanceDates[0].dateAndTime,
-  }`;
+  const { data: production } = await supabase
+    .from('productions')
+    .select(`*,show(*),company(*),cast(character_photo,character(*),person(*)),crew(person(*),job(*))`)
+    .eq('slug',slug)
+    .single()
 
-  const castQuery = `*[ _type == 'role' && references($id) && !(_id in path("drafts.**"))]|order(character->orderRank asc){
-    _id,
-    character->{characterName, allowMultiple, roleSize},
-    "castMembers":castMembers[]{person->{
-      nameLast, 
-      nameFirst,
-      _id,                       
-      "name":nameFirst + " " + nameLast,
-      headshot,
 
-      "photo":{
-        _id,caption,"photo":headshot,'metadata':headshot.asset->metadata,"attribution":attribution->name
-      },
-      slug
-      }, 
-      characterPhotos}
-}`;
-  const crewQuery = `*[ _type == 'assignment' && references($id) && !(_id in path("drafts.**"))]|order(job->orderRank asc){
-    _id,
-    job->{sortOrder, jobName, allowMultiple},
-    "crewMembers":crewMembers[]{person->{
-      nameLast, 
-      nameFirst,
-      _id,                       
-      "name":nameFirst + " " + nameLast,
-      headshot,
-      "photo":{
-        _id,caption,"photo":headshot,'metadata':headshot.asset->metadata,"attribution":attribution->name
-      },
-      slug
-      }, 
-      characterPhotos}
-    }`;
-  let production = await client.fetch(productionQuery, { slug: slug });
-  let cast = await client.fetch(castQuery, { id: production._id });
-  let crew = await client.fetch(crewQuery, { id: production._id });
 
-  for (let role of cast) {
-    role.characterName = role.character.characterName;
-    if (!role.castMembers) {
-      role.castMembers = [];
+  let groupedCrew = {}
+  for (let assignment of production.crew) {
+    if (!(assignment.job.id in groupedCrew)) {
+      groupedCrew[assignment.job.id] = {job:assignment.job, people:[]}
     }
+    assignment.person['crew_photo'] = assignment?.crew_photo
+    groupedCrew[assignment.job.id].people.push(assignment.person)
+    
   }
-  for (let row of crew) {
-    row.jobName = row.job.jobName;
-    if (!row.people) {
-      row.people = [];
+  let sortedCrew = Object.values(groupedCrew).sort((a,b)=>{return (a.job.sort_order > b.job.sort_order)})
+  let groupedCast = {}
+  for (let role of production.cast) {
+    if (!(role.character.id in groupedCast)) {
+      groupedCast[role.character.id] = {character:role.character, people:[]}
     }
+    if (role.person) {
+      role.person.character_photo = role.character_photo
+      groupedCast[role.character.id].people.push(role.person)
+    }
+  
   }
-  if (production.performanceDates) {
-    production.parsedPerformanceDates = production.performanceDates.map(
-      (pd) => {
-        let d = new Date(pd.dateAndTime);
-        return {
-          dateAndTime: dayjs(d).format("MMM D, YYYY h:mma"),
-          venue: pd.venue,
-        };
-      }
-    );
-  }
-  return { production, cast, crew };
-}) satisfies LayoutLoad;
+  let sortedCast = Object.values(groupedCast).sort((a,b)=>{return (a.character.sort_order > b.character.sort_order)})
+  production.cast = sortedCast
+  production.crew = sortedCrew
+  return { production }
+}

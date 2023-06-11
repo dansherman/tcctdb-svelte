@@ -41,16 +41,16 @@
             </div>
             <div class="ml-4">
               <div class="font-base text-xl text-slate-900">
-                {person.nameLast}, {person.nameFirst}
+                {person.name_last}, {person.name_first}
               </div>
             </div>
           </div>
         </td>
         <td class="whitespace-nowrap px-3 py-4 text-sm text-slate-500">
-          {person.roleCount}
+          {person.role_count[0].count}
         </td>
         <td class="whitespace-nowrap px-3 py-4 text-sm text-slate-500">
-          {person.jobCount}
+          {person.job_count[0].count}
         </td>
         
       </tr>

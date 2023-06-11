@@ -4,9 +4,9 @@
   import { urlFor } from "$lib/img-url.js";
 
   export let data;
-  let { cast, crew, production } = data;
-  let featuredCast = cast.filter((x) => {
-    return x.character.roleSize == "lead";
+  let { production } = data;
+  let featuredCast = production.cast.filter((x) => {
+    return x.character.role_size == "lead";
   });
 </script>
 
@@ -34,7 +34,7 @@
         <p class="text-2xl font-bold tracking-wide">{production.show.title}</p>
       </div>
       <div class="">
-        <p class="text-lg text-center">{production.year.slice(0, 4)}</p>
+        <p class="text-lg text-center">{production.year?.slice(0, 4)}</p>
       </div>
     </div>
   {/if}
@@ -46,34 +46,33 @@
       <div class="flex flex-wrap pt-2">
         <div class="basis-full md:basis-1/3">
           <span class="text-lg font-semibold tracking-wide"
-            >{role.characterName}</span
+            >{role.character.character_name}</span
           >
         </div>
-        {#if role.castMembers}
-          {#each role.castMembers as castMember}
-            <div><PersonChip person={castMember.person} /></div>
-          {/each}
-        {/if}
+        {#each role.people as person}
+            <div><PersonChip {person} /></div>
+        {/each}
       </div>
     </li>
   {/each}
 </ul>
 <div class="mb-6">
-  <a class="text-blue-800" href="./{production.slug.current}/cast"
+  <a class="text-blue-800" href="./{production.slug}/cast"
     >See all cast</a
   >
 </div>
 <Section>Production Team</Section>
 <ul class="list">
-  {#each crew.slice(0, 5) as assignment}
+
+  {#each production.crew?.slice(0, 5) as assignment}
     <li class="mb-1">
       <div class="flex flex-wrap pt-2">
         <div class="basis-full md:basis-1/3">
-          <span class="text-lg font-semibold tracking-wide">{assignment.job.jobName}</span>
+          <span class="text-lg font-semibold tracking-wide">{assignment.job.job_name}</span>
         </div>
-        {#each assignment.crewMembers as crewMember}
-          <div><PersonChip person={crewMember.person}/></div>
-        {/each}
+          {#each assignment.people as person}
+          <div><PersonChip {person}/></div>
+          {/each}
       </div>
     </li>
   {/each}
@@ -83,10 +82,4 @@
     >See all production team</a
   >
 </div>
-<Section>Performance Dates</Section>
-<ul>
-  {#each production.parsedPerformanceDates as pd}
-    <li>{pd.dateAndTime} - {pd.venue.name}</li>
-  {/each}
-</ul>
 </div>

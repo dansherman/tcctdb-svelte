@@ -6,9 +6,9 @@
   import PictureBox from "$components/PictureBox.svelte";
   export let data;
   let production = data.production;
-  console.log({production})
-  $:items = production.productionPhotos;
-  if (items == null) {
+  // $:items = production.production_photos;
+  let items
+  if (items == undefined) {
     items = [];
   }
   let i = 0;
