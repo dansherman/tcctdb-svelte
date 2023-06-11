@@ -2,7 +2,6 @@
   import PersonChip from "$components/PersonChip.svelte";
   import CharacterPhoto from "$components/CharacterPhoto.svelte";
   export let data;
-
   let { production } = data;
   let { cast } = production
 </script>
