@@ -1,7 +1,5 @@
 <script lang="ts">
   export let person;
-  export let width:number = 800;
-  export let height:number = 800;
   export let photo = person.headshot;
   export let link = true;
   import { getImageUrl } from "$lib/getImageUrl";
@@ -18,10 +16,10 @@
 {#if href != "" && person}
   <a class="font-semibold text-black" {href}>
     {#if photo}
-    {#await getImageUrl(photo) then url}
+    {#await getImageUrl(photo,'headshots') then url}
           <img
             src={url}
-            class="w-48 h-48"
+            class="h-48"
             alt="{person.name_first} {person.name_last}"
           />
         {/await}  
@@ -41,11 +39,13 @@
     {/if}
   </a>
 {:else if person && photo}
-  <img
-    src={getImageUrl(person.headshot)}
+{#await getImageUrl(person.headshot, "headshots") then src}  
+<img
+    {src}
     alt={person.name}
     class="object-contain rounded-full w-full h-full object-top"
   />
+  {/await}
 {:else}
   <span class="inline-block rounded-full overflow-hidden bg-sky-100">
     <svg

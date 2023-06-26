@@ -1,10 +1,10 @@
 
 import { supabase } from "$lib/supabase";
-export const getImageUrl = async (path: string) => {
+export const getImageUrl = async (path: string, bucket:string) => {
   if (path) {
     try {
       const { data } = await supabase.storage
-        .from("productionPhotos")
+        .from(bucket)
         .getPublicUrl(path);
       return data.publicUrl;
     } catch (error) {
