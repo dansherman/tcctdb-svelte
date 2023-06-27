@@ -1,5 +1,4 @@
 <script lang="ts">
-  import { urlFor } from "$lib/img-url.js";
   import { SyncLoader } from "svelte-loading-spinners";
   import { scale, fade, fly } from "svelte/transition";
   import { modalOpen, selectedImage } from "$lib/stores";
@@ -16,14 +15,13 @@
   let height: number;
 
   let showInfoPane = false;
-  $: src = (() => {
-    height = Math.round(h * 0.85);
-    width = $selectedImage.metadata?.dimensions?.aspectRatio * height || 800;
-    return urlFor($selectedImage.photo)?.height(height).url() || "";
-  })();
+  $: src = photoUrl($selectedImage.filename)
   let g = async (url) => {
     goto(url)
     $modalOpen = false
+  }
+  const photoUrl = (url) => {
+    return `https://gjnfygrrxeyxxqgezevn.supabase.co/storage/v1/object/public/productionPhotos/${url}`
   }
   </script>
   
@@ -73,7 +71,7 @@
             </button>
           </div>
           <div class="">
-            {#if $selectedImage.photo}
+            {#if $selectedImage.filename}
               {#await preload(src)}
                 <div class="w-96 h-96">
                   <div class="w-48 mx-auto">
@@ -99,11 +97,11 @@
                       {#each $selectedImage.roles as role, i}
                       {#if role.castMembers.length == 1}
                       {#if i != 0} • {/if}
-                        <button class="pr-1 hover:text-blue-700" on:click={()=>{g("/people/"+role.castMembers[0].slug.current)}}>{role.castMembers[0].name} as {role.characterName}</button>
+                        <button class="pr-1 hover:text-blue-700" on:click={()=>{g("/people/"+role.castMembers[0].slug)}}>{role.castMembers[0].name} as {role.characterName}</button>
                       {:else}
                       {#if i != 0} • {/if}
                         {#each role.castMembers as castMember, j}
-                          <button class="pl-1 hover:text-blue-700" on:click={()=>{g("/people/"+castMember.slug.current)}}> {castMember.name}</button>
+                          <button class="pl-1 hover:text-blue-700" on:click={()=>{g("/people/"+castMember.slug)}}> {castMember.name}</button>
                           <span>{#if j+1 < role.castMembers.length }/{/if}
                           </span>
                         {/each}

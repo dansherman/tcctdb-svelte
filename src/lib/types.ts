@@ -68,8 +68,10 @@ export interface Production {
 }
 
 export interface Photo {
-	_id:string,
-  id:number,
+	id:string,
+  filename:string,
+  thumbname:string,
+  pid:number,
 	caption:string,
   attribution:string,
 	photo:{

@@ -78,7 +78,7 @@
   {/each}
 </ul>
 <div class="mb-6">
-  <a class="text-blue-800" href="./{production.slug.current}/productionTeam"
+  <a class="text-blue-800" href="./{production.slug}/productionTeam"
     >See all production team</a
   >
 </div>

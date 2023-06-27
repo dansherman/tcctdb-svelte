@@ -6,7 +6,6 @@
   export let data;
   let { production } = data;
   let crew = production.crew
-
 </script>
 
 <ul class="list divide-y">

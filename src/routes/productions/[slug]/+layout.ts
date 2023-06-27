@@ -9,7 +9,10 @@ export const load = async ({ params }) => {
     .eq('slug',slug)
     .single()
 
-
+    const { data: photos } = await supabase
+    .from('productionPhotos')
+    .select(`id, filename, thumbname, caption, photoRelationships(cast(character(character_name), person(name_first, name_last)),crew(*),person(*))`)
+    .eq('production',slug)
 
   let groupedCrew = {}
   for (let assignment of production.crew) {
@@ -35,5 +38,5 @@ export const load = async ({ params }) => {
   let sortedCast = Object.values(groupedCast).sort((a,b)=>{return (a.character.sort_order > b.character.sort_order)})
   production.cast = sortedCast
   production.crew = sortedCrew
-  return { production }
+  return { production, photos }
 }

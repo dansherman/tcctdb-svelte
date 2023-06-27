@@ -1,16 +1,18 @@
 <script lang="ts">
   export let role
   export let person
-  export let size = 256
   import { getImageUrl } from "$lib/getImageUrl.js";
   let filename:string
+  let bucket:string
   if (person.character_photo) {
     filename = person.character_photo
+    bucket = "productionPhotos"
   } else if (person.headshot) {
     filename = person.headshot
+    bucket = "headshots"
   }
 </script>
-{#await getImageUrl(filename) }
+{#await getImageUrl(filename,bucket) }
 <span class="inline-block rounded-xl overflow-hidden bg-gray-100">
   <svg
     class="h-full w-full text-gray-300"
@@ -25,7 +27,7 @@
 {:then photoUrl}
 <img
   src={photoUrl}
-  class="w-48 h-48"
+  class="h-48 m:h-60 object-cover rounded-lg"
   alt="character photo for {role.character.character_name}"
 />
 {:catch error}
