@@ -11,7 +11,6 @@
     filename = person.headshot
     bucket = "headshots"
   }
-  console.log(person)
 </script>
 {#await getImageUrl(filename,bucket) }
 <span class="inline-block rounded-xl overflow-hidden bg-gray-100">
