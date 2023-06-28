@@ -12,8 +12,7 @@
   }
   export let h: number;
   let width: number;
-  let height: number;
-
+  $:height = Math.round(h * 0.85);
   let showInfoPane = false;
   $: src = photoUrl($selectedImage.filename)
   let g = async (url) => {
@@ -23,6 +22,36 @@
   const photoUrl = (url) => {
     return `https://gjnfygrrxeyxxqgezevn.supabase.co/storage/v1/object/public/productionPhotos/${url}`
   }
+  const listSubjects = (image) => {
+    let subjects = []
+    if (image.photoRelationships) {
+    for (let subject of image.photoRelationships) {
+      if (subject.cast) {
+        subjects.push(
+          {
+            text:`${subject.cast.person.name_first} ${subject.cast.person.name_last} as ${subject.cast.character.character_name}`, 
+            slug:subject.cast.person.slug
+          })
+        }
+      if (subject.crew) {
+        subjects.push(
+          {
+            text:`${subject.crew.person.name_first} ${subject.crew.person.name_last} as ${subject.crew.job.job_name}`, 
+            slug:subject.crew.person.slug
+          })
+        }
+      if (subject.person) {
+        subjects.push(
+          {
+            text:`${subject.person.person.name_first} ${subject.person.person.name_last}`, 
+            slug:subject.person.person.slug
+          })
+        }
+      }
+    }
+      return subjects
+    }
+  $: subjects = listSubjects($selectedImage)
   </script>
   
   {#if $modalOpen}
@@ -85,7 +114,7 @@
                 </div>
               {:then _}
                 <img
-                  class="w-full object-contain min-h-0"
+                  class="w-full object-contain h-[{height}px]"
                   {height}
                   {width}
                   {src}
@@ -93,22 +122,11 @@
                 />
                 {#if showInfoPane}
                   <div class="-mt-12 h-12 bg-slate-300 opacity-90 font-medium text-slate-900 px-6 backdrop-blur-md" transition:fly="{{ y: 10, duration: 200 }}">
-                    <p>{#if $selectedImage.roles}
-                      {#each $selectedImage.roles as role, i}
-                      {#if role.castMembers.length == 1}
-                      {#if i != 0} • {/if}
-                        <button class="pr-1 hover:text-blue-700" on:click={()=>{g("/people/"+role.castMembers[0].slug)}}>{role.castMembers[0].name} as {role.characterName}</button>
-                      {:else}
-                      {#if i != 0} • {/if}
-                        {#each role.castMembers as castMember, j}
-                          <button class="pl-1 hover:text-blue-700" on:click={()=>{g("/people/"+castMember.slug)}}> {castMember.name}</button>
-                          <span>{#if j+1 < role.castMembers.length }/{/if}
-                          </span>
-                        {/each}
-                        as {role.characterName}
-                      {/if}
+                    <p>
+                      {#each subjects as subject, i}
+                        {#if i != 0}<span class="px-2">•</span>{/if}
+                          <button class="pl-1 hover:text-blue-700" on:click={()=>{g("/people/"+subject.slug)}}>{subject.text}</button>
                       {/each}
-                    {/if}
                     </p>
                   </div>
                 {/if}

@@ -66,7 +66,11 @@ export interface Production {
   slug: Slug
   photos: [Photo]
 }
-
+interface photoRelationship {
+  cast:{}
+  crew:{}
+  person:{}
+}
 export interface Photo {
 	id:string,
   filename:string,
@@ -74,13 +78,9 @@ export interface Photo {
   pid:number,
 	caption:string,
   attribution:string,
+  photoRelationships:Array<photoRelationship>
 	photo:{
-		crop:{
-			bottom:number,
-			top:number,
-			right:number,
-			left:number
-		}
+		
 	},
   metadata:{
     dimensions:{

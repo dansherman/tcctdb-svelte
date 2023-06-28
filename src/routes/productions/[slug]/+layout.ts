@@ -11,7 +11,7 @@ export const load = async ({ params }) => {
 
     const { data: photos } = await supabase
     .from('productionPhotos')
-    .select(`id, filename, thumbname, caption, photoRelationships(cast(character(character_name), person(name_first, name_last)),crew(*),person(*))`)
+    .select(`id, filename, thumbname, caption, photoRelationships(id,cast(character(character_name),person(name_last,name_first,slug)),crew(job(job_name),person(name_last,name_first,slug)),person(name_first,name_last,slug))`)
     .eq('production',slug)
 
   let groupedCrew = {}

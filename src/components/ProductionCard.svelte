@@ -18,7 +18,7 @@
       <p class="text-2xl font-bold tracking-wide">{production.show.title}</p>
     </div>
     <div class="">
-      <p class="text-lg text-center">—</p>
+      <p class="text-lg text-center">{production.year}</p>
     </div>
   </a>
   </div>

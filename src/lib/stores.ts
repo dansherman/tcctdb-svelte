@@ -3,6 +3,7 @@ import { navigating } from "$app/stores";
 import type { Photo } from "./types"
 export let modalOpen = writable(false)
 export let selectedImage = writable(<Photo>{})
+export let selectedId = writable(0)
 let timer = null;
 export const navigationIsDelayed = derived(navigating, (newValue, set) => {
   if (timer) { clearTimeout(timer); }

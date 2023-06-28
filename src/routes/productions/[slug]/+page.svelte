@@ -34,7 +34,7 @@
         <p class="text-2xl font-bold tracking-wide">{production.show.title}</p>
       </div>
       <div class="">
-        <p class="text-lg text-center">{production.year?.slice(0, 4)}</p>
+        <p class="text-lg text-center">{production.year}</p>
       </div>
     </div>
   {/if}

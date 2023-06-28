@@ -1,16 +1,13 @@
 <script lang="ts">
-  import { goto } from "$app/navigation";
-  import type { Photo } from "$lib/types";
-  
+  import { goto } from "$app/navigation";  
   import { selectedImage, modalOpen } from "$lib/stores";
+  import { photoUrl } from "$lib/photos.js";
   import PictureBox from "$components/PictureBox.svelte";
   export let data;
   let { photos, production } = data;
   let h: number;
   let w: number;
-  const photoUrl = (filename) => {
-    return `https://gjnfygrrxeyxxqgezevn.supabase.co/storage/v1/object/public/productionPhotos/${filename}`
-  }
+
   const handlePhotoClick = (photo) => {
     $selectedImage = photo;
     console.log(photo.photoRelationships)
@@ -35,7 +32,7 @@
         src={photoUrl(photo.thumbname)}
         alt={photo.caption}
       /></button
-    >{@debug photo}
+    >
   {:else}
     <div class="">No photos found... ☹️</div>
   {/each}
