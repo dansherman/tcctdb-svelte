@@ -1,11 +1,13 @@
 <script>
   export let production
-  import { urlFor } from "$lib/img-url";
+  const getThumbURL = (cf_id) => {
+    return `https://tcctdb.com/cdn-cgi/imagedelivery/GSd7USrTOBJXFqpEygK5AA/${cf_id}/thumbnail`
+  }
 </script>
 {#if production.poster}
 <div class="">
 <a class="" href="/productions/{production.slug}">  
-  <img class="mx-auto w-64 border-indigo-500 bg-indigo-500 border-2 inset-2 shadow-md rounded-md mb-3.5" src={urlFor(production.poster).height(256).auto("format").url()} alt="poster for {production.show.title} by {production.company.name}"/> 
+  <img class="mx-auto w-64 border-indigo-500 bg-indigo-500 border-2 inset-2 shadow-md rounded-md mb-3.5" src={getThumbURL(production.poster)} alt="poster for {production.show.title} by {production.company.name}"/> 
 </a>
 </div>
 {:else}

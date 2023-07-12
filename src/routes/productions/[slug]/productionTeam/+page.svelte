@@ -1,11 +1,9 @@
 <script lang="ts">
-  import Section from "$components/Section.svelte";
   import PersonChip from "$components/PersonChip.svelte";
   import CrewPhoto from "$components/CrewPhoto.svelte";
-  import PictureZoom from "$components/PictureZoom.svelte";
   export let data;
   let { production } = data;
-  let crew = production.crew
+  let crew = production.crew;
 </script>
 
 <ul class="list divide-y">
@@ -21,16 +19,16 @@
       <div
         class="col-span-3 md:col-span-4 flex flex-wrap justify-between gap-3"
       >
-      {#each assignment.people as person}
+        {#each assignment.people as person}
           <div class="mx-auto md:mx-0 w-full md:w-1/3 grid grid-cols-1 item">
             <div class="w-48 m:w-60 h-full mx-auto">
-                <CrewPhoto {person} {assignment}/>
+              <CrewPhoto {person} {assignment} />
             </div>
             <div class="w-48 m:w-60 text-center">
               <PersonChip {person} />
             </div>
           </div>
-          {/each}
+        {/each}
       </div>
     </li>
   {/each}

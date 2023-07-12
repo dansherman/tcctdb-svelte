@@ -1,6 +1,6 @@
 <script lang="ts">
 	export let data;
-	let {productions} = data
+	let productions = data
   import Title from '$components/Title.svelte';
 </script>
 

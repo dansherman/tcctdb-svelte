@@ -31,6 +31,9 @@ export const uploadPhoto = async (e) => {
     }
   }
 };
-export const photoUrl = (url) => {
-  return `https://gjnfygrrxeyxxqgezevn.supabase.co/storage/v1/object/public/productionPhotos/${url}`
+export const getThumbURL = (cf_id) => {
+  return `https://tcctdb.com/cdn-cgi/imagedelivery/GSd7USrTOBJXFqpEygK5AA/${cf_id}/thumbnail`
+}
+export const getFullURL = (cf_id) => {
+  return `https://tcctdb.com/cdn-cgi/imagedelivery/GSd7USrTOBJXFqpEygK5AA/${cf_id}/full`
 }

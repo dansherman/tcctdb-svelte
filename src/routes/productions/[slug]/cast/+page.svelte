@@ -3,7 +3,7 @@
   import CharacterPhoto from "$components/CharacterPhoto.svelte";
   export let data;
   let { production } = data;
-  let { cast } = production
+  let { cast } = production;
 </script>
 
 <ul class="list divide-y">
@@ -21,14 +21,14 @@
       <div
         class="md:ml-0 col-span-3 md:col-span-4 flex flex-wrap justify-between gap-3"
       >
-      {#each role.people as person}
+        {#each role.people as person}
           <div class="mx-auto md:mx-0 w-full md:w-1/3 grid grid-cols-1 item">
             <div class="mx-auto">
               <CharacterPhoto {role} {person} />
             </div>
             {#if person}<div class="w-48 m:w-60 text-center mx-auto">
-              <PersonChip {person} />
-            </div>{/if}
+                <PersonChip {person} />
+              </div>{/if}
           </div>
         {/each}
       </div>

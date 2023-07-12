@@ -1,21 +1,21 @@
 <script lang="ts">
-  import { goto } from "$app/navigation";  
+  import { goto } from "$app/navigation";
   import { selectedImage, modalOpen } from "$lib/stores";
-  import { photoUrl } from "$lib/photos.js";
+  import { getThumbURL, getFullURL } from "$lib/photos.js";
   import PictureBox from "$components/PictureBox.svelte";
   export let data;
-  let { photos, production } = data;
+  let { photos } = data;
   let h: number;
   let w: number;
 
   const handlePhotoClick = (photo) => {
     $selectedImage = photo;
-    console.log(photo.photoRelationships)
+    console.log(photo.photoRelationships);
     //if mobile then download/open otherwise modal
     if (w > 450) {
       $modalOpen = true;
     } else {
-      goto(photoUrl(photo.filename));
+      goto(getFullURL(photo.cf_id));
     }
   };
 </script>
@@ -29,12 +29,12 @@
       }}
       ><img
         class="mx-auto w-96"
-        src={photoUrl(photo.thumbname)}
+        src={getThumbURL(photo.cf_id)}
         alt={photo.caption}
-      /></button
-    >
+      />
+    </button>
   {:else}
     <div class="">No photos found... ☹️</div>
   {/each}
 </div>
-<PictureBox {h}/>
+<PictureBox {h} />

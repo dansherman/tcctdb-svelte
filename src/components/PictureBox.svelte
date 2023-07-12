@@ -1,6 +1,8 @@
 <script lang="ts">
   import { SyncLoader } from "svelte-loading-spinners";
   import { scale, fade, fly } from "svelte/transition";
+
+  import { getThumbURL, getFullURL } from "$lib/photos.js";
   import { modalOpen, selectedImage } from "$lib/stores";
   import { goto } from "$app/navigation";
   function preload(src: string) {
@@ -14,13 +16,10 @@
   let width: number;
   $:height = Math.round(h * 0.85);
   let showInfoPane = false;
-  $: src = photoUrl($selectedImage.filename)
+  $: src = getFullURL($selectedImage.cf_id)
   let g = async (url) => {
     goto(url)
     $modalOpen = false
-  }
-  const photoUrl = (url) => {
-    return `https://gjnfygrrxeyxxqgezevn.supabase.co/storage/v1/object/public/productionPhotos/${url}`
   }
   const listSubjects = (image) => {
     let subjects = []
@@ -100,7 +99,7 @@
             </button>
           </div>
           <div class="">
-            {#if $selectedImage.filename}
+            {#if $selectedImage.cf_id}
               {#await preload(src)}
                 <div class="w-96 h-96">
                   <div class="w-48 mx-auto">

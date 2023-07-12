@@ -51,7 +51,8 @@ export interface Assignment {
 }
 export interface Job {
   _id: string,
-  jobName: string
+  jobName: string,
+  sort_order: number
 }
 export interface Character {
   _id: string
@@ -59,6 +60,7 @@ export interface Character {
   characterName: string
   roleSize: string
   vocalRange: string
+  sort_order: number
 }
 
 export interface Production {
@@ -73,8 +75,7 @@ interface photoRelationship {
 }
 export interface Photo {
 	id:string,
-  filename:string,
-  thumbname:string,
+  cf_id:string,
   pid:number,
 	caption:string,
   attribution:string,
