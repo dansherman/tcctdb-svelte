@@ -16,7 +16,9 @@ export const load = async ({ params }) => {
     if (!(assignment.job.id in groupedCrew)) {
       groupedCrew[assignment.job.id] = {job:assignment.job, people:[]}
     }
+    if (assignment.person) {
     assignment.person['crew_photo'] = assignment?.crew_photo
+  }
     groupedCrew[assignment.job.id].people.push(assignment.person)
   }
   let sortedCrew = Object.values(groupedCrew).sort((a:Assignment,b:Assignment)=>{return (a.job.sort_order - b.job.sort_order)})
