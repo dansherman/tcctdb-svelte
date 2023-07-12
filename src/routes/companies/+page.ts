@@ -1,8 +1,7 @@
-export const prerender = false;
-import client from "$lib/sanityClient";
-export async function load({ params }) {
-  const query = `*[_type == 'company' ]{...}`;
-  let companies = await client.fetch(query);
-
-  return { companies };
+import { supabase } from "$lib/supabase";
+export const load = async () => {
+  const { data: companies } = await supabase
+    .from('companies')
+    .select(`name,slug`)
+  return { companies }
 }

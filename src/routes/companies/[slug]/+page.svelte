@@ -3,6 +3,7 @@
   import Title from "$components/Title.svelte";
   export let data;
   let {company, productions} = data;
+  console.log({productions})
 </script>
 <svelte:head>
   <title>{company.name}</title>
@@ -16,7 +17,7 @@
   
 </a>
 </div>
-{#if company.companyType == 'theater'}
+{#if productions.length > 0}
 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 items-center">
   {#each productions as production}
       <ProductionCard {production} />
