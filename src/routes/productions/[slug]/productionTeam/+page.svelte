@@ -4,7 +4,6 @@
   export let data;
   let { production, crew } = data;
 </script>
-
 <ul class="list divide-y">
   {#each crew as assignment}
     <li
@@ -30,5 +29,7 @@
         {/each}
       </div>
     </li>
+  {:else}
+  <div class="">No production team found... ☹️</div>
   {/each}
 </ul>

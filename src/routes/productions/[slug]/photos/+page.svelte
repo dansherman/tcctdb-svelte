@@ -5,7 +5,7 @@
   import PictureBox from "$components/PictureBox.svelte";
   export let data;
   let production = data.production;
-  $:items = production.productionPhotos;
+  let items = production.productionPhotos;
   if (items == null) {
     items = [];
   }

@@ -51,7 +51,7 @@ export const load = (async ({ params }) => {
   let production = await client.fetch(productionQuery, { slug: slug });
   let cast = await client.fetch(castQuery, { id: production._id });
   let crew = await client.fetch(crewQuery, { id: production._id });
-
+  
   for (let role of cast) {
     role.characterName = role.character.characterName;
     if (!role.castMembers) {
@@ -63,6 +63,12 @@ export const load = (async ({ params }) => {
     if (!row.crewMembers) {
       row.crewMembers = [];
     }
+  }
+  if (production.year) {
+      production.year = production.year.slice(0, 4);
+    } 
+  else {
+      production.year = "—";
   }
   if (production.performanceDates) {
     production.parsedPerformanceDates = production.performanceDates.map(
