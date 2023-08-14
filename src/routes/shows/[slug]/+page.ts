@@ -7,7 +7,7 @@ export async function load({params}) {
       ...,
       'characters': *[_type == 'character' && references(^._id)]{...}
   }`;
-    const results = await client.fetch(query, params=qParams);
-    return  results;
+    const show = await client.fetch(query, params=qParams);
+    return {show};
 }
 

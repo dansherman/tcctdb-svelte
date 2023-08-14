@@ -1,35 +1,44 @@
-import { supabase } from "$lib/supabase";
-import { assign } from "svelte/internal";
-export const load = async ({ params }) => {
-  const { slug } = params;
-  const { data: person } = await supabase
-    .from('people')
-    .select(`*,cast(character(*),production(*,show(title))),crew(production(*,show(title)),job(*))`)
-    .eq('slug',slug)
-    .single()
-		if (person) {
-			let productions = {};
-			for (let role of person.cast) {
-				if (!Object.keys(productions).includes(role.production.slug)) {
-					productions[role.production.slug] = {
-						production: role.production,
-						roles: [],
-					};
-				}
-				productions[role.production.slug].roles.push(role.character);
+import client from '$lib/sanityClient.js';
+
+export async function load({ params }) {
+	const { slug } = params;
+	const query = `
+	*[_type == 'person' && slug.current == $slug]{
+		nameFirst,
+		"name": nameFirst + " " + nameLast,
+		nameLast,
+		headshot,
+		biography,
+		"resumeUrl":resume.asset->url,
+		slug,
+		'assignments': *[ _type == 'assignment' && references(^._id)]|order(production.performanceDates[0].dateAndTime asc){
+			'jobName':job->jobName,
+			production->{
+				'title':show->title,
+				'company':company->name,
+				poster,
+				slug}
+			},
+		'roles': *[ _type == 'role' && references(^._id)]|order(production.performanceDates[0].dateAndTime asc){
+			'characterName':character->characterName,
+			production->{
+				'title':show->title,
+				'company':company->name,
+				poster,
+				slug}
+			},
+		'mostRecent': *[(_type == 'assignment' || _type == 'role') && references(^._id)]|order(production.performanceDates[0].dateAndTime asc)[0]{
+							production->{
+				'title':show->title,
+				'company':company->name,
+				poster,
+				slug}
 			}
-			person.cast = productions;
-			productions = {}
-			for (let assignment of person.crew) {
-				if (!Object.keys(productions).includes(assignment.production.slug)) {
-					productions[assignment.production.slug] = {
-						production: assignment.production,
-						assignments: [],
-					};
-				}
-				productions[assignment.production.slug].assignments.push(assignment.job);
-			}
-			person.crew = productions
-		}
-	return {person}
+	}
+`;
+	const people = await client.fetch(query, params={'slug':slug});
+	const person = people[0];
+	if (person) {
+    return { person };
+	}
 }

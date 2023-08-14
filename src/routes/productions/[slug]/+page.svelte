@@ -1,12 +1,12 @@
 <script lang="ts">
   import Section from "$components/Section.svelte";
   import PersonChip from "$components/PersonChip.svelte";
-  import { getThumbURL } from "$lib/photos.js";
+  import { urlFor } from "$lib/imgUrl.js";
 
   export let data;
-  let { production } = data;
-  let featuredCast = production.cast.filter((x) => {
-    return x.character.role_size == "lead";
+  let { cast, crew, production } = data;
+  let featuredCast = cast.filter((x) => {
+    return x.character.roleSize == "lead";
   });
 </script>
 
@@ -14,13 +14,13 @@
   {#if production.header}
     <img
       class="w-full border-indigo-500 bg-indigo-500 border-2 inset-2 shadow-md h-72 rounded-md mb-3.5"
-      src={getThumbURL(production.header)}
+      src={urlFor(production.header).url()}
       alt="poster for {production.show.title} by {production.company.name}"
     />
   {:else if production.poster}
     <img
       class="w-md border-indigo-500 bg-indigo-500 border-2 inset-2 shadow-md rounded-md mb-3.5"
-      src={getThumbURL(production.poster)}
+      src={urlFor(production.poster).url()}
       alt="poster for {production.show.title} by {production.company.name}"
     />
   {:else}
@@ -46,38 +46,39 @@
         <div class="flex flex-wrap pt-2">
           <div class="basis-full md:basis-1/3">
             <span class="text-lg font-semibold tracking-wide"
-              >{role.character.character_name}</span
+              >{role.character.characterName}</span
             >
           </div>
-          {#each role.people as person}
-            <div><PersonChip {person} /></div>
+          {#each role.castMembers as person}
+            <div><PersonChip person={person.person} /></div>
           {/each}
         </div>
       </li>
     {/each}
   </ul>
   <div class="mb-6">
-    <a class="text-blue-800" href="./{production.slug}/cast">See all cast</a>
+    <a class="text-blue-800" href="./{production.slug.current}/cast">See all cast</a>
   </div>
   <Section>Production Team</Section>
   <ul class="list">
-    {#each production.crew?.slice(0, 5) as assignment}
+    {#each crew.slice(0, 5) as assignment}
+    {@debug assignment}
       <li class="mb-1">
         <div class="flex flex-wrap pt-2">
           <div class="basis-full md:basis-1/3">
             <span class="text-lg font-semibold tracking-wide"
-              >{assignment.job.job_name}</span
+              >{assignment.job.jobName}</span
             >
           </div>
-          {#each assignment.people as person}
-            <PersonChip {person} />
+          {#each assignment.crewMembers as person}
+            <PersonChip person={person.person} />
           {/each}
         </div>
       </li>
     {/each}
   </ul>
   <div class="mb-6">
-    <a class="text-blue-800" href="./{production.slug}/productionTeam"
+    <a class="text-blue-800" href="./{production.slug.current}/productionTeam"
       >See all production team</a
     >
   </div>

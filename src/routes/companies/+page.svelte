@@ -9,6 +9,6 @@
 <Title>Companies</Title>
 <ul class="list">
     {#each companies as company}
-      <li><a href="/companies/{company.slug}/">{company.name}</a></li>
+      <li><a href="/companies/{company.slug.current}/">{company.name}</a></li>
     {/each}
 </ul>

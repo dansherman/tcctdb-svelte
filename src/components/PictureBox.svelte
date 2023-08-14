@@ -1,8 +1,7 @@
 <script lang="ts">
+  import { urlFor } from "$lib/imgUrl.js";
   import { SyncLoader } from "svelte-loading-spinners";
   import { scale, fade, fly } from "svelte/transition";
-
-  import { getThumbURL, getFullURL } from "$lib/photos.js";
   import { modalOpen, selectedImage } from "$lib/stores";
   import { goto } from "$app/navigation";
   function preload(src: string) {
@@ -14,43 +13,18 @@
   }
   export let h: number;
   let width: number;
-  $:height = Math.round(h * 0.85);
+  let height: number;
+
   let showInfoPane = false;
-  $: src = getFullURL($selectedImage.cf_id)
+  $: src = (() => {
+    height = Math.round(h * 0.85);
+    width = $selectedImage.metadata?.dimensions?.aspectRatio * height || 800;
+    return urlFor($selectedImage.photo)?.height(height).url() || "";
+  })();
   let g = async (url) => {
     goto(url)
     $modalOpen = false
   }
-  const listSubjects = (image) => {
-    let subjects = []
-    if (image.photoRelationships) {
-    for (let subject of image.photoRelationships) {
-      if (subject.cast) {
-        subjects.push(
-          {
-            text:`${subject.cast.person.name_first} ${subject.cast.person.name_last} as ${subject.cast.character.character_name}`, 
-            slug:subject.cast.person.slug
-          })
-        }
-      if (subject.crew) {
-        subjects.push(
-          {
-            text:`${subject.crew.person.name_first} ${subject.crew.person.name_last} as ${subject.crew.job.job_name}`, 
-            slug:subject.crew.person.slug
-          })
-        }
-      if (subject.person) {
-        subjects.push(
-          {
-            text:`${subject.person.person.name_first} ${subject.person.person.name_last}`, 
-            slug:subject.person.person.slug
-          })
-        }
-      }
-    }
-      return subjects
-    }
-  $: subjects = listSubjects($selectedImage)
   </script>
   
   {#if $modalOpen}
@@ -99,7 +73,7 @@
             </button>
           </div>
           <div class="">
-            {#if $selectedImage.cf_id}
+            {#if $selectedImage.photo}
               {#await preload(src)}
                 <div class="w-96 h-96">
                   <div class="w-48 mx-auto">
@@ -113,7 +87,7 @@
                 </div>
               {:then _}
                 <img
-                  class="w-full object-contain h-[{height}px]"
+                  class="w-full object-contain min-h-0"
                   {height}
                   {width}
                   {src}
@@ -121,11 +95,22 @@
                 />
                 {#if showInfoPane}
                   <div class="-mt-12 h-12 bg-slate-300 opacity-90 font-medium text-slate-900 px-6 backdrop-blur-md" transition:fly="{{ y: 10, duration: 200 }}">
-                    <p>
-                      {#each subjects as subject, i}
-                        {#if i != 0}<span class="px-2">•</span>{/if}
-                          <button class="pl-1 hover:text-blue-700" on:click={()=>{g("/people/"+subject.slug)}}>{subject.text}</button>
+                    <p>{#if $selectedImage.roles}
+                      {#each $selectedImage.roles as role, i}
+                      {#if role.castMembers.length == 1}
+                      {#if i != 0} • {/if}
+                        <button class="pr-1 hover:text-blue-700" on:click={()=>{g("/people/"+role.castMembers[0].slug.current)}}>{role.castMembers[0].name} as {role.characterName}</button>
+                      {:else}
+                      {#if i != 0} • {/if}
+                        {#each role.castMembers as castMember, j}
+                          <button class="pl-1 hover:text-blue-700" on:click={()=>{g("/people/"+castMember.slug.current)}}> {castMember.name}</button>
+                          <span>{#if j+1 < role.castMembers.length }/{/if}
+                          </span>
+                        {/each}
+                        as {role.characterName}
+                      {/if}
                       {/each}
+                    {/if}
                     </p>
                   </div>
                 {/if}

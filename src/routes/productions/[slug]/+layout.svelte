@@ -4,17 +4,16 @@
   export let data;
   import { page } from "$app/stores";
   let production = data.production;
-  let show = production.show;
 
   $: path = $page.url.pathname;
   let pages = [
-    { url: production.slug, name: "Summary" },
-    { url: `${production.slug}/cast`, name: "Cast" },
+    { url: production.slug.current, name: "Summary" },
+    { url: `${production.slug.current}/cast`, name: "Cast" },
     {
-      url: `${production.slug}/productionTeam`,
+      url: `${production.slug.current}/productionTeam`,
       name: "Production Team",
     },
-    { url: `${production.slug}/photos`, name: "Photos" },
+    { url: `${production.slug.current}/photos`, name: "Photos" },
   ];
   let activePage = "border-indigo-500 text-indigo-600";
   let defaultPage =
@@ -26,7 +25,7 @@
 </svelte:head>
 <Title>{production.show.title}</Title>
 <SubTitle>
-  <a href="/companies/{production.company.slug}"
+  <a href="/companies/{production.company.slug.current}"
     >{production.company.name}</a
   >
 </SubTitle>

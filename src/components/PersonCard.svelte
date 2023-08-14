@@ -23,7 +23,7 @@
         <div><p class="font-semibold text-slate-800 text-lg">{title}</p></div>
         <div>
           <h3 class="text-sky-600 text-xl">
-            <a href="/people/{person.slug.current}">{person.name}</a>
+            <a href="/people/{person.slug.current.current}">{person.name}</a>
           </h3>
         </div>
       </div>

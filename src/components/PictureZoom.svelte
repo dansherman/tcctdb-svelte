@@ -1,7 +1,7 @@
 <script lang="ts">
   import { goto } from "$app/navigation";
   export let item
-  import { urlFor } from "$lib/img-url.js";
+  import { urlFor } from "$lib/imgUrl.js";
   import { selectedImage, modalOpen } from "$lib/stores";
 
   let h: number;

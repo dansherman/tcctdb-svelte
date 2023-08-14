@@ -1,12 +1,14 @@
 <script lang="ts">
   export let person;
+  export let width:string = "800";
+  export let height:string = "800";
   export let photo = person.headshot;
   export let link = true;
-  import { getImageUrl } from "$lib/getImageUrl";
+  import { urlFor } from "$lib/imgUrl.js";
   let href = "";
   try {
     if (link == true) {
-      href = `/people/${person.slug}`;
+      href = `/people/${person.slug.current}`;
     }
   } catch {
     href = "";
@@ -16,14 +18,11 @@
 {#if href != "" && person}
   <a class="font-semibold text-black" {href}>
     {#if photo}
-    {#await getImageUrl(photo,'headshots') then url}
-          <img
-            src={url}
-            class="h-48"
-            alt="{person.name_first} {person.name_last}"
-          />
-        {/await}  
-
+      <img
+        src={urlFor(photo).width(parseInt(width)).height(parseInt(height)).url()}
+        alt={person.name}
+        class="object-contain rounded-full w-full object-top"
+      />
     {:else}
       <span class="inline-block rounded-full overflow-hidden bg-amber-100">
         <svg
@@ -39,13 +38,11 @@
     {/if}
   </a>
 {:else if person && photo}
-{#await getImageUrl(person.headshot, "headshots") then src}  
-<img
-    {src}
+  <img
+    src={urlFor(photo).width(parseInt(width)).height(parseInt(height)).url()}
     alt={person.name}
     class="object-contain rounded-full w-full h-full object-top"
   />
-  {/await}
 {:else}
   <span class="inline-block rounded-full overflow-hidden bg-sky-100">
     <svg

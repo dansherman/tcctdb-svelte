@@ -41,7 +41,7 @@
             </div>
             <div class="ml-4">
               <div class="font-base text-xl text-slate-900">
-                {person.name_last}, {person.name_first}
+                {person.nameLast}, {person.nameFirst}
               </div>
             </div>
           </div>

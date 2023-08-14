@@ -2,8 +2,7 @@
   import PersonChip from "$components/PersonChip.svelte";
   import CrewPhoto from "$components/CrewPhoto.svelte";
   export let data;
-  let { production } = data;
-  let crew = production.crew;
+  let { production, crew } = data;
 </script>
 
 <ul class="list divide-y">
@@ -13,19 +12,19 @@
     >
       <div class=" pb-2 col-span-3 md:col-span-2 text-center md:text-left">
         <span class="text-lg font-semibold tracking-wide"
-          >{assignment.job.job_name}</span
+          >{assignment.job.jobName}</span
         >
       </div>
       <div
         class="col-span-3 md:col-span-4 flex flex-wrap justify-between gap-3"
       >
-        {#each assignment.people as person}
+        {#each assignment.crewMembers as crewMember}
           <div class="mx-auto md:mx-0 w-full md:w-1/3 grid grid-cols-1 item">
             <div class="w-48 m:w-60 h-full mx-auto">
-              <CrewPhoto {person} {assignment} />
+              <CrewPhoto {crewMember} {assignment} />
             </div>
             <div class="w-48 m:w-60 text-center">
-              <PersonChip {person} />
+              <PersonChip person={crewMember.person} />
             </div>
           </div>
         {/each}
