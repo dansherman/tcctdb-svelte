@@ -1,4 +1,5 @@
-const SMTP2GO = "api-F5A99FFED2D811ECB33DF23C91C88F4E"
+
+import { SMTP2GO } from '$env/static/public'
 
 export async function email (to, subject, text_body) {
   let data = {
