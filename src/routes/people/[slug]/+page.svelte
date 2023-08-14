@@ -5,8 +5,6 @@
   import Title from "$components/Title.svelte";
   import Section from "$components/Section.svelte";
   import Headshot from "$components/Headshot.svelte";
-  import { urlFor } from "$lib/img-url.js";
-  import PictureZoom from "$components/PictureZoom.svelte";
   import PictureBox from "$components/PictureBox.svelte";
   let h: number;
   let w: number;
