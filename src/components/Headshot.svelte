@@ -8,7 +8,7 @@
   let href = "";
   try {
     if (link == true) {
-      href = `/people/${person.slug.current}`;
+      href = `/people/${person.slug}`;
     }
   } catch {
     href = "";

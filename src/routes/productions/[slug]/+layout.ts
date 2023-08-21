@@ -19,34 +19,21 @@ export const load = (async ({ params }) => {
   const castQuery = `*[ _type == 'role' && references($id) && !(_id in path("drafts.**"))]|order(character->orderRank asc){
     _id,
     character->{characterName, allowMultiple, roleSize},
-    "castMembers":castMembers[]{person->{
-      nameLast, 
-      nameFirst,
-      _id,                       
-      "name":nameFirst + " " + nameLast,
-      headshot,
-      "photo":{
+    castMember{
+      person->{nameLast,nameFirst,slug,_id,"name":nameFirst + " " + nameLast,headshot,"photo":{
         _id,caption,"photo":headshot,'metadata':headshot.asset->metadata,"attribution":attribution->name
-      },
-      slug
-      }, 
-      characterPhotos}
+      },},
+      characterPhotos},
+    
 }`;
   const crewQuery = `*[ _type == 'assignment' && references($id) && !(_id in path("drafts.**"))]|order(job->orderRank asc){
     _id,
     job->{sortOrder, jobName, allowMultiple},
-    "crewMembers":crewMembers[]{person->{
-      nameLast, 
-      nameFirst,
-      _id,                       
-      "name":nameFirst + " " + nameLast,
-      headshot,
-      "photo":{
+    crewMember{
+      person->{nameLast,nameFirst,slug,_id,"name":nameFirst + " " + nameLast,headshot,"photo":{
         _id,caption,"photo":headshot,'metadata':headshot.asset->metadata,"attribution":attribution->name
-      },
-      slug
-      }, 
-      characterPhotos}
+      },},
+      jobPhotos},
     }`;
   let production = await client.fetch(productionQuery, { slug: slug });
   let cast = await client.fetch(castQuery, { id: production._id });
@@ -54,15 +41,9 @@ export const load = (async ({ params }) => {
   
   for (let role of cast) {
     role.characterName = role.character.characterName;
-    if (!role.castMembers) {
-      role.castMembers = [];
-    }
   }
   for (let row of crew) {
     row.jobName = row.job.jobName;
-    if (!row.crewMembers) {
-      row.crewMembers = [];
-    }
   }
   if (production.year) {
       production.year = production.year.slice(0, 4);

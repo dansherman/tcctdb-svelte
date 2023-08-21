@@ -47,10 +47,11 @@
           </div>
         </td>
         <td class="whitespace-nowrap px-3 py-4 text-sm text-slate-500">
-          {person.role_count[0].count}
+          {person.roleCount}
         </td>
         <td class="whitespace-nowrap px-3 py-4 text-sm text-slate-500">
-          {person.job_count[0].count}
+          {person.jobCount}
+
         </td>
         
       </tr>

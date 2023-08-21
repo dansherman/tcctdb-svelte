@@ -1,8 +1,8 @@
 <script lang="ts">
-  export let castMember;
   export let role;
   export let size: number = 256;
   import { urlFor } from "$lib/imgUrl.js";
+  let castMember = role.castMember
 </script>
 
 {#if castMember.characterPhotos}

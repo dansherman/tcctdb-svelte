@@ -1,6 +1,6 @@
 <script lang="ts">
   export let assignment
-  export let crewMember
+  let crewMember = assignment.crewMember
   export let size: number = 256;
   import { urlFor } from "$lib/imgUrl.js";
 </script>

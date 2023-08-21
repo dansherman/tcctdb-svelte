@@ -1,7 +1,7 @@
 import client from "$lib/sanityClient";
 export async function load({ params }) {
-  const query = `*[_type == 'person' && isLocal]|order(nameFirst asc)|order(nameLast asc){
-    slug.current,
+  const query = `*[_type == 'person' && (!excludePerson || !defined(excludePerson))]|order(nameFirst asc)|order(nameLast asc){
+    "slug":slug.current,
     nameLast,
     nameFirst,
     headshot,

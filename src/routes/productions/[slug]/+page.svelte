@@ -49,9 +49,7 @@
               >{role.character.characterName}</span
             >
           </div>
-          {#each role.castMembers as person}
-            <div><PersonChip person={person.person} /></div>
-          {/each}
+            <div><PersonChip person={role.castMember.person} /></div>
         </div>
       </li>
     {/each}
@@ -62,7 +60,6 @@
   <Section>Production Team</Section>
   <ul class="list">
     {#each crew.slice(0, 5) as assignment}
-    {@debug assignment}
       <li class="mb-1">
         <div class="flex flex-wrap pt-2">
           <div class="basis-full md:basis-1/3">
@@ -70,9 +67,7 @@
               >{assignment.job.jobName}</span
             >
           </div>
-          {#each assignment.crewMembers as person}
-            <PersonChip person={person.person} />
-          {/each}
+            <PersonChip person={assignment.crewMember.person} />
         </div>
       </li>
     {/each}

@@ -17,16 +17,14 @@
       <div
         class="col-span-3 md:col-span-4 flex flex-wrap justify-between gap-3"
       >
-        {#each assignment.crewMembers as crewMember}
           <div class="mx-auto md:mx-0 w-full md:w-1/3 grid grid-cols-1 item">
             <div class="w-48 m:w-60 h-full mx-auto">
-              <CrewPhoto {crewMember} {assignment} />
+              <CrewPhoto {assignment} />
             </div>
             <div class="w-48 m:w-60 text-center">
-              <PersonChip person={crewMember.person} />
+              <PersonChip person={assignment.crewMember.person} />
             </div>
           </div>
-        {/each}
       </div>
     </li>
   {:else}

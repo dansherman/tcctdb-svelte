@@ -20,16 +20,14 @@
       <div
         class="md:ml-0 col-span-3 md:col-span-4 flex flex-wrap justify-between gap-3"
       >
-        {#each role.castMembers as castMember}
           <div class="mx-auto md:mx-0 w-full md:w-1/3 grid grid-cols-1 item">
             <div class="mx-auto">
-              <CharacterPhoto {role} {castMember} />
+              <CharacterPhoto {role}/>
             </div>
-            {#if castMember}<div class="w-48 m:w-60 text-center mx-auto">
-                <PersonChip person={castMember.person} />
+            {#if role.castMember}<div class="w-48 m:w-60 text-center mx-auto">
+                <PersonChip person={role.castMember.person} />
               </div>{/if}
           </div>
-        {/each}
       </div>
     </li>
   {/each}
