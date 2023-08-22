@@ -27,11 +27,10 @@ export interface Slug {
 
 export interface Role {
   _id: string,
-  castMembers: [
+  castMember: 
     {person:Person,
     characterPhotos:Array<Photo>,
   name:string}
-  ]
   production: Production
   character: Character
   characterName: string

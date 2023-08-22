@@ -97,18 +97,8 @@
                   <div class="-mt-12 h-12 bg-slate-300 opacity-90 font-medium text-slate-900 px-6 backdrop-blur-md" transition:fly="{{ y: 10, duration: 200 }}">
                     <p>{#if $selectedImage.roles}
                       {#each $selectedImage.roles as role, i}
-                      {#if role.castMembers.length == 1}
                       {#if i != 0} • {/if}
-                        <button class="pr-1 hover:text-blue-700" on:click={()=>{g("/people/"+role.castMembers[0].slug.current)}}>{role.castMembers[0].name} as {role.characterName}</button>
-                      {:else}
-                      {#if i != 0} • {/if}
-                        {#each role.castMembers as castMember, j}
-                          <button class="pl-1 hover:text-blue-700" on:click={()=>{g("/people/"+castMember.slug.current)}}> {castMember.name}</button>
-                          <span>{#if j+1 < role.castMembers.length }/{/if}
-                          </span>
-                        {/each}
-                        as {role.characterName}
-                      {/if}
+                        <button class="pr-1 hover:text-blue-700" on:click={()=>{g("/people/"+role.castMember.slug.current)}}>{role.castMember.name} as {role.characterName}</button>
                       {/each}
                     {/if}
                     </p>

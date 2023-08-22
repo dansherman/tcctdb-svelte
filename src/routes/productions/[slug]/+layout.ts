@@ -9,7 +9,7 @@ export const load = (async ({ params }) => {
     description,
     poster,
     performanceDates[]{dateAndTime,venue->{name}},
-    productionPhotos[]{_id,caption,photo,'metadata':photo.asset->metadata,"attribution":attribution->name,roles[]->{"characterName":character->characterName, castMembers[]{"name":person->nameFirst + " " + person->nameLast, "slug":person->slug}}},
+    productionPhotos[]{_id,caption,photo,'metadata':photo.asset->metadata,"attribution":attribution->name,roles[]->{"characterName":character->characterName, castMember{"name":person->nameFirst + " " + person->nameLast, "slug":person->slug}}},
     show->,
     company->{name,logo, slug},
     slug,
