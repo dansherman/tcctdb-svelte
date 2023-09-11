@@ -30,10 +30,22 @@ export const load = (async ({ params }) => {
     _id,
     job->{sortOrder, jobName, allowMultiple},
     crewMember{
-      person->{nameLast,nameFirst,slug,_id,"name":nameFirst + " " + nameLast,headshot,"photo":{
-        _id,caption,"photo":headshot,'metadata':headshot.asset->metadata,"attribution":attribution->name
-      },},
-      jobPhotos},
+      person->{
+        nameLast,
+        nameFirst,
+        slug,
+        _id,
+        "name":nameFirst + " " + nameLast,
+        headshot,
+        "photo":{
+          _id,
+          caption,
+          "photo":headshot,
+          'metadata':headshot.asset->metadata,
+          "attribution":attribution->name
+      },
+    },
+    jobPhotos},
     }`;
   let production = await client.fetch(productionQuery, { slug: slug });
   let cast = await client.fetch(castQuery, { id: production._id });
