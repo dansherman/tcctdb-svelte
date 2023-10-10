@@ -6,7 +6,7 @@
   export let data;
   let { cast, crew, production } = data;
   let featuredCast = cast.filter((x) => {
-    return x.character.roleSize == "lead";
+    return x.roleSize == "lead";
   });
 </script>
 
@@ -46,10 +46,10 @@
         <div class="flex flex-wrap pt-2">
           <div class="basis-full md:basis-1/3">
             <span class="text-lg font-semibold tracking-wide"
-              >{role.character.characterName}</span
+              >{role.characterName}</span
             >
           </div>
-            <div><PersonChip person={role.castMember.person} /></div>
+            <div><PersonChip person={role.castMembers[0].castMember} /></div>
         </div>
       </li>
     {/each}
@@ -59,15 +59,16 @@
   </div>
   <Section>Production Team</Section>
   <ul class="list">
-    {#each crew.slice(0, 5) as assignment}
+    {#each crew.slice(0, 5) as job}
+
       <li class="mb-1">
         <div class="flex flex-wrap pt-2">
           <div class="basis-full md:basis-1/3">
             <span class="text-lg font-semibold tracking-wide"
-              >{assignment.job.jobName}</span
+              >{job.jobName}</span
             >
           </div>
-            <PersonChip person={assignment.crewMember.person} />
+            <PersonChip person={job.crewMembers[0].crewMember} />
         </div>
       </li>
     {/each}

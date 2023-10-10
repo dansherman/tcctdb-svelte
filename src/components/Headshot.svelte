@@ -1,10 +1,11 @@
 <script lang="ts">
-  export let person;
+  export let person:Person;
   export let width:string = "800";
   export let height:string = "800";
   export let photo = person.headshot;
   export let link = true;
   import { urlFor } from "$lib/imgUrl.js";
+	import type { Person } from "$lib/types";
   let href = "";
   try {
     if (link == true) {
@@ -19,7 +20,7 @@
   <a class="font-semibold text-black" {href}>
     {#if photo}
       <img
-        src={urlFor(photo).width(parseInt(width)).height(parseInt(height)).url()}
+        src={urlFor(photo)?.width(parseInt(width)).height(parseInt(height)).url()}
         alt={person.name}
         class="object-contain rounded-full w-full object-top"
       />
@@ -39,7 +40,7 @@
   </a>
 {:else if person && photo}
   <img
-    src={urlFor(photo).width(parseInt(width)).height(parseInt(height)).url()}
+    src={urlFor(photo)?.width(parseInt(width)).height(parseInt(height)).url()}
     alt={person.name}
     class="object-contain rounded-full w-full h-full object-top"
   />

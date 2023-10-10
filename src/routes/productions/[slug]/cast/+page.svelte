@@ -1,34 +1,41 @@
 <script lang="ts">
+  import CastCrewItem from '$components/CastCrewItem.svelte';
+
+import CastCrewLabel from '$components/CastCrewLabel.svelte';
+
+import CastCrewRow from '$components/CastCrewRow.svelte';
+
+import CastCrewList from '$components/CastCrewList.svelte';
+import CastCrewItems from '$components/CastCrewItems.svelte';
   import PersonChip from "$components/PersonChip.svelte";
   import CharacterPhoto from "$components/CharacterPhoto.svelte";
   export let data;
   let { cast } = data;
 </script>
 
-<ul class="list divide-y">
+<CastCrewList>
   {#each cast as role}
-    <li
-      class="mx-auto max-w-xs md:max-w-full my-4 py-2 grid grid-cols-3 md:grid-cols-6"
-    >
-      <div
-        class=" pb-2 md:ml-0 col-span-3 md:col-span-2 text-center md:text-left"
-      >
-        <span class="text-lg font-semibold tracking-wide"
-          >{role.character.characterName}</span
-        >
-      </div>
-      <div
-        class="md:ml-0 col-span-3 md:col-span-4 flex flex-wrap justify-between gap-3"
-      >
-          <div class="mx-auto md:mx-0 w-full md:w-1/3 grid grid-cols-1 item">
-            <div class="mx-auto">
-              <CharacterPhoto {role}/>
+  {@const characterName = role.characterName}
+<CastCrewRow>
+<CastCrewLabel>{characterName}</CastCrewLabel>
+      <CastCrewItems>
+        {#each role.castMembers as c}
+      {@const castMember = c.castMember}
+      {@const castPhotos = c.characterPhotos}
+      {@debug c}
+      {#if castMember}
+      
+      <CastCrewItem>
+            <div class="w-48 m:w-1/4 text-center mx-auto">
+              <CharacterPhoto {castPhotos} {castMember} {characterName}/>
             </div>
-            {#if role.castMember}<div class="w-48 m:w-60 text-center mx-auto">
-                <PersonChip person={role.castMember.person} />
-              </div>{/if}
-          </div>
-      </div>
-    </li>
+            <div class="w-48 m:w-1/4 text-center mx-auto">
+                <PersonChip person={castMember} />
+              </div>
+    </CastCrewItem>
+      {/if}
+      {/each}
+      </CastCrewItems>
+    </CastCrewRow>
   {/each}
-</ul>
+</CastCrewList>

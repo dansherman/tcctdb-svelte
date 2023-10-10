@@ -1,20 +1,21 @@
 <script lang="ts">
-  export let role;
+  export let castPhotos;
+  export let castMember;
+  export let characterName:string
   export let size: number = 256;
   import { urlFor } from "$lib/imgUrl.js";
-  let castMember = role.castMember
 </script>
 
-{#if castMember.characterPhotos}
+{#if castPhotos}
   <img
-    src={urlFor(castMember.characterPhotos[0].photo)?.size(size, size).url()}
-    alt="{castMember.person.name} as {role.characterName}"
+    src={urlFor(castPhotos[0].photo)?.size(size, size).url()}
+    alt="{castMember.name} as {characterName}"
     class="object-cover rounded-xl w-full h-full object-top"
   />
-{:else if castMember.person.headshot}
+{:else if castMember?.headshot}
   <img
-    src={urlFor(castMember.person.headshot).size(size, size).url()}
-    alt="{castMember.person.name} as {role.characterName}"
+    src={urlFor(castMember.headshot)?.size(size, size).url()}
+    alt="{castMember.name} as {characterName}"
     class="object-cover rounded-xl w-full h-full object-top"
   />
 {:else}

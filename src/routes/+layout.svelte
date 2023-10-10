@@ -1,7 +1,6 @@
 <script lang='ts'>
 	import "../app.css"
   import { navigationIsDelayed } from "$lib/stores.js";
-  import { SpinLine } from "svelte-loading-spinners"
 
   import { fade} from "svelte/transition";
 
@@ -16,7 +15,7 @@
 <div class="fixed w-full h-full z-10" in:fade={{ duration: 150 }}>
     <div class="absolute w-full h-full bg-white dark:bg-cyan-800 opacity-50 z-10"></div>
     <div class="absolute w-full h-full flex justify-center items-center z-20">
-      <SpinLine />
+      Loading...
     </div>
   </div>
   {/if}

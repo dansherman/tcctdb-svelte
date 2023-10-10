@@ -1,19 +1,19 @@
 <script lang="ts">
-  export let assignment
-  let crewMember = assignment.crewMember
+  export let crewMember
+  export let jobName
   export let size: number = 256;
   import { urlFor } from "$lib/imgUrl.js";
 </script>
 {#if crewMember.characterPhotos}
   <img
     src={urlFor(crewMember.characterPhotos[0].photo)?.size(size, size).url()}
-    alt="{crewMember.person.name} as {assignment.jobName}"
+    alt="{crewMember.name} as {jobName}"
     class="object-cover rounded-xl w-full h-full object-top"
   />
-{:else if crewMember.person.headshot}
+{:else if crewMember.headshot}
   <img
-    src={urlFor(crewMember.person.headshot).size(size, size).url()}
-    alt="{crewMember.person.name} as {assignment.jobName}"
+    src={urlFor(crewMember.headshot).size(size, size).url()}
+    alt="{crewMember.name} as {jobName}"
     class="object-cover rounded-xl w-full h-full object-top"
   />
 {:else}
