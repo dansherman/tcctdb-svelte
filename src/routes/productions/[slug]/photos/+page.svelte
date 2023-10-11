@@ -33,7 +33,7 @@
 <svelte:window bind:innerHeight={h} bind:innerWidth={w} />
 <div class="grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-3 gap-1">
   {#each items as item}
-  {@debug item}
+
     <button
       on:click={() => {
         handlePhotoClick(item);

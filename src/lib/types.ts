@@ -4,6 +4,7 @@ export interface Person {
   nameFirst: string,
   nameLast: string,
   slug: Slug
+  headshot?: [Photo]
   vocalRange?: string
   roles?: [Role]
   assignments?: [Assignment]
@@ -37,15 +38,15 @@ export interface Role {
   character_photo:string
 }
 export interface Assignment {
-  _id: string,
+  _id?: string,
   crewMembers: [
     {
       person:Person,
       assignmentPhotos:Array<Photo>,
     name:string}
   ]
-  production: Production
-  job: Job
+  production?: Production
+  job?: Job
   jobName: string
 }
 export interface Job {
@@ -66,6 +67,7 @@ export interface Production {
   _id: string
   slug: Slug
   photos: [Photo]
+  year: string
 }
 interface photoRelationship {
   cast:{}

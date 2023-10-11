@@ -1,6 +1,5 @@
 <script lang="ts">
   import { urlFor } from "$lib/imgUrl.js";
-  import { SyncLoader } from "svelte-loading-spinners";
   import { scale, fade, fly } from "svelte/transition";
   import { modalOpen, selectedImage } from "$lib/stores";
   import { goto } from "$app/navigation";
@@ -77,12 +76,7 @@
               {#await preload(src)}
                 <div class="w-96 h-96">
                   <div class="w-48 mx-auto">
-                    <SyncLoader
-                      size="60"
-                      color="#FFFFFF"
-                      unit="px"
-                      duration="1s"
-                    />
+                    Loading...
                   </div>
                 </div>
               {:then _}

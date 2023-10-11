@@ -1,33 +1,35 @@
 <script lang="ts">
-  import PersonChip from "$components/PersonChip.svelte";
-  import CrewPhoto from "$components/CrewPhoto.svelte";
-  export let data;
-  let { production, crew } = data;
+	import PersonChip from '$components/PersonChip.svelte';
+	import CrewPhoto from '$components/CrewPhoto.svelte';
+	import CastCrewItem from '$components/CastCrewItem.svelte';
+	import CastCrewItems from '$components/CastCrewItems.svelte';
+	import CastCrewLabel from '$components/CastCrewLabel.svelte';
+	import CastCrewRow from '$components/CastCrewRow.svelte';
+	import CastCrewList from '$components/CastCrewList.svelte';
+	export let data;
+	let crew = data.crew;
 </script>
-<ul class="list divide-y">
-  {#each crew as assignment}
-    <li
-      class="mx-auto max-w-xs md:max-w-full my-4 py-2 grid grid-cols-3 md:grid-cols-6"
-    >
-      <div class=" pb-2 col-span-3 md:col-span-2 text-center md:text-left">
-        <span class="text-lg font-semibold tracking-wide"
-          >{assignment.job.jobName}</span
-        >
-      </div>
-      <div
-        class="col-span-3 md:col-span-4 flex flex-wrap justify-between gap-3"
-      >
-          <div class="mx-auto md:mx-0 w-full md:w-1/3 grid grid-cols-1 item">
-            <div class="w-48 m:w-60 h-full mx-auto">
-              <CrewPhoto {assignment} />
-            </div>
-            <div class="w-48 m:w-60 text-center">
-              <PersonChip person={assignment.crewMember.person} />
-            </div>
-          </div>
-      </div>
-    </li>
-  {:else}
-  <div class="">No production team found... ☹️</div>
-  {/each}
-</ul>
+
+<CastCrewList>
+	{#each crew as job}
+		{@const jobName = job.jobName}
+		<CastCrewRow>
+			<CastCrewLabel>{jobName}</CastCrewLabel>
+      <CastCrewItems>
+			{#each job.crewMembers as c}
+      {@const crewMember = c.crewMember}
+				{#if crewMember}
+					<CastCrewItem>
+						<div class="w-48 m:w-1/4 text-center mx-auto">
+							<CrewPhoto {crewMember} {jobName} />
+						</div>
+						<div class="w-48 m:w-1/4 text-center mx-auto">
+							<PersonChip person={crewMember} />
+						</div>
+					</CastCrewItem>
+				{/if}
+			{/each}
+      </CastCrewItems>
+		</CastCrewRow>
+	{/each}
+</CastCrewList>

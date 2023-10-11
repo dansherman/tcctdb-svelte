@@ -1,6 +1,7 @@
 import client from "$lib/sanityClient";
+import groq from "groq";
 export async function load({ params }) {
-  const query = `*[_type == 'person' && (!excludePerson || !defined(excludePerson))]|order(nameFirst asc)|order(nameLast asc){
+  const query = groq`*[_type == 'person' && (!excludePerson || !defined(excludePerson))]|order(nameFirst asc)|order(nameLast asc){
     "slug":slug.current,
     nameLast,
     nameFirst,

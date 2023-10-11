@@ -1,7 +1,11 @@
-import { supabase } from "$lib/supabase";
-export const load = async () => {
-  const { data: companies } = await supabase
-    .from('companies')
-    .select(`name,slug.current`)
-  return { companies }
-}
+import client from '$lib/sanityClient.js';
+import groq from 'groq';
+export async function load() {
+	const query = groq`
+	*[_type == 'company']{
+		...}
+`;
+	const companies = await client.fetch(query);
+
+    return { companies };
+	}

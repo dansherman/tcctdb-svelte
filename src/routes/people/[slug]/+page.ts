@@ -1,8 +1,9 @@
 import client from '$lib/sanityClient.js';
+import groq from 'groq';
 
 export async function load({ params }) {
 	const { slug } = params;
-	const query = `
+	const query = groq`
 	*[_type == 'person' && slug.current == $slug]{
 		nameFirst,
 		"name": nameFirst + " " + nameLast,
