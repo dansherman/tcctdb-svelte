@@ -4,7 +4,8 @@ import groq from 'groq';
 
 export const load = async ({ params }) => {
 	const { slug } = params;
-	const productionQuery = groq`*[_type == 'production' && slug.current == $slug][0]{ 
+	const query = groq`{
+    'production':*[_type == 'production' && slug.current == $slug][0]{ 
     _id,
     description,
     poster,
@@ -14,12 +15,11 @@ export const load = async ({ params }) => {
     company->{name,logo, slug},
     slug,
     'year':performanceDates[0].dateAndTime,
-  }`;
-
-	const castQuery = groq`*[_type=='character' && references(*[_id==$id].show._ref)]|order(orderRank asc){
+  },
+  'cast':*[_type=='character' && references(*[slug.current == $slug].show._ref)]|order(orderRank asc){
   characterName,
   roleSize,
-  'castMembers':*[ _type == 'role' && references($id) && character->characterName==^.characterName && !(_id in path("drafts.**"))]{
+  'castMembers':*[ _type == 'role' && references(*[slug.current == $slug]._id) && character->characterName==^.characterName && !(_id in path("drafts.**"))]{
       'castMember':castMember.person->{
         nameLast,
         nameFirst,
@@ -30,12 +30,12 @@ export const load = async ({ params }) => {
       },
       'characterPhotos':castMember.characterPhotos
     }
-}`;
-	const crewQuery = groq`*[_type=="job"]|order(orderRank asc){
+},
+'crew':*[_type=="job"]|order(orderRank asc){
     _id,
     jobName,
     orderRank,
-    'crewMembers':*[ _type == 'assignment' && references($id) && job->jobName==^.jobName && !(_id in path("drafts.**"))]{
+    'crewMembers':*[ _type == 'assignment' && references(*[slug.current == $slug]._id) && job->jobName==^.jobName && !(_id in path("drafts.**"))]{
       'crewMember':crewMember.person->{
         nameLast,
         nameFirst,
@@ -45,10 +45,10 @@ export const load = async ({ params }) => {
         headshot,
       }
     }
-    }`;
-	let production = await client.fetch(productionQuery, { slug: slug });
-	let cast = await client.fetch(castQuery, { id: production._id });
-	let crew = await client.fetch(crewQuery, { id: production._id });
+    }
+  }`;
+
+	let {production, cast, crew} = await client.fetch(query, { slug: slug });
 	if (production.year) {
 		production.year = production.year.slice(0, 4);
 	} else {
