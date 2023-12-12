@@ -1,20 +1,12 @@
 <script lang="ts">
   export let data;
+  import Lightbox from "$components/Lightbox.svelte";
   let {person} = data
   import ProductionChip from "$components/ProductionChip.svelte";
   import Title from "$components/Title.svelte";
   import Section from "$components/Section.svelte";
   import Headshot from "$components/Headshot.svelte";
-  import { urlFor } from "$lib/imgUrl.js";
-  import PictureZoom from "$components/PictureZoom.svelte";
-  import PictureBox from "$components/PictureBox.svelte";
-  let h:number
-  let w:number
-  console.log(person)
 </script>
-
-
-<svelte:window bind:innerHeight={h} bind:innerWidth={w} />
 <svelte:head>
   <title>{person.name}</title>
 </svelte:head>
@@ -74,13 +66,8 @@
   {#each person.productionPhotos as production}
       {#each production.photos as photo}
     
-      <PictureZoom item={photo}><img
-        class="mx-auto w-96"
-        src={urlFor(photo.photo)?.width(384).url()}
-        alt={photo.caption}
-      /></PictureZoom>
+      <Lightbox {photo}/>
     {/each}
     {/each}
 </div>
 {/if}
-<PictureBox {h}/>

@@ -12,54 +12,7 @@ import { scale, fade, fly } from "svelte/transition";
   /* Prevent page scrolling when lightbox open (for browsers that support :has()) */
   position: fixed;
 }
-
-a[href^='#lightbox-'] {
-  /* Show 'zoom in' cursor over lightboxed images. */
-  cursor: zoom-in;
-}
-
-.lightbox {
-  /* Lightboxes are hidden by-default, but occupy the full screen and top z-index layer when shown. */
-  all: unset;
-  display: none;
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 2;
-  background: #333;
-}
-
-.lightbox:target {
-  /* If the target of the URL points to the lightbox, it becomes visible. */
-  display: flex;
-}
-
-.lightbox img {
-  /* Images fill the lightbox. */
-  object-fit: contain;
-  height: 100%;
-  width: 100%;
-}
-.close {
-  background: #000;
-border-radius: 50%;
-border: 4px solid white;
-box-sizing: content-box;
-color: white;
-display: block;
-font-size: var(--step-5);
-height: var(--step-5);
-line-height: calc(var(--step-5) * 0.9);
-position: absolute;
-right: min(1vw,1vh);
-text-align: center;
-text-decoration: none;
-top: min(1vw,1vh);
-width: var(--step-5);
-}
-  </style>
+</style>
 
 <figure id="{photo._id}" aria-describedby="caption-{photo._id}">
   <a href="#lightbox-{photo._id}" role="button" class="cursor-zoom">
@@ -71,9 +24,10 @@ width: var(--step-5);
 
 </figure>
 
-<dialog id="lightbox-{photo._id}" class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity hidden target:flex max-h-screen" transition:fade>
-  <div class="w-full">
-  <img src="{src_lg}" loading="lazy" alt="{photo.caption}" class=" max-h-[85vh] object-contain min-h-0">
+<dialog id="lightbox-{photo._id}" class="w-full h-full fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity hidden target:flex" transition:fade>
+  <div class="w-full flex-col flex justify-evenly">
+    <div>&nbsp;</div>
+  <img src="{src_lg}" loading="lazy" alt="{photo.caption}" class=" max-h-[85vh] object-contain min-h-0 rounded-md">
   {#if showInfoPane}
   <div class="-mt-12 h-12 bg-slate-300 opacity-90 font-medium text-slate-900 px-6 backdrop-blur-md" transition:fly="{{ y: 10, duration: 200 }}">
     <p>{#if photo.roles}
