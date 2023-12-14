@@ -60,14 +60,12 @@
     </ul>
   </div>
 {/if}
-{#if person.productionPhotos?.length > 0}
-<Section>Production Photos</Section>
+{#if person.photos?.length > 0}
+<Section>Photos</Section>
 <div class="grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-3 gap-1">
-  {#each person.productionPhotos as production}
-      {#each production.photos as photo}
+      {#each person.photos as photo}
     
       <Lightbox {photo}/>
-    {/each}
     {/each}
 </div>
 {/if}

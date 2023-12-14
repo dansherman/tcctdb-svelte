@@ -2,7 +2,7 @@
 	import Lightbox from "$components/Lightbox.svelte";
   export let data;
   let production = data.production;
-  let photos = production.productionPhotos;
+  let photos = production.photos;
   if (photos == null) {
     photos = [];
   }
