@@ -1,4 +1,4 @@
-export interface Person {
+export type Person = {
   _id: string,
   name: string,
   nameFirst: string,
@@ -22,11 +22,11 @@ export interface Person {
   character_photo?: string,
 }
 
-export interface Slug {
+export type Slug = {
   current: string
 }
 
-export interface Role {
+export type Role = {
   _id: string,
   castMember: 
     {person:Person,
@@ -37,7 +37,7 @@ export interface Role {
   characterName: string
   character_photo:string
 }
-export interface Assignment {
+export type Assignment = {
   _id?: string,
   crewMembers: [
     {
@@ -49,12 +49,12 @@ export interface Assignment {
   job?: Job
   jobName: string
 }
-export interface Job {
+export type Job = {
   _id: string,
   jobName: string,
   sort_order: number
 }
-export interface Character {
+export type Character = {
   _id: string
   allowMultiple: boolean
   characterName: string
@@ -63,24 +63,18 @@ export interface Character {
   sort_order: number
 }
 
-export interface Production {
+export type Production = {
   _id: string
   slug: Slug
   photos: [Photo]
   year: string
 }
-interface photoRelationship {
-  cast:{}
-  crew:{}
-  person:{}
-}
-export interface Photo {
+
+export type Photo = {
 	id:string,
-  cf_id:string,
   pid:number,
 	caption:string,
   attribution:string,
-  photoRelationships:Array<photoRelationship>
 	photo:{
 		
 	},
