@@ -55,7 +55,7 @@
     {/each}
   </ul>
   <div class="mb-6">
-    <a class="text-blue-800" href="./{production.slug.current}/cast">See all cast</a>
+    <a class="text-blue-800" href="{production.slug.current}/cast">See all cast</a>
   </div>
   <Section>Production Team</Section>
   <ul class="list">
@@ -74,7 +74,7 @@
     {/each}
   </ul>
   <div class="mb-6">
-    <a class="text-blue-800" href="./{production.slug.current}/productionTeam"
+    <a class="text-blue-800" href="{production.slug.current}/productionTeam"
       >See all production team</a
     >
   </div>

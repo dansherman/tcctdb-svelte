@@ -61,11 +61,13 @@
   </div>
 {/if}
 {#if person.photos?.length > 0}
+<div class="mt-4 text-lg text-slate-800">
 <Section>Photos</Section>
 <div class="grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-3 gap-1">
       {#each person.photos as photo}
     
       <Lightbox {photo}/>
     {/each}
+</div>
 </div>
 {/if}
