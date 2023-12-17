@@ -2,6 +2,6 @@
 	export let modal: HTMLDialogElement
 </script>
 
-<dialog bind:this={modal} on:close class="rounded-lg backdrop-brightness-50">
+<dialog bind:this={modal} on:close class="sm:max-w-2xl md: max-w-4xl lg:max-w-6xl rounded-lg backdrop:backdrop-brightness-50 backdrop:backdrop-saturate-50 border-8 border-indigo-600">
 	<slot />
 </dialog>

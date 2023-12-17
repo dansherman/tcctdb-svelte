@@ -4,6 +4,7 @@ import type { Photo } from "./types"
 export let modalOpen = writable(false)
 export let selectedImage = writable(<Photo>{})
 export let selectedId = writable(0)
+export let modal = writable(<HTMLDialogElement>{})
 let timer = null;
 export const navigationIsDelayed = derived(navigating, (newValue, set) => {
   if (timer) { clearTimeout(timer); }

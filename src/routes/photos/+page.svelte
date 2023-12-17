@@ -11,8 +11,8 @@
   <title>Photos</title>
 </svelte:head>
 <Title>Photos</Title>
-<Grid>
+<div class="grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-3 gap-1">
   {#each photos as photo}
   <Lightbox {photo}/>
   {/each}
-</Grid>
+</div>

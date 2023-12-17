@@ -4,7 +4,7 @@
 
   import { scale, fade, fly } from "svelte/transition";
   let {photo} = data
-  let src = urlFor(photo.photo)?.height(2048).url() || ""
+  let src = urlFor(photo.photo)?.height(1600).url() || ""
   let showInfoPane = false
   function preload(src: string) {
     return new Promise(function (resolve) {
@@ -13,8 +13,6 @@
       img.src = src;
     });
   }
-  
-  console.log(photo)
 </script>
 <svelte:head>
   <title></title>
