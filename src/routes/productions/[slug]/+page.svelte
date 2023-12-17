@@ -14,13 +14,13 @@
   {#if production.header}
     <img
       class="w-full border-indigo-500 bg-indigo-500 border-2 inset-2 shadow-md h-72 rounded-md mb-3.5"
-      src={urlFor(production.header).url()}
+      src={urlFor(production.header)?.url()}
       alt="poster for {production.show.title} by {production.company.name}"
     />
   {:else if production.poster}
     <img
       class="w-md border-indigo-500 bg-indigo-500 border-2 inset-2 shadow-md rounded-md mb-3.5"
-      src={urlFor(production.poster).url()}
+      src={urlFor(production.poster)?.url()}
       alt="poster for {production.show.title} by {production.company.name}"
     />
   {:else}

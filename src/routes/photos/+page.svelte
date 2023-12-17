@@ -3,8 +3,9 @@
   let {photos} = data
   import Title from "$components/Title.svelte"
   import Grid from "$components/Grid.svelte";
-  import { urlFor } from "$lib/imgUrl.ts";
   import Lightbox from "$components/Lightbox.svelte";
+
+
 </script> 
 <svelte:head>
   <title>Photos</title>
