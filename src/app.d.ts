@@ -6,7 +6,17 @@ declare global {
 		// interface Locals {}
 		// interface PageData {}
 		// interface Platform {}
+		interface PageState {
+			selected: {
+				image: {
+					id: number
+					alt: string
+					src: string
+				}
+			}
+		}
 	}
+	
 }
 
 export {};
