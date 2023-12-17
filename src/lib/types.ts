@@ -71,7 +71,7 @@ export type Production = {
 }
 
 export type Photo = {
-	id:string,
+	_id:string,
   pid:number,
 	caption:string,
   attribution:string,
