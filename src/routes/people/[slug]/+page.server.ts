@@ -45,7 +45,7 @@ export async function load({ params }) {
 				poster,
 				slug}
 			},
-			'photos':*[_type=='photo' && references(*[ _type == 'role' && references(^.^._id)]._id) ]{'_id':photo.asset._ref,caption,photo,'metadata':photo.asset->metadata,"attribution":attribution->name,roles[]->{"characterName":character->characterName, castMember{"name":person->nameFirst + " " + person->nameLast, "slug":person->slug}}},
+			'photos':*[_type=='photo' && references(*[ _type == 'role' && references(^.^._id)]._id) ]{'_id':_id,caption,photo,'metadata':photo.asset->metadata,"attribution":attribution->name,roles[]->{"characterName":character->characterName, castMember{"name":person->nameFirst + " " + person->nameLast, "slug":person->slug}}},
     
 	}
 `;
