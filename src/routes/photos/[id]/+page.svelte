@@ -1,6 +1,6 @@
 <script lang="ts">
   export let data;
-  import { urlFor } from '$lib/imgUrl.ts';
+  import { urlFor } from '$lib/imgUrl';
 
   import { scale, fade, fly } from "svelte/transition";
   let {photo} = data
@@ -27,7 +27,7 @@
             Loading...
           </div>
         </div>
-      {:then _}
+      {:then}
         <img
           class="w-full object-contain min-h-0"
           width=2048

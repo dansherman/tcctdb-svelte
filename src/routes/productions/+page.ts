@@ -1,7 +1,7 @@
 import client from "$lib/sanityClient";
 import type { Production } from "$lib/types";
 import groq from "groq";
-export const prerender = false;
+export const prerender = true;
 export async function load() {
   const query = groq`*[_type == 'production']{
     slug,

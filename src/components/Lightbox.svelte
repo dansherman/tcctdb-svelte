@@ -31,16 +31,16 @@ function closeModal() {
 }
 </script>
 
-<figure id={photo._id} aria-describedby="caption-{photo._id}">
+<figure id={photo._id} aria-describedby="caption-{photo._id}" >
 	<a
 		on:click|preventDefault={showModal}
 		href="/photos/{photo._id}"
 		role="button"
 		class="cursor-zoom"
 	>
-		<img src={src_sm} alt={photo.caption} />
+		<img src={src_sm} alt={photo.caption} class="rounded-lg"/>
 	</a>
-	<figcaption id="caption-{photo._id}">
+	<figcaption id="caption-{photo._id}" class="text-lg font-semibold leading-8 tracking-tight text-gray-90">
 		{#if photo.caption}{photo.caption}{:else}&nbsp;{/if}
 	</figcaption>
 </figure>
