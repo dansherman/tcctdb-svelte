@@ -12,7 +12,7 @@
 </svelte:head>
 
 <Title>{person.name}</Title>
-<div class="w-96 mt-6">
+<div class="w-48 mt-6">
 <Headshot {person}/>
 </div>
 {#if person.biography}
