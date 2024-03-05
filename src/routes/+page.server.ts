@@ -1,6 +1,7 @@
 import client from "$lib/sanityClient";
 import type { Production } from "$lib/types";
 import groq from 'groq'
+export const prerender = true
 export async function load() {
   const query = groq`*[_type == 'production']|order(performanceDates[0].dateAndTime desc){
     slug,

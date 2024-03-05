@@ -1,6 +1,16 @@
 import client from '$lib/sanityClient.js';
 import groq from 'groq';
 
+export async function entries() {
+  const query = groq`*[_type == 'person']{
+    "slug":slug.current
+  }
+`;
+  let slugs = await client.fetch(query);
+  
+  return  slugs ;
+}
+
 export async function load({ params }) {
 	const { slug } = params;
 	const query = groq`
@@ -11,7 +21,7 @@ export async function load({ params }) {
 		headshot,
 		biography,
 		"resumeUrl":resume.asset->url,
-		slug,
+		"slug":slug.current,
 		'assignments': *[ _type == 'assignment' && references(^._id)]|order(production.performanceDates[0].dateAndTime asc){
 			'jobName':job->jobName,
 			production->{
@@ -45,3 +55,5 @@ export async function load({ params }) {
     return { person };
 	}
 }
+
+export const prerender = true;

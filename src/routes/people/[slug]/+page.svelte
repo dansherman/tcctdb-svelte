@@ -6,7 +6,6 @@
   import Title from "$components/Title.svelte";
   import Section from "$components/Section.svelte";
   import Headshot from "$components/Headshot.svelte";
-  
 </script>
 <svelte:head>
   <title>{person.name}</title>

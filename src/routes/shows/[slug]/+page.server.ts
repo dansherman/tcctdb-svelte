@@ -2,7 +2,7 @@ import client from '$lib/sanityClient.js';
 import groq from 'groq';
 
 export async function entries() {
-  const query = groq`*[_type == 'person']{
+  const query = groq`*[_type == 'show']{
     "slug":slug.current
   }
 `;

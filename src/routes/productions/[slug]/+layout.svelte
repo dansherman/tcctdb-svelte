@@ -14,6 +14,7 @@
       name: "Production Team",
     },
     { url: `${production.slug.current}/photos`, name: "Photos" },
+    { url: `${production.slug.current}/details`, name: "Details" },
   ];
   let activePage = "border-indigo-500 text-indigo-600";
   let defaultPage =

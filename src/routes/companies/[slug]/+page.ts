@@ -1,6 +1,6 @@
-export const prerender = false;
-import client from '$lib/sanityClient.js';
 
+import client from '$lib/sanityClient.js';
+import groq from 'groq';
 export async function load({ params }) {
 	const { slug } = params;
 	const query = `
@@ -30,3 +30,15 @@ export async function load({ params }) {
 	}
 
 }
+
+export async function entries() {
+  const query = groq`*[_type == 'company']{
+    "slug":slug.current
+  }
+`;
+  let slugs = await client.fetch(query);
+  
+  return  slugs ;
+}
+
+export const prerender = true;

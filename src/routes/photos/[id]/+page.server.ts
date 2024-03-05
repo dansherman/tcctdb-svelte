@@ -10,3 +10,15 @@ export async function load({ params }) {
     return { photo };
 	}
 }
+
+export async function entries() {
+  const query = groq`*[_type == 'photo']{
+    "id":_id
+  }
+`;
+  let ids = await client.fetch(query);
+  
+  return  ids ;
+}
+
+export const prerender = true;
