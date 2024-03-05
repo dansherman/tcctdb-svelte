@@ -29,6 +29,7 @@
   <div class="py-1 mx-auto w-52 sm:w-full text-center text-xs font-light sm:text-md">
     A project of <a class="font-medium" href="https://4communitytheatre.org">4 Community Theatre</a> with content hosting by <a class="font-medium" href="https://sanity.io">Sanity.io</a>.
   </div>
+  <!--Source at: https://github.com/dansherman/tcctdb-svelte-->
 </footer>
 
 
