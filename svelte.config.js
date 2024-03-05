@@ -17,6 +17,9 @@ const config = {
 			}),
 			alias: {
 				'$components/*': 'src/components/*'
+			},
+			prerender: {
+				handleHttpError: 'warn'
 			}
 		}
 };
